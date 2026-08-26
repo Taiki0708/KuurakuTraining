@@ -252,6 +252,10 @@ function selectAnswer(index) {
   if (index === q.answer) {
     score++;
   }
+const message = document.createElement("div");
+message.textContent = index === q.answer ? "Correct!" : "Try again!";
+message.className = index === q.answer ? "correct-message" : "wrong-message";
+document.querySelector(".question").appendChild(message);
 
   const nextButton = document.createElement("button");
 
