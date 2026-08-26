@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuuraku Training</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  background: #f5f3ef;
+  color: #222;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  color: #777;
+  margin-top: 8px;
+}
+
+.progress {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.question {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.option {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: white;
+  text-align: left;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: #f0eee9;
+}
+
+.option.correct {
+  background: #dff3e4;
+  border-color: #4caf70;
+}
+
+.option.wrong {
+  background: #f8dddd;
+  border-color: #d9534f;
+}
+
+.explanation {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  background: white;
+  line-height: 1.6;
+}
+
+.next {
+  width: 100%;
+  padding: 16px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 12px;
+  background: #222;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.result {
+  text-align: center;
+}
+
+.score {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.restart {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  background: #222;
+  color: white;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="logo">KUURAKU</div>
+    <div class="subtitle">Staff Training</div>
+  </div>
+
+  <div id="quiz"></div>
+
+</div>
+
+<script>
+
+const questions = [
+
+  {
+    question: "A customer says their food is taking too long. What should you do FIRST?",
+    options: [
+      "Tell them the kitchen is busy.",
+      "Ignore the complaint.",
+      "Apologize, listen and check the order.",
+      "Tell them to order something else."
+    ],
+    answer: 2,
+    explanation: "First, listen carefully and apologize. Then check the order and take appropriate action."
+  },
+
+  {
+    question: "A customer is angry about a mistake in their order. What is the BEST response?",
+    options: [
+      "It was not my mistake.",
+      "Please calm down.",
+      "I'm sorry about that. Let me check what happened.",
+      "You should have checked your order."
+    ],
+    answer: 2,
+    explanation: "Never argue with the customer. Acknowledge the problem, apologize and take responsibility for finding a solution."
+  },
+
+  {
+    question: "A customer asks you a question and you don't know the answer. What should you do?",
+    options: [
+      "Make up an answer.",
+      "Say 'I don't know' and walk away.",
+      "Check with a senior staff member or manager.",
+      "Ignore the customer."
+    ],
+    answer: 2,
+    explanation: "It is better to confirm the correct information than to give the customer incorrect information."
+  },
+
+  {
+    question: "What should you do when a customer is speaking to you?",
+    options: [
+      "Look at your phone.",
+      "Continue talking to another staff member.",
+      "Listen and give the customer your attention.",
+      "Walk away while they are speaking."
+    ],
+    answer: 2,
+    explanation: "Good service starts with listening. Give the customer your attention and show that you are taking them seriously."
+  },
+
+  {
+    question: "If you receive a complaint that you cannot solve yourself, what should you do?",
+    options: [
+      "Hide the problem.",
+      "Blame another staff member.",
+      "Inform the manager and ask for help.",
+      "Tell the customer nothing can be done."
+    ],
+    answer: 2,
+    explanation: "When you cannot solve an issue yourself, escalate it to the manager instead of ignoring or hiding it."
+  }
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+function showQuestion() {
+
+  answered = false;
+
+  const q = questions[currentQuestion];
+
+  document.getElementById("quiz").innerHTML = `
+
+    <div class="progress">
+      Question ${currentQuestion + 1} / ${questions.length}
+    </div>
+
+    <div class="question">
+      ${q.question}
+    </div>
+
+    <div id="options">
+      ${q.options.map((option, index) => `
+        <button class="option" onclick="selectAnswer(${index})">
+          ${String.fromCharCode(65 + index)}. ${option}
+        </button>
+      `).join("")}
+    </div>
+
+    <div id="feedback"></div>
+
+  `;
+}
+
+function selectAnswer(selected) {
+
+  if (answered) return;
+
+  answered = true;
+
+  const q = questions[currentQuestion];
+  const buttons = document.querySelectorAll(".option");
+
+  buttons[q.answer].classList.add("correct");
+
+  if (selected === q.answer) {
+
+    score++;
+
+    document.getElementById("feedback").innerHTML = `
+      <div class="explanation">
+        <strong>Correct! ✅</strong><br><br>
+        ${q.explanation}
+      </div>
+      <button class="next" onclick="nextQuestion()">Next Question →</button>
+    `;
+
+  } else {
+
+    buttons[selected].classList.add("wrong");
+
+    document.getElementById("feedback").innerHTML = `
+      <div class="explanation">
+        <strong>Not quite.</strong><br><br>
+        ${q.explanation}
+      </div>
+      <button class="next" onclick="nextQuestion()">Next Question →</button>
+    `;
+
+  }
+}
+
+function nextQuestion() {
+
+  currentQuestion++;
+
+  if (currentQuestion >= questions.length) {
+    showResult();
+  } else {
+    showQuestion();
+  }
+
+}
+
+function showResult() {
+
+  const percentage = Math.round((score / questions.length) * 100);
+
+  document.getElementById("quiz").innerHTML = `
+
+    <div class="result">
+
+      <div class="progress">
+        Training Complete
+      </div>
+
+      <h1>Well done!</h1>
+
+      <div class="score">
+        ${percentage}%
+      </div>
+
+      <p>
+        You got ${score} out of ${questions.length} questions correct.
+      </p>
+
+      <button class="restart" onclick="restartQuiz()">
+        Try Again
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+function restartQuiz() {
+
+  currentQuestion = 0;
+  score = 0;
+  showQuestion();
+
+}
+
+showQuestion();
+
+</script>
+
+</body>
+</html>
