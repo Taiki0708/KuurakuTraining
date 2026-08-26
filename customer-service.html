@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuuraku - Customer Service Training</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  background: #f5f3ef;
+  color: #222;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+h1 {
+  text-align: center;
+  letter-spacing: 4px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #777;
+  margin-bottom: 40px;
+}
+
+.question {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.question h2 {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.option {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: #f0f0f0;
+}
+
+#result {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+button {
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>KUURAKU</h1>
+
+<div class="subtitle">
+Customer Service Training
+</div>
+
+<div class="question">
+
+<h2>
+A customer says their food is taking too long.
+What should you do FIRST?
+</h2>
+
+<button class="option" onclick="answer(false)">
+A. Tell them the kitchen is busy.
+</button>
+
+<button class="option" onclick="answer(false)">
+B. Ignore the complaint.
+</button>
+
+<button class="option" onclick="answer(true)">
+C. Apologize, listen and check the order.
+</button>
+
+<button class="option" onclick="answer(false)">
+D. Tell them to order something else.
+</button>
+
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+function answer(correct) {
+
+  const result = document.getElementById("result");
+
+  if (correct) {
+    result.innerHTML = "Correct!";
+    result.style.color = "green";
+  } else {
+    result.innerHTML = "Try again";
+    result.style.color = "red";
+  }
+
+}
+
+</script>
+
+</body>
+</html>
