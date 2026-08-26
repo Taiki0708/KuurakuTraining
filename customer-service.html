@@ -23,56 +23,99 @@ body {
   padding: 40px 20px;
 }
 
-h1 {
+.header {
   text-align: center;
+  margin-bottom: 35px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
   letter-spacing: 4px;
-  margin-bottom: 5px;
 }
 
 .subtitle {
+  color: #777;
+  margin-top: 8px;
+}
+
+.progress {
   text-align: center;
   color: #777;
-  margin-bottom: 40px;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 
 .question {
   background: white;
+  border-radius: 16px;
   padding: 25px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
 }
 
 .question h2 {
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.5;
+  margin-top: 0;
 }
 
 .option {
   display: block;
   width: 100%;
-  padding: 15px;
+  padding: 16px;
   margin: 10px 0;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   background: white;
   text-align: left;
+  font-size: 16px;
   cursor: pointer;
 }
 
 .option:hover {
-  background: #f0f0f0;
+  background: #f1f1f1;
 }
 
-#result {
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  margin-top: 30px;
+.option.correct {
+  background: #e7f5e9;
+  border-color: #4caf50;
 }
 
-button {
+.option.wrong {
+  background: #fdeaea;
+  border-color: #e74c3c;
+}
+
+.next {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #222;
+  color: white;
   font-size: 16px;
+  cursor: pointer;
+}
+
+.result {
+  text-align: center;
+}
+
+.score {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.restart {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  background: #222;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -81,56 +124,204 @@ button {
 
 <div class="container">
 
-<h1>KUURAKU</h1>
+  <div class="header">
+    <div class="logo">KUURAKU</div>
+    <div class="subtitle">Customer Service Training</div>
+  </div>
 
-<div class="subtitle">
-Customer Service Training
-</div>
-
-<div class="question">
-
-<h2>
-A customer says their food is taking too long.
-What should you do FIRST?
-</h2>
-
-<button class="option" onclick="answer(false)">
-A. Tell them the kitchen is busy.
-</button>
-
-<button class="option" onclick="answer(false)">
-B. Ignore the complaint.
-</button>
-
-<button class="option" onclick="answer(true)">
-C. Apologize, listen and check the order.
-</button>
-
-<button class="option" onclick="answer(false)">
-D. Tell them to order something else.
-</button>
-
-</div>
-
-<div id="result"></div>
+  <div id="quiz"></div>
 
 </div>
 
 <script>
 
-function answer(correct) {
+const questions = [
 
-  const result = document.getElementById("result");
+  {
+    question: "A customer says their food is taking too long. What should you do FIRST?",
+    options: [
+      "Tell them the kitchen is busy.",
+      "Ignore the complaint.",
+      "Apologize, listen and check the order.",
+      "Tell them to order something else."
+    ],
+    answer: 2
+  },
 
-  if (correct) {
-    result.innerHTML = "Correct!";
-    result.style.color = "green";
+  {
+    question: "A customer asks you a question and you don't know the answer. What should you do?",
+    options: [
+      "Make up an answer.",
+      "Say you don't know and walk away.",
+      "Tell the customer you will check and confirm the correct information.",
+      "Ignore the customer."
+    ],
+    answer: 2
+  },
+
+  {
+    question: "A customer is unhappy with their food. What is the best response?",
+    options: [
+      "Argue with the customer.",
+      "Listen carefully, apologize and try to solve the problem.",
+      "Tell them other customers like it.",
+      "Ignore the complaint."
+    ],
+    answer: 1
+  },
+
+  {
+    question: "When serving a customer, what is most important?",
+    options: [
+      "Finishing your own work quickly.",
+      "Avoiding eye contact.",
+      "Being polite, attentive and helpful.",
+      "Talking only to your coworkers."
+    ],
+    answer: 2
+  },
+
+  {
+    question: "A customer is leaving the restaurant. What should you do?",
+    options: [
+      "Ignore them.",
+      "Thank them and say goodbye politely.",
+      "Ask them to leave a tip.",
+      "Continue talking to another staff member."
+    ],
+    answer: 1
+  }
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+function showQuestion() {
+
+  answered = false;
+
+  const q = questions[currentQuestion];
+
+  document.getElementById("quiz").innerHTML = `
+
+    <div class="progress">
+      Question ${currentQuestion + 1} / ${questions.length}
+    </div>
+
+    <div class="question">
+
+      <h2>${q.question}</h2>
+
+      ${q.options.map((option, index) => `
+        <button class="option" onclick="selectAnswer(${index})">
+          ${String.fromCharCode(65 + index)}. ${option}
+        </button>
+      `).join("")}
+
+    </div>
+
+  `;
+}
+
+function selectAnswer(index) {
+
+  if (answered) return;
+
+  answered = true;
+
+  const q = questions[currentQuestion];
+
+  const buttons = document.querySelectorAll(".option");
+
+  buttons.forEach((button, i) => {
+
+    if (i === q.answer) {
+      button.classList.add("correct");
+    }
+
+    if (i === index && index !== q.answer) {
+      button.classList.add("wrong");
+    }
+
+    button.disabled = true;
+
+  });
+
+  if (index === q.answer) {
+    score++;
+  }
+
+  const nextButton = document.createElement("button");
+
+  nextButton.className = "next";
+
+  nextButton.textContent =
+    currentQuestion === questions.length - 1
+      ? "Finish Training"
+      : "Next Question";
+
+  nextButton.onclick = nextQuestion;
+
+  document.querySelector(".question").appendChild(nextButton);
+}
+
+function nextQuestion() {
+
+  currentQuestion++;
+
+  if (currentQuestion >= questions.length) {
+    showResult();
   } else {
-    result.innerHTML = "Try again";
-    result.style.color = "red";
+    showQuestion();
   }
 
 }
+
+function showResult() {
+
+  const percentage =
+    Math.round((score / questions.length) * 100);
+
+  document.getElementById("quiz").innerHTML = `
+
+    <div class="result">
+
+      <div class="progress">
+        Training Complete
+      </div>
+
+      <h1>Well done!</h1>
+
+      <div class="score">
+        ${percentage}%
+      </div>
+
+      <p>
+        You got ${score} out of ${questions.length}
+        questions correct.
+      </p>
+
+      <button class="restart" onclick="restartQuiz()">
+        Try Again
+      </button>
+
+    </div>
+
+  `;
+}
+
+function restartQuiz() {
+
+  currentQuestion = 0;
+  score = 0;
+
+  showQuestion();
+
+}
+
+showQuestion();
 
 </script>
 
