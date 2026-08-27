@@ -307,7 +307,7 @@ function showResult() {
         questions correct.
       </p>
 
-      <button class="restart" onclick="restartQuiz()">
+      <button class="restart" onclick="restartTraining()">
         Try Again
       </button>
 
@@ -316,13 +316,11 @@ function showResult() {
   `;
 }
 
-function restartQuiz() {
-
-  currentQuestion = 0;
-  score = 0;
-
-  showQuestion();
-
+function restartTraining() {
+    currentQuestion = 0;
+    score = 0;
+    answered = false;
+    showQuestion();
 }
 
 showQuestion();
