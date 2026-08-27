@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SERVEUP - Food Safety Training</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    background: #f7f6f3;
+    color: #222;
+}
+
+.container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 50px 24px 80px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.logo {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 10px;
+    margin-bottom: 18px;
+}
+
+.subtitle {
+    font-size: 30px;
+    color: #777;
+    font-weight: 400;
+}
+
+.progress {
+    font-size: 18px;
+    color: #888;
+    margin-bottom: 35px;
+}
+
+.question {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 35px;
+}
+
+.option {
+    width: 100%;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 22px;
+    padding: 25px 28px;
+    margin-bottom: 18px;
+    font-size: 23px;
+    text-align: left;
+    color: #333;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    border-color: #999;
+}
+
+.option.correct {
+    background: #e4f3e6;
+    border-color: #5caf6a;
+}
+
+.option.incorrect {
+    background: #f8e5e5;
+    border-color: #d66;
+}
+
+.feedback {
+    margin-top: 30px;
+    padding: 28px;
+    background: white;
+    border-radius: 22px;
+    font-size: 22px;
+    line-height: 1.5;
+    display: none;
+}
+
+.next-btn {
+    width: 100%;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 18px;
+    padding: 22px;
+    margin-top: 22px;
+    font-size: 23px;
+    cursor: pointer;
+    display: none;
+}
+
+.result {
+    background: white;
+    border-radius: 28px;
+    padding: 55px 35px;
+    text-align: center;
+    display: none;
+}
+
+.result-label {
+    font-size: 24px;
+    color: #888;
+    margin-bottom: 30px;
+}
+
+.result h1 {
+    font-size: 58px;
+    margin: 0 0 25px;
+}
+
+.score {
+    font-size: 100px;
+    font-weight: 700;
+    margin: 20px 0;
+}
+
+.result-text {
+    font-size: 23px;
+    color: #777;
+    line-height: 1.5;
+}
+
+.status {
+    background: #f7f6f3;
+    border-radius: 22px;
+    padding: 30px;
+    margin-top: 40px;
+    text-align: left;
+}
+
+.status h2 {
+    font-size: 27px;
+    margin-top: 0;
+}
+
+.status p {
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.retry {
+    width: 100%;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 18px;
+    padding: 22px;
+    margin-top: 35px;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 40px 22px 70px;
+    }
+
+    .logo {
+        font-size: 40px;
+        letter-spacing: 8px;
+    }
+
+    .subtitle {
+        font-size: 25px;
+    }
+
+    .question {
+        font-size: 28px;
+    }
+
+    .option {
+        font-size: 20px;
+        padding: 22px;
+    }
+
+    .score {
+        font-size: 80px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">SERVEUP</div>
+        <div class="subtitle">Food Safety Training</div>
+    </div>
+
+    <div id="quiz">
+
+        <div class="progress" id="progress"></div>
+
+        <div class="question" id="question"></div>
+
+        <div id="options"></div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+            Next →
+        </button>
+
+    </div>
+
+    <div class="result" id="result">
+
+        <div class="result-label">Training Complete</div>
+
+        <h1 id="resultTitle">Well done!</h1>
+
+        <div class="score" id="score"></div>
+
+        <div class="result-text" id="resultText"></div>
+
+        <div class="status">
+            <h2 id="statusTitle"></h2>
+            <p id="statusText"></p>
+        </div>
+
+        <button class="retry" onclick="restartQuiz()">
+            Try Again
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+const questions = [
+
+    {
+        question: "When should you wash your hands at work?",
+        options: [
+            "Only when they look dirty.",
+            "Before and after handling food and whenever necessary.",
+            "Only at the beginning of your shift.",
+            "Only after using the toilet."
+        ],
+        answer: 1,
+        explanation: "Hands should be washed regularly, especially before and after handling food and whenever contamination may occur."
+    },
+
+    {
+        question: "What should you do if you are sick with vomiting or diarrhea?",
+        options: [
+            "Continue working normally.",
+            "Wear gloves and continue working.",
+            "Tell your manager and avoid handling food.",
+            "Only work in the kitchen."
+        ],
+        answer: 2,
+        explanation: "Food handlers who are sick may spread illness. Inform your manager and follow the restaurant's illness policy."
+    },
+
+    {
+        question: "What is the safest way to prevent cross-contamination?",
+        options: [
+            "Use the same cutting board for everything.",
+            "Keep raw and ready-to-eat foods separate.",
+            "Wash raw chicken before cooking.",
+            "Store all food together."
+        ],
+        answer: 1,
+        explanation: "Raw foods can contain harmful microorganisms. Keep them separate from ready-to-eat foods and use clean equipment."
+    },
+
+    {
+        question: "Where should raw meat normally be stored in a refrigerator?",
+        options: [
+            "Above ready-to-eat food.",
+            "Anywhere there is space.",
+            "Below ready-to-eat food.",
+            "On top of vegetables."
+        ],
+        answer: 2,
+        explanation: "Raw meat should be stored below ready-to-eat foods to reduce the risk of contamination from drips."
+    },
+
+    {
+        question: "What should you do before using a food preparation surface?",
+        options: [
+            "Check that it is clean and sanitized.",
+            "Wipe it with your hand.",
+            "Use it immediately.",
+            "Only check it if it looks dirty."
+        ],
+        answer: 0,
+        explanation: "Food-contact surfaces should be properly cleaned and sanitized before use."
+    },
+
+    {
+        question: "What should you do if you drop a utensil on the floor?",
+        options: [
+            "Pick it up and continue using it.",
+            "Wipe it with a cloth.",
+            "Wash and sanitize it before using it again.",
+            "Rinse it with water only."
+        ],
+        answer: 2,
+        explanation: "A utensil that touches the floor may be contaminated. It should be properly cleaned and sanitized before reuse."
+    },
+
+    {
+        question: "Why is temperature control important for food safety?",
+        options: [
+            "It makes food look better.",
+            "It helps prevent harmful bacteria from growing.",
+            "It makes food cheaper.",
+            "It reduces the amount of food served."
+        ],
+        answer: 1,
+        explanation: "Keeping food at safe temperatures helps slow or prevent the growth of harmful microorganisms."
+    },
+
+    {
+        question: "What should you do if you notice spoiled food?",
+        options: [
+            "Serve it quickly.",
+            "Mix it with fresh food.",
+            "Tell your manager and follow the restaurant's food disposal procedure.",
+            "Remove only the spoiled part."
+        ],
+        answer: 2,
+        explanation: "Potentially spoiled food should not be served. Inform the manager and follow the correct disposal procedure."
+    },
+
+    {
+        question: "What is the correct way to handle ready-to-eat food?",
+        options: [
+            "Touch it with bare hands whenever possible.",
+            "Use clean utensils or appropriate food-safe gloves.",
+            "Place it directly on any surface.",
+            "Handle it after touching raw meat."
+        ],
+        answer: 1,
+        explanation: "Use clean utensils or appropriate food-safe gloves to reduce the risk of contaminating ready-to-eat food."
+    },
+
+    {
+        question: "What should you do if you are unsure whether food is safe to serve?",
+        options: [
+            "Serve it anyway.",
+            "Ask another customer.",
+            "Ask your manager or responsible supervisor.",
+            "Hide the food."
+        ],
+        answer: 2,
+        explanation: "When in doubt, do not guess. Ask your manager or responsible supervisor and follow the restaurant's food safety procedures."
+    }
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+function loadQuestion() {
+
+    answered = false;
+
+    const q = questions[currentQuestion];
+
+    document.getElementById("progress").textContent =
+        "Question " + (currentQuestion + 1) + " / " + questions.length;
+
+    document.getElementById("question").textContent = q.question;
+
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+
+    document.getElementById("feedback").style.display = "none";
+    document.getElementById("nextBtn").style.display = "none";
+
+    q.options.forEach((option, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "option";
+        button.textContent = String.fromCharCode(65 + index) + ". " + option;
+
+        button.onclick = function() {
+            selectAnswer(index, button);
+        };
+
+        optionsDiv.appendChild(button);
+
+    });
+}
+
+function selectAnswer(selected, clickedButton) {
+
+    if (answered) return;
+
+    answered = true;
+
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option");
+
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
+
+    if (selected === q.answer) {
+
+        score++;
+
+        clickedButton.classList.add("correct");
+
+        document.getElementById("feedback").innerHTML =
+            "<strong>Correct! ✅</strong><br><br>" +
+            q.explanation;
+
+    } else {
+
+        clickedButton.classList.add("incorrect");
+
+        buttons[q.answer].classList.add("correct");
+
+        document.getElementById("feedback").innerHTML =
+            "<strong>Not quite.</strong><br><br>" +
+            "The correct answer is <strong>" +
+            String.fromCharCode(65 + q.answer) +
+            "</strong>.<br><br>" +
+            q.explanation;
+    }
+
+    document.getElementById("feedback").style.display = "block";
+
+    if (currentQuestion < questions.length - 1) {
+        document.getElementById("nextBtn").style.display = "block";
+    } else {
+        document.getElementById("nextBtn").textContent = "See Results →";
+        document.getElementById("nextBtn").style.display = "block";
+    }
+}
+
+function nextQuestion() {
+
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        loadQuestion();
+
+    } else {
+
+        showResults();
+
+    }
+}
+
+function showResults() {
+
+    const percentage = Math.round((score / questions.length) * 100);
+
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("result").style.display = "block";
+
+    document.getElementById("score").textContent = percentage + "%";
+
+    document.getElementById("resultText").textContent =
+        "You answered " + score + " out of " +
+        questions.length + " questions correctly.";
+
+    if (percentage >= 80) {
+
+        document.getElementById("resultTitle").textContent = "Well done! ✓";
+
+        document.getElementById("statusTitle").textContent =
+            "Passed!";
+
+        document.getElementById("statusText").textContent =
+            "You have successfully completed the Food Safety Training. " +
+            "Keep following these food safety principles in your daily work.";
+
+    } else {
+
+        document.getElementById("resultTitle").textContent =
+            "Keep practicing!";
+
+        document.getElementById("statusTitle").textContent =
+            "Not passed yet.";
+
+        document.getElementById("statusText").textContent =
+            "Review the food safety principles and try again. " +
+            "You need 80% or higher to pass.";
+    }
+}
+
+function restartQuiz() {
+
+    currentQuestion = 0;
+    score = 0;
+
+    document.getElementById("result").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+
+    document.getElementById("nextBtn").textContent = "Next →";
+
+    loadQuestion();
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
