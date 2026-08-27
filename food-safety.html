@@ -5,6 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SERVEUP - Food Safety Training</title>
 <style>
+.feedback-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.feedback-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.feedback-icon.correct {
+    background: #5b9b63;
+}
+
+.feedback-icon.wrong {
+    background: #c96b6b;
+}
 * {
     box-sizing: border-box;
 }
@@ -420,8 +448,8 @@ function selectAnswer(selected, clickedButton) {
         clickedButton.classList.add("correct");
 
         document.getElementById("feedback").innerHTML =
-            "<strong>Correct! ✅</strong><br><br>" +
-            q.explanation;
+    '<div class="feedback-title"><span class="feedback-icon correct">✓</span> Correct!</div>' +
+    '<div>' + q.explanation + '</div>';
 
     } else {
 
@@ -430,11 +458,11 @@ function selectAnswer(selected, clickedButton) {
         buttons[q.answer].classList.add("correct");
 
         document.getElementById("feedback").innerHTML =
-            "<strong>Not quite.</strong><br><br>" +
-            "The correct answer is <strong>" +
-            String.fromCharCode(65 + q.answer) +
-            "</strong>.<br><br>" +
-            q.explanation;
+    '<div class="feedback-title"><span class="feedback-icon wrong">✕</span> Not quite.</div>' +
+    '<div>The correct answer is <strong>' +
+    String.fromCharCode(65 + q.answer) +
+    '</strong>.<br><br>' +
+    q.explanation + '</div>';
     }
 
     document.getElementById("feedback").style.display = "block";
