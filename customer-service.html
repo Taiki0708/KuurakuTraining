@@ -7,6 +7,34 @@
 <title>ServeUp - Customer Service Training</title>
 
 <style>
+.feedback-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.feedback-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.feedback-icon.correct {
+    background: #5b9b63;
+}
+
+.feedback-icon.wrong {
+    background: #c96b6b;
+}
     * {
         box-sizing: border-box;
     }
@@ -523,15 +551,15 @@ function selectAnswer(index, selectedButton) {
 
         selectedButton.classList.add("correct");
 
-        document.getElementById("feedbackTitle").textContent =
-            "✓ Correct!";
+        document.getElementById("feedbackTitle").innerHTML =
+    '<span class="feedback-icon correct">✓</span> Correct!';
 
     } else {
 
         selectedButton.classList.add("wrong");
 
-        document.getElementById("feedbackTitle").textContent =
-            "✕ Not quite";
+        document.getElementById("feedbackTitle").innerHTML =
+    '<span class="feedback-icon wrong">✕</span> Not quite.';
 
     }
 
