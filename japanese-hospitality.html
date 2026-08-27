@@ -5,6 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Japanese Hospitality Training</title>
 <style>
+.feedback-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.feedback-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.feedback-icon.correct {
+    background: #5b9b63;
+}
+
+.feedback-icon.wrong {
+    background: #c96b6b;
+}
 * {
     box-sizing: border-box;
 }
@@ -74,7 +102,7 @@ body {
     border: 2px solid #75a875;
 }
 
-.option.wrong {
+.option.incorrect {
     background: #fbeeee;
     border: 2px solid #c77;
 }
@@ -87,15 +115,10 @@ body {
     border: 1px solid #ddd;
     font-size: 17px;
     line-height: 1.6;
+    display: none;
 }
 
-.explanation-title {
-    font-weight: 700;
-    font-size: 24px;
-    margin-bottom: 15px;
-}
-
-.next-button {
+.next-btn {
     width: 100%;
     margin-top: 25px;
     padding: 18px;
@@ -105,10 +128,7 @@ body {
     color: white;
     font-size: 18px;
     cursor: pointer;
-}
-
-.next-button:hover {
-    background: #444;
+    display: none;
 }
 
 .result {
@@ -118,6 +138,12 @@ body {
     padding: 45px 25px;
     border-radius: 20px;
     border: 1px solid #ddd;
+}
+
+.result-label {
+    font-size: 20px;
+    color: #888;
+    margin-bottom: 20px;
 }
 
 .result h1 {
@@ -131,15 +157,40 @@ body {
     margin: 20px 0;
 }
 
-.result p {
-    font-size: 19px;
+.result-text {
+    font-size: 18px;
     color: #666;
     line-height: 1.6;
 }
 
-.result button {
+.status {
+    background: #f7f7f5;
+    border-radius: 14px;
+    padding: 25px;
+    margin-top: 30px;
+    text-align: left;
+}
+
+.status h2 {
+    font-size: 24px;
+    margin-top: 0;
+}
+
+.status p {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.retry {
     width: 100%;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 18px;
     margin-top: 25px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 @media (max-width: 600px) {
@@ -149,6 +200,10 @@ body {
 
     .logo {
         font-size: 36px;
+    }
+
+    .subtitle {
+        font-size: 20px;
     }
 
     .question {
@@ -164,33 +219,49 @@ body {
 
 <body>
 
-<div class="logo">SERVEUP</div>
-<div class="subtitle">Japanese Hospitality Training</div>
+<div class="container">
 
-<div id="quiz">
+    <div class="header">
+        <div class="logo">SERVEUP</div>
+        <div class="subtitle">Japanese Hospitality Training</div>
+    </div>
 
-    <div id="questionNumber"></div>
-    <div class="question" id="question"></div>
+    <div id="quiz">
 
-    <div id="options"></div>
+        <div class="progress" id="progress"></div>
 
-    <div class="feedback" id="feedback"></div>
+        <div class="question" id="question"></div>
 
-    <button id="nextButton" onclick="nextQuestion()" style="display:none;">
-        Next →
-    </button>
+        <div id="options"></div>
 
-</div>
+        <div class="feedback" id="feedback"></div>
 
-<div class="result" id="result">
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+            Next →
+        </button>
 
-    <h1 id="resultTitle">Well done!</h1>
+    </div>
 
-    <div class="score" id="score"></div>
+    <div class="result" id="result">
 
-    <p id="resultMessage"></p>
+        <div class="result-label">Training Complete</div>
 
-    <button onclick="location.reload()">Try Again</button>
+        <h1 id="resultTitle">Well done!</h1>
+
+        <div class="score" id="score"></div>
+
+        <div class="result-text" id="resultText"></div>
+
+        <div class="status">
+            <h2 id="statusTitle"></h2>
+            <p id="statusText"></p>
+        </div>
+
+        <button class="retry" onclick="restartQuiz()">
+            Try Again
+        </button>
+
+    </div>
 
 </div>
 
@@ -324,13 +395,13 @@ let currentQuestion = 0;
 let score = 0;
 let answered = false;
 
-function showQuestion() {
+function loadQuestion() {
 
     answered = false;
 
     const q = questions[currentQuestion];
 
-    document.getElementById("questionNumber").textContent =
+    document.getElementById("progress").textContent =
         "Question " + (currentQuestion + 1) + " / " + questions.length;
 
     document.getElementById("question").textContent = q.question;
@@ -338,113 +409,139 @@ function showQuestion() {
     const optionsDiv = document.getElementById("options");
     optionsDiv.innerHTML = "";
 
+    document.getElementById("feedback").style.display = "none";
+    document.getElementById("nextBtn").style.display = "none";
+
     q.options.forEach((option, index) => {
 
-        const div = document.createElement("div");
+        const button = document.createElement("button");
 
-        div.className = "option";
-        div.textContent = option;
+        button.className = "option";
+        button.textContent = String.fromCharCode(65 + index) + ". " + option;
 
-        div.onclick = () => selectAnswer(index, div);
+        button.onclick = function() {
+            selectAnswer(index, button);
+        };
 
-        optionsDiv.appendChild(div);
+        optionsDiv.appendChild(button);
 
     });
-
-    document.getElementById("feedback").style.display = "none";
-    document.getElementById("nextButton").style.display = "none";
 }
 
-function selectAnswer(index, selectedElement) {
+function selectAnswer(selected, clickedButton) {
 
     if (answered) return;
 
     answered = true;
 
     const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option");
 
-    const options = document.querySelectorAll(".option");
-
-    options.forEach((option, i) => {
-
-        if (i === q.answer) {
-            option.classList.add("correct");
-        }
-
+    buttons.forEach(button => {
+        button.disabled = true;
     });
 
-    if (index === q.answer) {
+    if (selected === q.answer) {
 
         score++;
 
-        selectedElement.classList.add("correct");
+        clickedButton.classList.add("correct");
 
         document.getElementById("feedback").innerHTML =
-            "<div class='explanation-title'>✓ Correct!</div>" +
-            q.explanation;
+    '<div class="feedback-title"><span class="feedback-icon correct">✓</span> Correct!</div>' +
+    '<div>' + q.explanation + '</div>';
 
     } else {
 
-        selectedElement.classList.add("wrong");
+        clickedButton.classList.add("incorrect");
+
+        buttons[q.answer].classList.add("correct");
 
         document.getElementById("feedback").innerHTML =
-            "<div class='explanation-title'>✗ Not quite.</div>" +
-            "The correct answer is: <strong>" +
-            q.options[q.answer] +
-            "</strong><br><br>" +
-            q.explanation;
+    '<div class="feedback-title"><span class="feedback-icon wrong">✕</span> Not quite.</div>' +
+    '<div>The correct answer is <strong>' +
+    String.fromCharCode(65 + q.answer) +
+    '</strong>.<br><br>' +
+    q.explanation + '</div>';
     }
 
     document.getElementById("feedback").style.display = "block";
-    document.getElementById("nextButton").style.display = "block";
+
+    if (currentQuestion < questions.length - 1) {
+        document.getElementById("nextBtn").style.display = "block";
+    } else {
+        document.getElementById("nextBtn").textContent = "See Results →";
+        document.getElementById("nextBtn").style.display = "block";
+    }
 }
 
 function nextQuestion() {
 
-    currentQuestion++;
+    if (currentQuestion < questions.length - 1) {
 
-    if (currentQuestion < questions.length) {
+        currentQuestion++;
 
-        showQuestion();
+        loadQuestion();
 
     } else {
 
-        showResult();
+        showResults();
 
     }
 }
 
-function showResult() {
+function showResults() {
+
+    const percentage = Math.round((score / questions.length) * 100);
 
     document.getElementById("quiz").style.display = "none";
-
-    const percentage = score * 10;
-
     document.getElementById("result").style.display = "block";
 
-    document.getElementById("score").textContent =
-        percentage + "%";
+    document.getElementById("score").textContent = percentage + "%";
+
+    document.getElementById("resultText").textContent =
+        "You answered " + score + " out of " +
+        questions.length + " questions correctly.";
 
     if (percentage >= 80) {
 
-        document.getElementById("resultTitle").textContent =
-            "Well done! ✓";
+        document.getElementById("resultTitle").textContent = "Well done! ✓";
 
-        document.getElementById("resultMessage").textContent =
-            "Passed! You have successfully completed the Japanese Hospitality Training. Keep using these hospitality principles in your daily work.";
+        document.getElementById("statusTitle").textContent =
+            "Passed!";
+
+        document.getElementById("statusText").textContent =
+            "You have successfully completed the Japanese Hospitality Training. " +
+            "Keep following these food safety principles in your daily work.";
 
     } else {
 
         document.getElementById("resultTitle").textContent =
             "Keep practicing!";
 
-        document.getElementById("resultMessage").textContent =
-            "Not passed yet. Review the Japanese hospitality principles and try again. You need 80% or higher to pass.";
+        document.getElementById("statusTitle").textContent =
+            "Not passed yet.";
 
+        document.getElementById("statusText").textContent =
+            "Review the food safety principles and try again. " +
+            "You need 80% or higher to pass.";
     }
 }
 
-showQuestion();
+function restartQuiz() {
+
+    currentQuestion = 0;
+    score = 0;
+
+    document.getElementById("result").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+
+    document.getElementById("nextBtn").textContent = "Next →";
+
+    loadQuestion();
+}
+
+loadQuestion();
 
 </script>
 
