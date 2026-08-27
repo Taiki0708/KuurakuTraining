@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Restaurant Basics - ServeUp Training</title>
+  <title>ServeUp - Restaurant Basics</title>
 
   <style>
     * {
@@ -14,7 +14,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f7f7f5;
+      background: #f7f7f6;
       color: #222;
     }
 
@@ -26,7 +26,7 @@
 
     .header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
 
     .logo {
@@ -48,58 +48,73 @@
 
     .progress {
       text-align: center;
+      margin-top: 45px;
       margin-bottom: 25px;
       color: #777;
-      font-size: 14px;
     }
 
-    .question-card {
+    .card {
       background: white;
       border-radius: 16px;
-      padding: 35px;
+      padding: 30px;
       border: 1px solid #e5e5e5;
     }
 
     .question {
       font-size: 24px;
-      font-weight: bold;
-      line-height: 1.4;
-      margin-bottom: 25px;
+      margin-top: 0;
+      margin-bottom: 30px;
     }
 
-    .option {
-      display: block;
+    .answer {
       width: 100%;
+      display: block;
       text-align: left;
       padding: 16px 18px;
-      margin: 12px 0;
-      background: white;
+      margin-bottom: 12px;
+      background: #fff;
       border: 1px solid #ddd;
       border-radius: 10px;
       font-size: 16px;
       cursor: pointer;
     }
 
-    .option:hover {
+    .answer:hover {
       background: #f5f5f5;
     }
 
-    .option.correct {
-      border: 2px solid #8abf8a;
+    .answer.correct {
       background: #f0f8f0;
+      border: 1px solid #a8d5a8;
     }
 
-    .option.wrong {
-      border: 2px solid #d88;
-      background: #fff2f2;
+    .answer.incorrect {
+      background: #fff4f4;
+      border: 1px solid #e0aaaa;
     }
 
     .feedback {
       margin-top: 25px;
       padding: 20px;
-      border-radius: 12px;
-      background: #f5f5f5;
-      line-height: 1.6;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .feedback.correct {
+      display: block;
+      background: #f0f8f0;
+      border: 1px solid #c5dfc5;
+    }
+
+    .feedback.incorrect {
+      display: block;
+      background: #fff4f4;
+      border: 1px solid #e5c5c5;
+    }
+
+    .feedback-title {
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     .next-button,
@@ -110,40 +125,33 @@
       background: #222;
       color: white;
       text-decoration: none;
-      border-radius: 10px;
       border: none;
+      border-radius: 10px;
       cursor: pointer;
       font-size: 16px;
     }
 
+    .next-button {
+      display: none;
+    }
+
     .result {
-      background: white;
-      border-radius: 16px;
-      padding: 40px 30px;
+      display: none;
       text-align: center;
-      border: 1px solid #e5e5e5;
     }
 
     .score {
-      font-size: 64px;
+      font-size: 56px;
       font-weight: bold;
       margin: 20px 0;
     }
 
     .passed {
+      padding: 20px;
       background: #f0f8f0;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 20px;
-      line-height: 1.6;
-    }
-
-    .failed {
-      background: #fff3f3;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 20px;
-      line-height: 1.6;
+      border: 1px solid #c5dfc5;
+      border-radius: 10px;
+      margin-top: 25px;
     }
 
     footer {
@@ -157,364 +165,382 @@
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <div class="header">
-    <div class="logo">SERVEUP</div>
+    <div class="header">
+      <div class="logo">SERVEUP</div>
 
-    <div class="tagline">
-      Restaurant Training Made Simple
+      <div class="tagline">
+        Restaurant Training Made Simple
+      </div>
+
+      <div class="subtitle">
+        Restaurant Basics
+      </div>
     </div>
 
-    <div class="subtitle">
-      Restaurant Basics
-    </div>
-  </div>
-
-  <div id="quiz">
 
     <div class="progress" id="progress">
       Question 1 / 10
     </div>
 
-    <div class="question-card">
 
-      <div class="question" id="question"></div>
+    <div class="card">
 
-      <div id="options"></div>
+      <div id="quiz">
 
-      <div id="feedback"></div>
+        <h2 class="question" id="question"></h2>
 
-    </div>
+        <div id="answers"></div>
 
-  </div>
-
-  <div id="result" style="display:none;"></div>
-
-  <footer>
-    © 2026 ServeUp
-  </footer>
-
-</div>
-
-<script>
-
-const questions = [
-
-  {
-    question: "What should you do first when you arrive for your shift?",
-    options: [
-      "Start working immediately without checking anything.",
-      "Check your appearance, prepare yourself and be ready for work.",
-      "Wait until someone tells you what to do.",
-      "Go directly to the dining area and sit down."
-    ],
-    answer: 1,
-    explanation: "Being prepared before the shift helps the team start smoothly and professionally."
-  },
-
-  {
-    question: "Why is a clean and neat uniform important?",
-    options: [
-      "Only because the manager may see you.",
-      "It helps create a professional impression and supports hygiene.",
-      "It makes you look fashionable.",
-      "It is not important."
-    ],
-    answer: 1,
-    explanation: "A clean appearance shows professionalism and helps maintain good hygiene standards."
-  },
-
-  {
-    question: "What should you do when taking a customer's order?",
-    options: [
-      "Guess what they want.",
-      "Listen carefully and confirm the order.",
-      "Walk away before they finish.",
-      "Ask another customer."
-    ],
-    answer: 1,
-    explanation: "Listening carefully and confirming the order reduces mistakes."
-  },
-
-  {
-    question: "Why should you repeat an order back to the customer?",
-    options: [
-      "To make the conversation longer.",
-      "To confirm that the order is correct.",
-      "Because customers always forget their order.",
-      "It is not necessary."
-    ],
-    answer: 1,
-    explanation: "Repeating the order gives both the customer and staff a chance to catch mistakes before the order is sent."
-  },
-
-  {
-    question: "If you do not know the answer to a customer's question, what should you do?",
-    options: [
-      "Make up an answer.",
-      "Ignore the customer.",
-      "Tell them you will check and ask the appropriate staff member.",
-      "Tell them it is not your problem."
-    ],
-    answer: 2,
-    explanation: "It is better to check with the right person than to give incorrect information."
-  },
-
-  {
-    question: "What should you do before serving food or drinks?",
-    options: [
-      "Check that the correct items are being served to the correct table.",
-      "Serve them to any nearby table.",
-      "Ask the customer to identify their order.",
-      "Leave them at the entrance."
-    ],
-    answer: 0,
-    explanation: "Checking the table and order helps prevent service mistakes."
-  },
-
-  {
-    question: "What is the best way to communicate with your coworkers during a busy shift?",
-    options: [
-      "Stay silent.",
-      "Speak clearly, politely and share important information.",
-      "Blame someone when something goes wrong.",
-      "Only communicate with the manager."
-    ],
-    answer: 1,
-    explanation: "Clear and respectful communication helps the whole team work efficiently."
-  },
-
-  {
-    question: "If you make a mistake with a customer's order, what should you do?",
-    options: [
-      "Hide the mistake.",
-      "Blame another staff member.",
-      "Report it promptly and help correct it.",
-      "Ignore it."
-    ],
-    answer: 2,
-    explanation: "Mistakes should be handled honestly and quickly so they can be corrected."
-  },
-
-  {
-    question: "What should you do when your shift is ending?",
-    options: [
-      "Leave immediately.",
-      "Complete your responsibilities, clean your area and report anything important.",
-      "Leave everything for the next person.",
-      "Stop working early."
-    ],
-    answer: 1,
-    explanation: "A proper handover and clean work area help the next shift start smoothly."
-  },
-
-  {
-    question: "What is the most important basic principle of restaurant work?",
-    options: [
-      "Work as quickly as possible, even if mistakes happen.",
-      "Focus only on your own tasks.",
-      "Provide safe, accurate and professional service as a team.",
-      "Avoid talking to customers."
-    ],
-    answer: 2,
-    explanation: "Good restaurant service depends on safety, accuracy, professionalism and teamwork."
-  }
-
-];
-
-let currentQuestion = 0;
-let score = 0;
-let answered = false;
-
-function showQuestion() {
-
-  answered = false;
-
-  const q = questions[currentQuestion];
-
-  document.getElementById("progress").textContent =
-    "Question " + (currentQuestion + 1) + " / " + questions.length;
-
-  document.getElementById("question").textContent = q.question;
-
-  const options = document.getElementById("options");
-
-  options.innerHTML = "";
-
-  document.getElementById("feedback").innerHTML = "";
-
-  q.options.forEach((option, index) => {
-
-    const button = document.createElement("button");
-
-    button.className = "option";
-
-    button.textContent = option;
-
-    button.onclick = function() {
-      selectAnswer(index);
-    };
-
-    options.appendChild(button);
-
-  });
-
-}
-
-function selectAnswer(selected) {
-
-  if (answered) return;
-
-  answered = true;
-
-  const q = questions[currentQuestion];
-
-  const buttons = document.querySelectorAll(".option");
-
-  buttons[selected].classList.add(
-    selected === q.answer ? "correct" : "wrong"
-  );
-
-  if (selected === q.answer) {
-    score++;
-  } else {
-    buttons[q.answer].classList.add("correct");
-  }
-
-  const feedback = document.getElementById("feedback");
-
-  feedback.innerHTML = `
-    <div>
-      <strong>${selected === q.answer ? "Correct!" : "Not quite."}</strong>
-      <br><br>
-      ${q.explanation}
-    </div>
-
-    <button class="next-button" onclick="nextQuestion()">
-      ${currentQuestion === questions.length - 1 ? "See Result →" : "Next Question →"}
-    </button>
-  `;
-
-}
-
-function nextQuestion() {
-
-  currentQuestion++;
-
-  if (currentQuestion >= questions.length) {
-    showResult();
-  } else {
-    showQuestion();
-  }
-
-}
-
-function showResult() {
-
-  document.getElementById("quiz").style.display = "none";
-
-  const result = document.getElementById("result");
-
-  result.style.display = "block";
-
-  const percentage = Math.round(
-    (score / questions.length) * 100
-  );
-
-  if (percentage >= 80) {
-
-    localStorage.setItem(
-      "restaurantBasicsCompleted",
-      "true"
-    );
-
-    result.innerHTML = `
-
-      <div class="result">
-
-        <div>Training Complete</div>
-
-        <h1>Well done! ✓</h1>
-
-        <div class="score">
-          ${percentage}%
+        <div id="feedback" class="feedback">
+          <div class="feedback-title" id="feedbackTitle"></div>
+          <div id="feedbackText"></div>
         </div>
 
-        <p>
-          You answered ${score} out of ${questions.length}
-          questions correctly.
-        </p>
-
-        <div class="passed">
-
-          <strong>Passed!</strong>
-
-          <p>
-            You have successfully completed the
-            Restaurant Basics Training.
-          </p>
-
-          <p>
-            Keep applying these principles in your
-            daily work.
-          </p>
-
-        </div>
-
-        <a class="back-button" href="index.html">
-          Back to Training →
-        </a>
-
-      </div>
-
-    `;
-
-  } else {
-
-    result.innerHTML = `
-
-      <div class="result">
-
-        <div>Training Complete</div>
-
-        <h1>Keep Learning</h1>
-
-        <div class="score">
-          ${percentage}%
-        </div>
-
-        <p>
-          You answered ${score} out of ${questions.length}
-          questions correctly.
-        </p>
-
-        <div class="failed">
-
-          <strong>Not Passed</strong>
-
-          <p>
-            You need 80% or higher to pass.
-            Review the training and try again.
-          </p>
-
-        </div>
-
-        <button class="back-button" onclick="location.reload()">
-          Try Again
+        <button
+          id="nextButton"
+          class="next-button"
+          onclick="nextQuestion()">
+          Next Question →
         </button>
 
       </div>
 
-    `;
 
-  }
+      <div id="result" class="result">
 
-}
+        <h2>Training Complete</h2>
 
-showQuestion();
+        <div class="score" id="score"></div>
 
-</script>
+        <div class="passed">
+          <h3>Passed! ✓</h3>
+
+          <p>
+            You have successfully completed the Restaurant Basics training.
+            Keep applying these principles in your daily work.
+          </p>
+        </div>
+
+        <a class="back-button" href="index.html">
+          Back to Training
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <footer>
+      © 2026 ServeUp
+    </footer>
+
+  </div>
+
+
+  <script>
+
+    const questions = [
+
+      {
+        question: "What should you do first when you arrive for your shift?",
+        answers: [
+          "Start working immediately without checking anything.",
+          "Check your appearance, prepare yourself and be ready for work.",
+          "Wait until someone tells you what to do.",
+          "Go directly to the dining area and sit down."
+        ],
+        correct: 1,
+        explanation:
+          "Being prepared before the shift helps the team start smoothly and professionally."
+      },
+
+      {
+        question: "What is the most important thing when speaking with a customer?",
+        answers: [
+          "Speak as quickly as possible.",
+          "Avoid eye contact.",
+          "Speak politely and clearly.",
+          "Only speak when the customer asks a question."
+        ],
+        correct: 2,
+        explanation:
+          "Clear and polite communication helps customers feel comfortable and respected."
+      },
+
+      {
+        question: "What should you do when you enter the service area?",
+        answers: [
+          "Check the area and make sure everything is ready.",
+          "Wait for another employee.",
+          "Ignore the area.",
+          "Immediately leave the area."
+        ],
+        correct: 0,
+        explanation:
+          "Checking your work area helps prevent problems and keeps service running smoothly."
+      },
+
+      {
+        question: "Why is teamwork important in a restaurant?",
+        answers: [
+          "It allows employees to avoid communication.",
+          "It helps everyone work together efficiently.",
+          "It means only managers are responsible.",
+          "It allows employees to work separately."
+        ],
+        correct: 1,
+        explanation:
+          "Good teamwork improves communication, efficiency and the customer experience."
+      },
+
+      {
+        question: "What should you do if you do not understand an instruction?",
+        answers: [
+          "Ignore it.",
+          "Guess what to do.",
+          "Ask for clarification.",
+          "Wait until the end of the shift."
+        ],
+        correct: 2,
+        explanation:
+          "Asking for clarification is better than making a mistake because you misunderstood an instruction."
+      },
+
+      {
+        question: "How should restaurant equipment be treated?",
+        answers: [
+          "Use it carefully and according to instructions.",
+          "Use it however you want.",
+          "Leave it dirty after use.",
+          "Only managers need to care about equipment."
+        ],
+        correct: 0,
+        explanation:
+          "Proper use and care of equipment helps maintain safety and efficiency."
+      },
+
+      {
+        question: "What should you do when your work area becomes messy?",
+        answers: [
+          "Leave it until the end of the day.",
+          "Ask a customer to clean it.",
+          "Clean and organize it as soon as possible.",
+          "Ignore it if customers cannot see it."
+        ],
+        correct: 2,
+        explanation:
+          "Keeping the work area clean and organized supports safe and efficient service."
+      },
+
+      {
+        question: "What should you do if you make a mistake during service?",
+        answers: [
+          "Hide the mistake.",
+          "Blame another employee.",
+          "Report it and take appropriate action.",
+          "Ignore it."
+        ],
+        correct: 2,
+        explanation:
+          "Being honest about mistakes allows the team to solve problems quickly and professionally."
+      },
+
+      {
+        question: "What is a good way to support your coworkers?",
+        answers: [
+          "Help when appropriate and communicate clearly.",
+          "Only focus on yourself.",
+          "Avoid speaking with coworkers.",
+          "Wait until someone asks for help."
+        ],
+        correct: 0,
+        explanation:
+          "Supporting coworkers helps the whole team provide better service."
+      },
+
+      {
+        question: "What is the main goal of restaurant service?",
+        answers: [
+          "Finish work as quickly as possible.",
+          "Provide a safe, professional and positive experience for customers.",
+          "Avoid speaking with customers.",
+          "Only focus on completing individual tasks."
+        ],
+        correct: 1,
+        explanation:
+          "Professional restaurant service is about providing customers with a safe, welcoming and positive experience."
+      }
+
+    ];
+
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+
+    function showQuestion() {
+
+      answered = false;
+
+      const q = questions[currentQuestion];
+
+      document.getElementById("progress").textContent =
+        "Question " + (currentQuestion + 1) + " / " + questions.length;
+
+      document.getElementById("question").textContent =
+        q.question;
+
+      const answersDiv =
+        document.getElementById("answers");
+
+      answersDiv.innerHTML = "";
+
+      q.answers.forEach(function(answer, index) {
+
+        const button = document.createElement("button");
+
+        button.className = "answer";
+
+        button.textContent = answer;
+
+        button.onclick = function() {
+          selectAnswer(index, button);
+        };
+
+        answersDiv.appendChild(button);
+
+      });
+
+      document.getElementById("feedback").className =
+        "feedback";
+
+      document.getElementById("feedbackTitle").textContent = "";
+
+      document.getElementById("feedbackText").textContent = "";
+
+      document.getElementById("nextButton").style.display =
+        "none";
+    }
+
+
+    function selectAnswer(index, button) {
+
+      if (answered) {
+        return;
+      }
+
+      answered = true;
+
+      const q = questions[currentQuestion];
+
+      const allAnswers =
+        document.querySelectorAll(".answer");
+
+      allAnswers.forEach(function(answer) {
+        answer.disabled = true;
+      });
+
+
+      if (index === q.correct) {
+
+        score++;
+
+        button.classList.add("correct");
+
+        document.getElementById("feedback").className =
+          "feedback correct";
+
+        document.getElementById("feedbackTitle").textContent =
+          "Correct!";
+
+      } else {
+
+        button.classList.add("incorrect");
+
+        allAnswers[q.correct].classList.add("correct");
+
+        document.getElementById("feedback").className =
+          "feedback incorrect";
+
+        document.getElementById("feedbackTitle").textContent =
+          "Incorrect";
+
+      }
+
+
+      document.getElementById("feedbackText").textContent =
+        q.explanation;
+
+
+      if (currentQuestion < questions.length - 1) {
+
+        document.getElementById("nextButton").style.display =
+          "inline-block";
+
+      } else {
+
+        document.getElementById("nextButton").textContent =
+          "View Result →";
+
+        document.getElementById("nextButton").style.display =
+          "inline-block";
+      }
+    }
+
+
+    function nextQuestion() {
+
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+
+        showQuestion();
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+      } else {
+
+        showResult();
+
+      }
+    }
+
+
+    function showResult() {
+
+      document.getElementById("quiz").style.display =
+        "none";
+
+      document.getElementById("progress").style.display =
+        "none";
+
+      document.getElementById("result").style.display =
+        "block";
+
+
+      const percentage =
+        Math.round((score / questions.length) * 100);
+
+      document.getElementById("score").textContent =
+        percentage + "%";
+
+
+      localStorage.setItem(
+        "restaurantBasicsCompleted",
+        "true"
+      );
+    }
+
+
+    showQuestion();
+
+  </script>
 
 </body>
 </html>
