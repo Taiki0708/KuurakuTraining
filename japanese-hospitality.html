@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japanese Hospitality | SERVEUP</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f7f5;
+    color: #222;
+}
+
+.container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 50px 25px 80px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.logo {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 10px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #777;
+    font-size: 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 18px;
+    padding: 30px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: 32px;
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 23px;
+    margin-top: 0;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #555;
+}
+
+ul {
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.question {
+    margin-bottom: 35px;
+}
+
+.question h3 {
+    font-size: 19px;
+    margin-bottom: 15px;
+}
+
+.option {
+    display: block;
+    padding: 14px 16px;
+    margin: 9px 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    background: #f2f2f2;
+}
+
+.option input {
+    margin-right: 10px;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: #444;
+}
+
+.result {
+    display: none;
+    text-align: center;
+    padding: 35px;
+    margin-top: 30px;
+    border-radius: 15px;
+    background: #f5f5f2;
+}
+
+.result h2 {
+    font-size: 30px;
+}
+
+.score {
+    font-size: 55px;
+    font-weight: 700;
+    margin: 20px 0;
+}
+
+.back {
+    display: inline-block;
+    margin-top: 25px;
+    color: #333;
+    text-decoration: none;
+}
+
+.back:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">SERVEUP</div>
+        <div class="subtitle">Japanese Hospitality Training</div>
+    </div>
+
+    <div class="card">
+        <h1>Japanese Hospitality</h1>
+
+        <p>
+            Japanese hospitality is about making every guest feel welcome,
+            respected, and comfortable.
+        </p>
+
+        <p>
+            Great service is not only about following procedures.
+            It is about paying attention to the guest and thinking one step ahead.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>1. First Impression</h2>
+
+        <p>
+            The first few seconds can shape the guest's entire experience.
+        </p>
+
+        <ul>
+            <li>Smile and make appropriate eye contact.</li>
+            <li>Greet the guest clearly and politely.</li>
+            <li>Show that you are ready to help.</li>
+            <li>Keep your appearance clean and professional.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>2. Japanese Greeting</h2>
+
+        <p>
+            A warm and clear greeting is an important part of Japanese restaurant service.
+        </p>
+
+        <p>
+            When guests enter, acknowledge them promptly with a friendly
+            "Irasshaimase" and guide them appropriately.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>3. Respect and Body Language</h2>
+
+        <p>
+            Hospitality is communicated not only through words,
+            but also through body language.
+        </p>
+
+        <ul>
+            <li>Stand with good posture.</li>
+            <li>Use polite language.</li>
+            <li>Avoid pointing directly at guests.</li>
+            <li>Use an open and welcoming posture.</li>
+            <li>Give a polite bow when appropriate.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>4. Observe the Guest</h2>
+
+        <p>
+            Good hospitality means noticing what guests may need
+            before they have to ask.
+        </p>
+
+        <ul>
+            <li>Watch for empty glasses.</li>
+            <li>Notice when guests are looking for staff.</li>
+            <li>Check whether guests need additional plates or utensils.</li>
+            <li>Pay attention to special requests.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>5. Anticipate Needs</h2>
+
+        <p>
+            The best service often happens before the guest asks.
+        </p>
+
+        <p>
+            For example, if a guest is sharing food,
+            provide additional plates when appropriate.
+            If a guest appears unsure, offer assistance instead of waiting.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>6. Handling Problems</h2>
+
+        <p>
+            When something goes wrong, stay calm and professional.
+        </p>
+
+        <ul>
+            <li>Listen carefully.</li>
+            <li>Do not argue with the guest.</li>
+            <li>Acknowledge the problem.</li>
+            <li>Apologize when appropriate.</li>
+            <li>Find a solution or involve a manager.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>7. Teamwork</h2>
+
+        <p>
+            Hospitality is a team effort.
+            Every staff member contributes to the guest experience.
+        </p>
+
+        <p>
+            If you notice a colleague needs help,
+            support them when possible.
+            The guest should experience one professional team,
+            not separate individuals.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Knowledge Check</h2>
+
+        <p>
+            Answer all 10 questions. You need 80% or higher to pass.
+        </p>
+
+        <form id="quizForm">
+
+            <div class="question">
+                <h3>1. What is the main goal of Japanese hospitality?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q1" value="a">
+                    Finish service as quickly as possible
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q1" value="b">
+                    Make guests feel welcome, respected, and comfortable
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q1" value="c">
+                    Sell as many items as possible
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>2. What should staff do when guests enter?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q2" value="a">
+                    Ignore them until they sit down
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q2" value="b">
+                    Greet and acknowledge them promptly
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q2" value="c">
+                    Wait for the guest to speak first
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>3. Which is an important part of professional body language?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q3" value="a">
+                    Good posture
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q3" value="b">
+                    Looking at your phone
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q3" value="c">
+                    Pointing directly at guests
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>4. What does "anticipating guest needs" mean?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q4" value="a">
+                    Waiting until guests complain
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q4" value="b">
+                    Doing whatever the guest asks
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q4" value="c">
+                    Noticing and responding to needs before guests ask
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>5. A guest looks around because they need help. What should you do?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q5" value="a">
+                    Wait until they call you
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q5" value="b">
+                    Approach and offer assistance
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q5" value="c">
+                    Ask another guest to help them
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>6. What is the best response when a guest has a problem?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q6" value="a">
+                    Argue with the guest
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q6" value="b">
+                    Ignore the problem
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q6" value="c">
+                    Listen calmly and work toward a solution
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>7. Why is teamwork important?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q7" value="a">
+                    Guests should experience one professional team
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q7" value="b">
+                    Staff can avoid responsibility
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q7" value="c">
+                    Only managers need to provide good service
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>8. What should you do when a guest is sharing food?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q8" value="a">
+                    Do nothing
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q8" value="b">
+                    Offer additional plates when appropriate
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q8" value="c">
+                    Tell them to ask another staff member
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>9. What should staff do when they do not know how to solve a guest problem?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q9" value="a">
+                    Make up an answer
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q9" value="b">
+                    Ignore the guest
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q9" value="c">
+                    Ask a manager or appropriate colleague for help
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>10. Which best describes excellent hospitality?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q10" value="a">
+                    Following procedures without thinking
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q10" value="b">
+                    Thinking about the guest experience and acting professionally
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q10" value="c">
+                    Serving only when requested
+                </label>
+            </div>
+
+            <button type="button" class="button" onclick="checkQuiz()">
+                Submit Answers
+            </button>
+
+        </form>
+
+        <div id="result" class="result">
+            <h2 id="resultTitle"></h2>
+
+            <div class="score" id="score"></div>
+
+            <p id="resultMessage"></p>
+
+            <button class="button" onclick="location.reload()">
+                Try Again
+            </button>
+
+            <a href="index.html" class="back">
+                ← Back to Training Home
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function checkQuiz() {
+
+    const answers = {
+        q1: "b",
+        q2: "b",
+        q3: "a",
+        q4: "c",
+        q5: "b",
+        q6: "c",
+        q7: "a",
+        q8: "b",
+        q9: "c",
+        q10: "b"
+    };
+
+    let score = 0;
+
+    for (let question in answers) {
+
+        const selected = document.querySelector(
+            'input[name="' + question + '"]:checked'
+        );
+
+        if (selected && selected.value === answers[question]) {
+            score++;
+        }
+    }
+
+    const percentage = score * 10;
+
+    document.getElementById("quizForm").style.display = "none";
+
+    const result = document.getElementById("result");
+    result.style.display = "block";
+
+    document.getElementById("score").textContent =
+        percentage + "%";
+
+    if (percentage >= 80) {
+
+        document.getElementById("resultTitle").textContent =
+            "Well done! ✓";
+
+        document.getElementById("resultMessage").textContent =
+            "Passed! You have successfully completed the Japanese Hospitality Training. Keep using these hospitality principles in your daily work.";
+
+    } else {
+
+        document.getElementById("resultTitle").textContent =
+            "Keep practicing!";
+
+        document.getElementById("resultMessage").textContent =
+            "Not passed yet. Review the Japanese hospitality principles and try again. You need 80% or higher to pass.";
+    }
+}
+
+</script>
+
+</body>
+</html>
