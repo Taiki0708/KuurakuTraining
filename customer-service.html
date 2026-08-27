@@ -1,135 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ServeUp - Customer Service Training</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-  box-sizing: border-box;
-}
+    <title>ServeUp - Customer Service Training</title>
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  background: #f5f3ef;
-  color: #222;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-.container {
-  max-width: 600px;
-  margin: auto;
-  padding: 40px 20px;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f7f5;
+            color: #222;
+        }
 
-.header {
-  text-align: center;
-  margin-bottom: 35px;
-}
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
 
-.logo {
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: 4px;
-}
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
 
-.subtitle {
-  color: #777;
-  margin-top: 8px;
-}
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 7px;
+        }
 
-.progress {
-  text-align: center;
-  color: #777;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
+        .subtitle {
+            margin-top: 8px;
+            color: #777;
+            font-size: 16px;
+        }
 
-.question {
-  background: white;
-  border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-}
+        .progress {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
 
-.question h2 {
-  font-size: 20px;
-  line-height: 1.5;
-  margin-top: 0;
-}
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 30px 25px;
+            border: 1px solid #e5e5e5;
+        }
 
-.option {
-  display: block;
-  width: 100%;
-  padding: 16px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background: white;
-  text-align: left;
-  font-size: 16px;
-  cursor: pointer;
-}
+        .question {
+            font-size: 23px;
+            line-height: 1.4;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
 
-.option:hover {
-  background: #f1f1f1;
-}
+        .answer {
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-.option.correct {
-  background: #e7f5e9;
-  border-color: #4caf50;
-}
+        .answer:hover {
+            background: #f2f2f2;
+        }
 
-.option.wrong {
-  background: #fdeaea;
-  border-color: #e74c3c;
-}
+        .answer.correct {
+            background: #e6f5e9;
+            border-color: #4caf50;
+        }
 
-.next {
-  width: 100%;
-  margin-top: 20px;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  background: #222;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
+        .answer.wrong {
+            background: #fbeaea;
+            border-color: #e57373;
+        }
 
-.result {
-  text-align: center;
-}
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f5f5f5;
+            line-height: 1.5;
+        }
 
-.score {
-  font-size: 48px;
-  font-weight: 700;
-  margin: 20px 0;
-}
+        .next,
+        .restart {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-.restart {
-  padding: 15px 30px;
-  border: none;
-  border-radius: 10px;
-  background: #222;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-</style>
+        .result {
+            text-align: center;
+        }
+
+        .result h1 {
+            margin-bottom: 10px;
+        }
+
+        .score {
+            font-size: 56px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .result p {
+            color: #777;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <div class="header">
-    <div class="logo">SERVEUP</div>
-    <div class="subtitle">Customer Service Training</div>
-  </div>
+    <div class="header">
+        <div class="logo">SERVEUP</div>
+        <div class="subtitle">Customer Service Training</div>
+    </div>
 
-  <div id="quiz"></div>
+    <div id="quiz"></div>
 
 </div>
 
@@ -137,60 +147,65 @@ body {
 
 const questions = [
 
-  {
-    question: "A customer says their food is taking too long. What should you do FIRST?",
-    options: [
-      "Tell them the kitchen is busy.",
-      "Ignore the complaint.",
-      "Apologize, listen and check the order.",
-      "Tell them to order something else."
-    ],
-    answer: 2
-  },
+    {
+        question: "A customer says their food is taking too long. What should you do first?",
+        answers: [
+            "Ignore the complaint",
+            "Tell them to wait",
+            "Apologize, listen and check the order",
+            "Blame the kitchen"
+        ],
+        correct: 2,
+        explanation: "Acknowledge the customer's concern, apologize and check the situation promptly."
+    },
 
-  {
-    question: "A customer asks you a question and you don't know the answer. What should you do?",
-    options: [
-      "Make up an answer.",
-      "Say you don't know and walk away.",
-      "Tell the customer you will check and confirm the correct information.",
-      "Ignore the customer."
-    ],
-    answer: 2
-  },
+    {
+        question: "A customer asks a question you do not know the answer to. What should you do?",
+        answers: [
+            "Guess the answer",
+            "Ignore the question",
+            "Politely say you will check and find the correct information",
+            "Tell the customer to ask another staff member"
+        ],
+        correct: 2,
+        explanation: "It is better to check and provide accurate information than to guess."
+    },
 
-  {
-    question: "A customer is unhappy with their food. What is the best response?",
-    options: [
-      "Argue with the customer.",
-      "Listen carefully, apologize and try to solve the problem.",
-      "Tell them other customers like it.",
-      "Ignore the complaint."
-    ],
-    answer: 1
-  },
+    {
+        question: "You realize that you made a mistake in a customer's order. What should you do?",
+        answers: [
+            "Hide the mistake",
+            "Blame another staff member",
+            "Apologize and correct the mistake quickly",
+            "Wait until the customer notices"
+        ],
+        correct: 2,
+        explanation: "Take responsibility, apologize and solve the problem as quickly as possible."
+    },
 
-  {
-    question: "When serving a customer, what is most important?",
-    options: [
-      "Finishing your own work quickly.",
-      "Avoiding eye contact.",
-      "Being polite, attentive and helpful.",
-      "Talking only to your coworkers."
-    ],
-    answer: 2
-  },
+    {
+        question: "A customer is angry about their experience. What is the best response?",
+        answers: [
+            "Argue with the customer",
+            "Walk away",
+            "Stay calm, listen and offer appropriate help",
+            "Tell them they are wrong"
+        ],
+        correct: 2,
+        explanation: "Stay calm and listen carefully. Understanding the problem is the first step toward solving it."
+    },
 
-  {
-    question: "A customer is leaving the restaurant. What should you do?",
-    options: [
-      "Ignore them.",
-      "Thank them and say goodbye politely.",
-      "Ask them to leave a tip.",
-      "Continue talking to another staff member."
-    ],
-    answer: 1
-  }
+    {
+        question: "What should you do when a customer is leaving the restaurant?",
+        answers: [
+            "Say nothing",
+            "Turn away immediately",
+            "Thank the customer sincerely and say goodbye",
+            "Ask them to leave a review"
+        ],
+        correct: 2,
+        explanation: "A warm farewell creates a positive final impression."
+    }
 
 ];
 
@@ -200,126 +215,146 @@ let answered = false;
 
 function showQuestion() {
 
-  answered = false;
+    answered = false;
 
-  const q = questions[currentQuestion];
+    const q = questions[currentQuestion];
 
-  document.getElementById("quiz").innerHTML = `
+    document.getElementById("quiz").innerHTML = `
 
-    <div class="progress">
-      Question ${currentQuestion + 1} / ${questions.length}
-    </div>
+        <div class="progress">
+            Question ${currentQuestion + 1} / ${questions.length}
+        </div>
 
-    <div class="question">
+        <div class="card">
 
-      <h2>${q.question}</h2>
+            <div class="question">
+                ${q.question}
+            </div>
 
-      ${q.options.map((option, index) => `
-        <button class="option" onclick="selectAnswer(${index})">
-          ${String.fromCharCode(65 + index)}. ${option}
-        </button>
-      `).join("")}
+            <div id="answers">
 
-    </div>
+                ${q.answers.map((answer, index) => `
+                    <button
+                        class="answer"
+                        onclick="selectAnswer(${index})">
+                        ${answer}
+                    </button>
+                `).join("")}
 
-  `;
+            </div>
+
+            <div id="feedback"></div>
+
+            <button
+                id="nextButton"
+                class="next"
+                onclick="nextQuestion()"
+                style="display:none;">
+                Next Question →
+            </button>
+
+        </div>
+    `;
 }
 
 function selectAnswer(index) {
 
-  if (answered) return;
+    if (answered) return;
 
-  answered = true;
+    answered = true;
 
-  const q = questions[currentQuestion];
+    const q = questions[currentQuestion];
 
-  const buttons = document.querySelectorAll(".option");
+    const buttons =
+        document.querySelectorAll(".answer");
 
-  buttons.forEach((button, i) => {
+    buttons[index].classList.add(
+        index === q.correct ? "correct" : "wrong"
+    );
 
-    if (i === q.answer) {
-      button.classList.add("correct");
+    if (index === q.correct) {
+
+        score++;
+
+        document.getElementById("feedback").innerHTML =
+            `<div class="feedback">
+                <strong>Correct!</strong><br>
+                ${q.explanation}
+            </div>`;
+
+    } else {
+
+        buttons[q.correct].classList.add("correct");
+
+        document.getElementById("feedback").innerHTML =
+            `<div class="feedback">
+                <strong>Not quite.</strong><br>
+                ${q.explanation}
+            </div>`;
     }
 
-    if (i === index && index !== q.answer) {
-      button.classList.add("wrong");
-    }
-
-    button.disabled = true;
-
-  });
-
-  if (index === q.answer) {
-    score++;
-  }
-const message = document.createElement("div");
-message.textContent = index === q.answer ? "Correct!" : "Try again!";
-message.className = index === q.answer ? "correct-message" : "wrong-message";
-document.querySelector(".question").appendChild(message);
-
-  const nextButton = document.createElement("button");
-
-  nextButton.className = "next";
-
-  nextButton.textContent =
-    currentQuestion === questions.length - 1
-      ? "Finish Training"
-      : "Next Question";
-
-  nextButton.onclick = nextQuestion;
-
-  document.querySelector(".question").appendChild(nextButton);
+    document.getElementById("nextButton").style.display =
+        "block";
 }
 
 function nextQuestion() {
 
-  currentQuestion++;
+    currentQuestion++;
 
-  if (currentQuestion >= questions.length) {
-    showResult();
-  } else {
-    showQuestion();
-  }
+    if (currentQuestion >= questions.length) {
 
+        showResult();
+
+    } else {
+
+        showQuestion();
+
+    }
 }
 
 function showResult() {
 
-  const percentage =
-    Math.round((score / questions.length) * 100);
+    const percentage =
+        Math.round((score / questions.length) * 100);
 
-  document.getElementById("quiz").innerHTML = `
+    document.getElementById("quiz").innerHTML = `
 
-    <div class="result">
+        <div class="card result">
 
-      <div class="progress">
-        Training Complete
-      </div>
+            <div class="progress">
+                Training Complete
+            </div>
 
-      <h1>Well done!</h1>
+            <h1>Well done!</h1>
 
-      <div class="score">
-        ${percentage}%
-      </div>
+            <div class="score">
+                ${percentage}%
+            </div>
 
-      <p>
-        You got ${score} out of ${questions.length}
-        questions correct.
-      </p>
+            <p>
+                You answered
+                <strong>${score}</strong>
+                out of
+                <strong>${questions.length}</strong>
+                questions correctly.
+            </p>
 
-      <button class="restart" onclick="restartTraining()">
-        Try Again
-      </button>
+            <button
+                class="restart"
+                onclick="restartTraining()">
+                Try Again
+            </button>
 
-    </div>
-
-  `;
+        </div>
+    `;
 }
 
 function restartTraining() {
+
     currentQuestion = 0;
     score = 0;
     answered = false;
+
     showQuestion();
 }
 
