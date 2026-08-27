@@ -93,23 +93,29 @@
       border: 1px solid #e0aaaa;
     }
 .feedback {
-    margin-top: 20px;
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 10px;
     display: none;
 }
 
-.feedback.correct,
+.feedback.correct {
+    display: block;
+    background: #f0f8f0;
+    border: 1px solid #c5dfc5;
+}
+
 .feedback.incorrect {
     display: block;
-    padding: 0;
-    background: none;
-    border: none;
+    background: #fff4f4;
+    border: 1px solid #e5c5c5;
 }
 
 .feedback-title {
     display: flex;
     align-items: center;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .feedback-icon {
@@ -125,34 +131,37 @@
 }
 
 .feedback-icon.correct {
-    background: #5b9b63;
+    background: #5bb963;
 }
 
 .feedback-icon.wrong {
     background: #c96b6b;
 }
 
-.feedback-text {
-    margin: 0;
+.feedback-message {
+    line-height: 1.6;
 }
-    .next-button,
-    .back-button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 24px;
-      background: #222;
-      color: white;
-      text-decoration: none;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-    }
 
-    .next-button {
-      display: none;
-    }
+.key-point {
+    margin-top: 12px;
+    padding: 12px 15px;
+    background: #eaf3ea;
+    border-radius: 6px;
+    font-weight: 600;
+}
 
+.next-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 24px;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
     .result {
       display: none;
       text-align: center;
@@ -212,7 +221,7 @@
         <div id="answers"></div>
 
 <div id="feedback" class="feedback">
-    <div class="feedback-title" id="feedbackTitle">
+    <div class="feedback-title">
         <span id="feedbackIcon" class="feedback-icon"></span>
         <span id="feedbackTitleText"></span>
     </div>
@@ -475,8 +484,8 @@
 
         document.getElementById("feedback").className =
           "feedback correct";
-
-        document.getElementById("feedbackTitle").textContent =
+document.getElementById("feedbackIcon").textContent = "✓";
+        document.getElementById("feedbackTitleText").textContent =
           "Correct!";
 
       } else {
@@ -487,8 +496,8 @@
 
         document.getElementById("feedback").className =
           "feedback incorrect";
-
-        document.getElementById("feedbackTitle").textContent =
+document.getElementById("feedbackIcon").textContent = "×";
+        document.getElementById("feedbackTitleText").textContent =
           "Incorrect";
 
       }
