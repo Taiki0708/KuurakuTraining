@@ -3,152 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>ServeUp - Customer Service Training</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+    * {
+        box-sizing: border-box;
+    }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  background: #f7f6f2;
-  color: #222;
-}
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f7f7f5;
+        color: #222;
+    }
 
-.container {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 45px 20px 80px;
-}
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 50px 25px;
+    }
 
-.logo {
-  text-align: center;
-  font-size: 46px;
-  font-weight: 700;
-  letter-spacing: 9px;
-  margin-bottom: 8px;
-}
+    .header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
 
-.subtitle {
-  text-align: center;
-  color: #777;
-  font-size: 20px;
-  margin-bottom: 55px;
-}
+    .logo {
+        font-size: 48px;
+        letter-spacing: 10px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
 
-.progress {
-  color: #777;
-  font-size: 18px;
-  margin-bottom: 25px;
-}
+    .subtitle {
+        font-size: 22px;
+        color: #777;
+    }
 
-.question {
-  font-size: 30px;
-  line-height: 1.45;
-  font-weight: 700;
-  margin-bottom: 30px;
-}
+    .progress {
+        color: #777;
+        font-size: 18px;
+        margin-bottom: 25px;
+    }
 
-.option {
-  width: 100%;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 18px;
-  padding: 22px 24px;
-  margin-bottom: 16px;
-  text-align: left;
-  font-size: 19px;
-  color: #333;
-  cursor: pointer;
-  transition: 0.2s;
-}
+    .question {
+        font-size: 30px;
+        line-height: 1.4;
+        margin-bottom: 30px;
+    }
 
-.option:hover {
-  background: #f0f0ee;
-}
+    .answers {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
 
-.option.selected {
-  background: #e8f4e9;
-  border: 2px solid #5caf6a;
-}
+    .answer {
+        width: 100%;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 14px;
+        background: white;
+        text-align: left;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
 
-.next-btn,
-.retry-btn {
-  width: 100%;
-  border: none;
-  border-radius: 16px;
-  padding: 18px;
-  font-size: 19px;
-  background: #222;
-  color: white;
-  cursor: pointer;
-  margin-top: 15px;
-}
+    .answer:hover {
+        background: #f0f0ee;
+    }
 
-.next-btn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
+    .answer.selected {
+        border: 2px solid #555;
+    }
 
-.result {
-  background: white;
-  border-radius: 22px;
-  padding: 45px 25px;
-  text-align: center;
-  border: 1px solid #ddd;
-}
+    .answer.correct {
+        background: #edf7ed;
+        border: 2px solid #75a875;
+    }
 
-.result-label {
-  color: #777;
-  font-size: 20px;
-}
+    .answer.wrong {
+        background: #fbeeee;
+        border: 2px solid #c77;
+    }
 
-.result h1 {
-  font-size: 48px;
-  margin: 15px 0;
-}
+    .feedback {
+        display: none;
+        margin-top: 30px;
+        padding: 25px;
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #ddd;
+    }
 
-.score {
-  font-size: 72px;
-  font-weight: 700;
-  margin: 20px 0;
-}
+    .feedback h3 {
+        margin-top: 0;
+        font-size: 24px;
+    }
 
-.result-text {
-  color: #777;
-  font-size: 20px;
-  line-height: 1.5;
-}
+    .feedback p {
+        font-size: 17px;
+        line-height: 1.6;
+        color: #555;
+    }
 
-.explanation {
-  background: #f7f6f2;
-  border-radius: 15px;
-  padding: 20px;
-  margin-top: 25px;
-  text-align: left;
-  line-height: 1.6;
-}
+    .key-point {
+        margin-top: 18px;
+        padding: 15px;
+        background: #f3f3f1;
+        border-radius: 10px;
+        font-weight: 600;
+    }
 
-.hidden {
-  display: none;
-}
+    .next-button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 18px;
+        border: none;
+        border-radius: 12px;
+        background: #222;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
 
-@media (max-width: 600px) {
-  .logo {
-    font-size: 36px;
-    letter-spacing: 7px;
-  }
+    .next-button:hover {
+        background: #444;
+    }
 
-  .question {
-    font-size: 25px;
-  }
+    .result {
+        display: none;
+        text-align: center;
+        background: white;
+        padding: 45px 25px;
+        border-radius: 20px;
+        border: 1px solid #ddd;
+    }
 
-  .option {
-    font-size: 18px;
-  }
-}
+    .result h2 {
+        font-size: 42px;
+        margin-bottom: 20px;
+    }
+
+    .score {
+        font-size: 70px;
+        font-weight: 700;
+        margin: 20px 0;
+    }
+
+    .result p {
+        font-size: 19px;
+        color: #666;
+        line-height: 1.6;
+    }
+
+    .retry {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 16px 35px;
+        background: #222;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            padding: 30px 18px;
+        }
+
+        .logo {
+            font-size: 36px;
+        }
+
+        .question {
+            font-size: 24px;
+        }
+
+        .answer {
+            font-size: 16px;
+        }
+    }
 </style>
 </head>
 
@@ -156,292 +194,420 @@ body {
 
 <div class="container">
 
-  <div class="logo">SERVEUP</div>
-  <div class="subtitle">Customer Service Training</div>
+    <div class="header">
+        <div class="logo">SERVEUP</div>
+        <div class="subtitle">Customer Service Training</div>
+    </div>
 
-  <div id="quiz">
+    <div id="quiz">
 
-    <div class="progress" id="progress"></div>
+        <div class="progress" id="progress">
+            Question 1 / 10
+        </div>
 
-    <div class="question" id="question"></div>
+        <h1 class="question" id="question"></h1>
 
-    <div id="options"></div>
+        <div class="answers" id="answers"></div>
 
-    <button class="next-btn" id="nextBtn" disabled>
-      Next →
-    </button>
+        <div class="feedback" id="feedback">
 
-  </div>
+            <h3 id="feedbackTitle"></h3>
 
-  <div id="result" class="result hidden">
+            <p id="feedbackText"></p>
 
-    <div class="result-label">Training Complete</div>
+            <div class="key-point" id="keyPoint"></div>
 
-    <h1 id="resultTitle">Well done!</h1>
+        </div>
 
-    <div class="score" id="score"></div>
+        <button class="next-button" id="nextButton" onclick="nextQuestion()" style="display:none;">
+            Next →
+        </button>
 
-    <div class="result-text" id="resultText"></div>
+    </div>
 
-    <div class="explanation" id="resultExplanation"></div>
 
-    <button class="retry-btn" onclick="restartQuiz()">
-      Try Again
-    </button>
+    <div class="result" id="result">
 
-  </div>
+        <h2 id="resultTitle"></h2>
+
+        <div class="score" id="score"></div>
+
+        <p id="resultMessage"></p>
+
+        <a href="customer-service.html" class="retry">
+            Try Again
+        </a>
+
+    </div>
 
 </div>
+
 
 <script>
 
 const questions = [
 
-{
-  question: "A customer says their food is taking too long. What should you do FIRST?",
-  options: [
-    "Tell them the kitchen is busy.",
-    "Ignore the complaint.",
-    "Apologize, listen and check the order.",
-    "Tell them to order something else."
-  ],
-  answer: 2,
-  explanation: "First, listen carefully and apologize. Then check the order and take appropriate action."
-},
+    {
+        question: "A customer says their food is taking too long. What should you do FIRST?",
 
-{
-  question: "A customer asks you a question and you don't know the answer. What should you do?",
-  options: [
-    "Guess the answer.",
-    "Ignore the customer.",
-    "Say you don't know and walk away.",
-    "Politely tell them you will check and find the correct answer."
-  ],
-  answer: 3,
-  explanation: "Never guess. Tell the customer you will check and make sure they receive accurate information."
-},
+        answers: [
+            "Tell them the kitchen is busy.",
+            "Ignore the complaint.",
+            "Apologize, listen and check the order.",
+            "Tell them to order something else."
+        ],
 
-{
-  question: "What is the best way to greet a customer?",
-  options: [
-    "Wait until they speak first.",
-    "Greet them warmly and make eye contact.",
-    "Point to an empty table.",
-    "Continue talking to another staff member."
-  ],
-  answer: 1,
-  explanation: "A warm greeting and eye contact create a positive first impression."
-},
+        correct: 2,
 
-{
-  question: "A customer complains about their food. What should you avoid doing?",
-  options: [
-    "Listening carefully.",
-    "Apologizing.",
-    "Arguing with the customer.",
-    "Checking what happened."
-  ],
-  answer: 2,
-  explanation: "Do not argue. Listen, apologize and focus on finding a solution."
-},
+        explanation:
+        "When a customer is unhappy, the first step is to listen and understand the situation. Apologize politely and check the order status before giving an answer.",
 
-{
-  question: "When taking an order, what is especially important?",
-  options: [
-    "Taking the order as quickly as possible.",
-    "Checking and confirming the order.",
-    "Talking to another staff member.",
-    "Walking away before the customer finishes."
-  ],
-  answer: 1,
-  explanation: "Confirming the order helps prevent mistakes and shows the customer that you are paying attention."
-},
+        key:
+        "Listen → Apologize → Check → Respond"
+    },
 
-{
-  question: "A customer looks confused while reading the menu. What should you do?",
-  options: [
-    "Ignore them.",
-    "Tell them to ask another customer.",
-    "Offer assistance politely.",
-    "Take the menu away."
-  ],
-  answer: 2,
-  explanation: "Good service means noticing when customers need help and offering assistance without being pushy."
-},
 
-{
-  question: "What should you do after serving food to a table?",
-  options: [
-    "Immediately leave the area and forget about the table.",
-    "Check back appropriately to make sure everything is okay.",
-    "Ask them to call another staff member.",
-    "Start clearing the table immediately."
-  ],
-  answer: 1,
-  explanation: "A good follow-up helps identify problems early and shows that you care about the customer's experience."
-},
+    {
+        question: "A customer asks a question and you do not know the answer. What should you do?",
 
-{
-  question: "A customer becomes upset. What is the best response?",
-  options: [
-    "Become upset too.",
-    "Tell them it is not your problem.",
-    "Stay calm, listen and try to help.",
-    "Walk away."
-  ],
-  answer: 2,
-  explanation: "Stay calm and professional. Listen to the customer and focus on finding a solution."
-},
+        answers: [
+            "Guess the answer.",
+            "Say you don't know and walk away.",
+            "Tell the customer you will check and find the correct answer.",
+            "Ignore the question."
+        ],
 
-{
-  question: "Why is teamwork important in restaurant service?",
-  options: [
-    "Because one person should do everything.",
-    "Because staff can support each other and provide better service.",
-    "Because customers don't notice mistakes.",
-    "Because communication is unnecessary."
-  ],
-  answer: 1,
-  explanation: "Good teamwork improves communication, reduces mistakes and creates a smoother experience for customers."
-},
+        correct: 2,
 
-{
-  question: "What is the most important goal of customer service?",
-  options: [
-    "Finish work as quickly as possible.",
-    "Avoid speaking with customers.",
-    "Make the customer feel welcomed, respected and well cared for.",
-    "Sell the most expensive items."
-  ],
-  answer: 2,
-  explanation: "Excellent customer service is about making guests feel welcomed, respected and cared for."
-}
+        explanation:
+        "It is better to check than to give incorrect information. Let the customer know that you will confirm the answer and come back to them.",
+
+        key:
+        "Never guess. Check and confirm."
+    },
+
+
+    {
+        question: "A customer complains about their food. What is the best response?",
+
+        answers: [
+            "Tell them the chef is very busy.",
+            "Listen carefully and understand the problem.",
+            "Tell them that nobody else complained.",
+            "Tell them they should have ordered something else."
+        ],
+
+        correct: 1,
+
+        explanation:
+        "A complaint should be taken seriously. Listen without interrupting, understand the problem and then look for an appropriate solution.",
+
+        key:
+        "Listen first. Solve second."
+    },
+
+
+    {
+        question: "What is the best way to greet a customer?",
+
+        answers: [
+            "Wait until they speak first.",
+            "Greet them politely with a friendly attitude.",
+            "Point to an empty table.",
+            "Ask immediately what they want to order."
+        ],
+
+        correct: 1,
+
+        explanation:
+        "The first impression matters. A warm and professional greeting makes customers feel welcome and shows that you are ready to help.",
+
+        key:
+        "First impression = Welcome + Smile + Attention"
+    },
+
+
+    {
+        question: "A customer is speaking to you. What should you do?",
+
+        answers: [
+            "Look at your phone.",
+            "Continue another task without listening.",
+            "Listen carefully and give them your attention.",
+            "Walk away if the restaurant is busy."
+        ],
+
+        correct: 2,
+
+        explanation:
+        "Customers should feel that they have your attention. Stop unnecessary tasks when possible, listen carefully and respond clearly.",
+
+        key:
+        "Give the customer your attention."
+    },
+
+
+    {
+        question: "A customer asks for something that is not available. What should you do?",
+
+        answers: [
+            "Simply say 'No'.",
+            "Ignore the request.",
+            "Apologize, explain politely and suggest an alternative.",
+            "Tell them to leave."
+        ],
+
+        correct: 2,
+
+        explanation:
+        "When something is unavailable, avoid making the customer feel rejected. Explain the situation politely and offer another suitable option.",
+
+        key:
+        "Explain → Apologize → Offer an alternative"
+    },
+
+
+    {
+        question: "A customer becomes angry. What should you do?",
+
+        answers: [
+            "Argue with them.",
+            "Raise your voice.",
+            "Stay calm, listen and try to understand the problem.",
+            "Walk away immediately."
+        ],
+
+        correct: 2,
+
+        explanation:
+        "Staying calm helps prevent the situation from becoming worse. Listen carefully and focus on solving the customer's problem.",
+
+        key:
+        "Stay calm. Listen. Solve."
+    },
+
+
+    {
+        question: "You notice that a customer has been waiting for assistance. What should you do?",
+
+        answers: [
+            "Wait until they call you.",
+            "Approach them and offer assistance.",
+            "Ignore them.",
+            "Ask another customer to help them."
+        ],
+
+        correct: 1,
+
+        explanation:
+        "Good service means noticing customer needs before they always have to ask. If you see someone waiting, proactively offer assistance.",
+
+        key:
+        "Notice → Approach → Assist"
+    },
+
+
+    {
+        question: "What should you do after solving a customer's problem?",
+
+        answers: [
+            "Walk away immediately.",
+            "Check that the customer is satisfied.",
+            "Forget about the customer.",
+            "Tell them the problem was their fault."
+        ],
+
+        correct: 1,
+
+        explanation:
+        "After solving a problem, make sure the customer is satisfied. A quick follow-up shows care and professionalism.",
+
+        key:
+        "Solve the problem → Follow up → Confirm satisfaction"
+    },
+
+
+    {
+        question: "What is the most important attitude in customer service?",
+
+        answers: [
+            "Doing only what you are told.",
+            "Avoiding difficult customers.",
+            "Being attentive, respectful and willing to help.",
+            "Serving customers as quickly as possible without listening."
+        ],
+
+        correct: 2,
+
+        explanation:
+        "Excellent customer service is about more than speed. Customers should feel respected, listened to and genuinely cared for.",
+
+        key:
+        "Respect + Attention + Hospitality"
+    }
 
 ];
 
+
 let currentQuestion = 0;
 let score = 0;
-let selectedAnswer = null;
+let answered = false;
 
-const progress = document.getElementById("progress");
-const question = document.getElementById("question");
-const options = document.getElementById("options");
-const nextBtn = document.getElementById("nextBtn");
 
 function loadQuestion() {
 
-  selectedAnswer = null;
-  nextBtn.disabled = true;
+    answered = false;
 
-  const q = questions[currentQuestion];
+    const q = questions[currentQuestion];
 
-  progress.textContent =
-    `Question ${currentQuestion + 1} / ${questions.length}`;
+    document.getElementById("progress").textContent =
+        "Question " + (currentQuestion + 1) + " / " + questions.length;
 
-  question.textContent = q.question;
+    document.getElementById("question").textContent = q.question;
 
-  options.innerHTML = "";
+    const answersDiv = document.getElementById("answers");
 
-  q.options.forEach((option, index) => {
+    answersDiv.innerHTML = "";
 
-    const button = document.createElement("button");
+    document.getElementById("feedback").style.display = "none";
 
-    button.className = "option";
+    document.getElementById("nextButton").style.display = "none";
 
-    button.textContent =
-      `${String.fromCharCode(65 + index)}. ${option}`;
 
-    button.onclick = () => selectAnswer(index, button);
+    q.answers.forEach((answer, index) => {
 
-    options.appendChild(button);
+        const button = document.createElement("button");
 
-  });
+        button.className = "answer";
+
+        button.textContent =
+            String.fromCharCode(65 + index) + ". " + answer;
+
+        button.onclick = function() {
+            selectAnswer(index, button);
+        };
+
+        answersDiv.appendChild(button);
+
+    });
 
 }
 
-function selectAnswer(index, button) {
 
-  selectedAnswer = index;
+function selectAnswer(index, selectedButton) {
 
-  document.querySelectorAll(".option").forEach(option => {
-    option.classList.remove("selected");
-  });
+    if (answered) {
+        return;
+    }
 
-  button.classList.add("selected");
+    answered = true;
 
-  nextBtn.disabled = false;
+    const q = questions[currentQuestion];
+
+    const buttons = document.querySelectorAll(".answer");
+
+    buttons.forEach((button, i) => {
+
+        button.disabled = true;
+
+        if (i === q.correct) {
+            button.classList.add("correct");
+        }
+
+    });
+
+
+    if (index === q.correct) {
+
+        score++;
+
+        selectedButton.classList.add("correct");
+
+        document.getElementById("feedbackTitle").textContent =
+            "✓ Correct!";
+
+    } else {
+
+        selectedButton.classList.add("wrong");
+
+        document.getElementById("feedbackTitle").textContent =
+            "✕ Not quite";
+
+    }
+
+
+    document.getElementById("feedbackText").textContent =
+        q.explanation;
+
+    document.getElementById("keyPoint").textContent =
+        "Key point: " + q.key;
+
+    document.getElementById("feedback").style.display =
+        "block";
+
+    document.getElementById("nextButton").style.display =
+        "block";
+
 }
 
-nextBtn.onclick = () => {
 
-  if (selectedAnswer === null) return;
+function nextQuestion() {
 
-  if (selectedAnswer === questions[currentQuestion].answer) {
-    score++;
-  }
+    currentQuestion++;
 
-  currentQuestion++;
+    if (currentQuestion < questions.length) {
 
-  if (currentQuestion < questions.length) {
-    loadQuestion();
-  } else {
-    showResult();
-  }
+        loadQuestion();
 
-};
+    } else {
+
+        showResult();
+
+    }
+
+}
+
 
 function showResult() {
 
-  document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("quiz").style.display = "none";
 
-  document.getElementById("result").classList.remove("hidden");
+    document.getElementById("result").style.display = "block";
 
-  const percentage =
-    Math.round((score / questions.length) * 100);
+    const percentage =
+        Math.round((score / questions.length) * 100);
 
-  document.getElementById("score").textContent =
-    `${percentage}%`;
+    document.getElementById("score").textContent =
+        percentage + "%";
 
-  document.getElementById("resultText").textContent =
-    `You answered ${score} out of ${questions.length} questions correctly.`;
+    if (percentage >= 80) {
 
-  if (percentage >= 80) {
+        document.getElementById("resultTitle").textContent =
+            "Well done! ✓";
 
-    document.getElementById("resultTitle").textContent =
-      "Well done! ✓";
+        document.getElementById("resultMessage").textContent =
+            "Passed! You answered " +
+            score +
+            " out of " +
+            questions.length +
+            " questions correctly. Keep using these customer service principles in your daily work.";
 
-    document.getElementById("resultExplanation").innerHTML =
-      "<strong>Passed!</strong><br><br>" +
-      "You have successfully completed the Customer Service Training. " +
-      "Keep using these service principles in your daily work.";
+    } else {
 
-  } else {
+        document.getElementById("resultTitle").textContent =
+            "Keep practicing!";
 
-    document.getElementById("resultTitle").textContent =
-      "Keep practicing!";
+        document.getElementById("resultMessage").textContent =
+            "Not passed yet. You answered " +
+            score +
+            " out of " +
+            questions.length +
+            " questions correctly. Review the customer service principles and try again. You need 80% or higher to pass.";
 
-    document.getElementById("resultExplanation").innerHTML =
-      "<strong>Not passed yet.</strong><br><br>" +
-      "Review the customer service principles and try again. " +
-      "You need 80% or higher to pass.";
-
-  }
-
-}
-
-function restartQuiz() {
-
-  currentQuestion = 0;
-  score = 0;
-  selectedAnswer = null;
-
-  document.getElementById("result").classList.add("hidden");
-
-  document.getElementById("quiz").classList.remove("hidden");
-
-  loadQuestion();
+    }
 
 }
+
 
 loadQuestion();
 
