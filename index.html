@@ -1,329 +1,181 @@
-<!DOCTYPE html>
+k<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kuuraku Training</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-  box-sizing: border-box;
-}
+    <title>ServeUp - Restaurant Training</title>
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  background: #f5f3ef;
-  color: #222;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 30px 20px;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f7f5;
+            color: #222;
+        }
 
-.header {
-  text-align: center;
-  margin-bottom: 30px;
-}
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
 
-.logo {
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
 
-.subtitle {
-  color: #777;
-  margin-top: 8px;
-}
+        .logo {
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 8px;
+        }
 
-.progress {
-  color: #888;
-  font-size: 14px;
-  margin-bottom: 15px;
-}
+        .tagline {
+            margin-top: 15px;
+            font-size: 20px;
+            color: #777;
+        }
 
-.question {
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.5;
-  margin-bottom: 25px;
-}
+        .subtitle {
+            margin-top: 10px;
+            color: #999;
+        }
 
-.option {
-  width: 100%;
-  padding: 16px;
-  margin-bottom: 12px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background: white;
-  text-align: left;
-  font-size: 16px;
-  cursor: pointer;
-}
+        .training-list {
+            display: grid;
+            gap: 20px;
+        }
 
-.option:hover {
-  background: #f0eee9;
-}
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #e5e5e5;
+        }
 
-.option.correct {
-  background: #dff3e4;
-  border-color: #4caf70;
-}
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
 
-.option.wrong {
-  background: #f8dddd;
-  border-color: #d9534f;
-}
+        .card p {
+            color: #777;
+            line-height: 1.6;
+        }
 
-.explanation {
-  margin-top: 20px;
-  padding: 16px;
-  border-radius: 12px;
-  background: white;
-  line-height: 1.6;
-}
+        .button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 14px 24px;
+            background: #222;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+        }
 
-.next {
-  width: 100%;
-  padding: 16px;
-  margin-top: 20px;
-  border: none;
-  border-radius: 12px;
-  background: #222;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
+        .coming {
+            color: #999;
+            font-size: 14px;
+            margin-top: 15px;
+        }
 
-.result {
-  text-align: center;
-}
-
-.score {
-  font-size: 48px;
-  font-weight: 700;
-  margin: 20px 0;
-}
-
-.restart {
-  padding: 15px 30px;
-  border: none;
-  border-radius: 10px;
-  background: #222;
-  color: white;
-  font-size: 16px;
-}
-</style>
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #aaa;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-  <div class="header">
-    <div class="logo">KUURAKU</div>
-    <div class="subtitle">Staff Training</div>
-  </div>
+        <div class="header">
+            <div class="logo">SERVEUP</div>
 
-  <div id="quiz"></div>
+            <div class="tagline">
+                Restaurant Training Made Simple
+            </div>
 
-</div>
+            <div class="subtitle">
+                Simple training for better service.
+            </div>
+        </div>
 
-<script>
 
-const questions = [
+        <div class="training-list">
 
-  {
-    question: "A customer says their food is taking too long. What should you do FIRST?",
-    options: [
-      "Tell them the kitchen is busy.",
-      "Ignore the complaint.",
-      "Apologize, listen and check the order.",
-      "Tell them to order something else."
-    ],
-    answer: 2,
-    explanation: "First, listen carefully and apologize. Then check the order and take appropriate action."
-  },
+            <div class="card">
+                <h2>Customer Service</h2>
 
-  {
-    question: "A customer is angry about a mistake in their order. What is the BEST response?",
-    options: [
-      "It was not my mistake.",
-      "Please calm down.",
-      "I'm sorry about that. Let me check what happened.",
-      "You should have checked your order."
-    ],
-    answer: 2,
-    explanation: "Never argue with the customer. Acknowledge the problem, apologize and take responsibility for finding a solution."
-  },
+                <p>
+                    Learn the basics of professional
+                    customer service in a restaurant.
+                </p>
 
-  {
-    question: "A customer asks you a question and you don't know the answer. What should you do?",
-    options: [
-      "Make up an answer.",
-      "Say 'I don't know' and walk away.",
-      "Check with a senior staff member or manager.",
-      "Ignore the customer."
-    ],
-    answer: 2,
-    explanation: "It is better to confirm the correct information than to give the customer incorrect information."
-  },
+                <a class="button"
+                   href="customer-service.html">
+                    Start Training →
+                </a>
+            </div>
 
-  {
-    question: "What should you do when a customer is speaking to you?",
-    options: [
-      "Look at your phone.",
-      "Continue talking to another staff member.",
-      "Listen and give the customer your attention.",
-      "Walk away while they are speaking."
-    ],
-    answer: 2,
-    explanation: "Good service starts with listening. Give the customer your attention and show that you are taking them seriously."
-  },
 
-  {
-    question: "If you receive a complaint that you cannot solve yourself, what should you do?",
-    options: [
-      "Hide the problem.",
-      "Blame another staff member.",
-      "Inform the manager and ask for help.",
-      "Tell the customer nothing can be done."
-    ],
-    answer: 2,
-    explanation: "When you cannot solve an issue yourself, escalate it to the manager instead of ignoring or hiding it."
-  }
+            <div class="card">
+                <h2>Food Safety</h2>
 
-];
+                <p>
+                    Learn essential food safety
+                    practices for restaurant staff.
+                </p>
 
-let currentQuestion = 0;
-let score = 0;
-let answered = false;
+                <div class="coming">
+                    Coming Soon
+                </div>
+            </div>
 
-function showQuestion() {
 
-  answered = false;
+            <div class="card">
+                <h2>Japanese Hospitality</h2>
 
-  const q = questions[currentQuestion];
+                <p>
+                    Learn the principles of Japanese
+                    hospitality and service.
+                </p>
 
-  document.getElementById("quiz").innerHTML = `
+                <div class="coming">
+                    Coming Soon
+                </div>
+            </div>
 
-    <div class="progress">
-      Question ${currentQuestion + 1} / ${questions.length}
-    </div>
 
-    <div class="question">
-      ${q.question}
-    </div>
+            <div class="card">
+                <h2>Restaurant Basics</h2>
 
-    <div id="options">
-      ${q.options.map((option, index) => `
-        <button class="option" onclick="selectAnswer(${index})">
-          ${String.fromCharCode(65 + index)}. ${option}
-        </button>
-      `).join("")}
-    </div>
+                <p>
+                    Essential knowledge for new
+                    restaurant employees.
+                </p>
 
-    <div id="feedback"></div>
+                <div class="coming">
+                    Coming Soon
+                </div>
+            </div>
 
-  `;
-}
+        </div>
 
-function selectAnswer(selected) {
 
-  if (answered) return;
-
-  answered = true;
-
-  const q = questions[currentQuestion];
-  const buttons = document.querySelectorAll(".option");
-
-  buttons[q.answer].classList.add("correct");
-
-  if (selected === q.answer) {
-
-    score++;
-
-    document.getElementById("feedback").innerHTML = `
-      <div class="explanation">
-        <strong>Correct! ✅</strong><br><br>
-        ${q.explanation}
-      </div>
-      <button class="next" onclick="nextQuestion()">Next Question →</button>
-    `;
-
-  } else {
-
-    buttons[selected].classList.add("wrong");
-
-    document.getElementById("feedback").innerHTML = `
-      <div class="explanation">
-        <strong>Not quite.</strong><br><br>
-        ${q.explanation}
-      </div>
-      <button class="next" onclick="nextQuestion()">Next Question →</button>
-    `;
-
-  }
-}
-
-function nextQuestion() {
-
-  currentQuestion++;
-
-  if (currentQuestion >= questions.length) {
-    showResult();
-  } else {
-    showQuestion();
-  }
-
-}
-
-function showResult() {
-
-  const percentage = Math.round((score / questions.length) * 100);
-
-  document.getElementById("quiz").innerHTML = `
-
-    <div class="result">
-
-      <div class="progress">
-        Training Complete
-      </div>
-
-      <h1>Well done!</h1>
-
-      <div class="score">
-        ${percentage}%
-      </div>
-
-      <p>
-        You got ${score} out of ${questions.length} questions correct.
-      </p>
-
-      <button class="restart" onclick="restartQuiz()">
-        Try Again
-      </button>
+        <div class="footer">
+            © 2026 ServeUp
+        </div>
 
     </div>
-
-  `;
-
-}
-
-function restartQuiz() {
-
-  currentQuestion = 0;
-  score = 0;
-  showQuestion();
-
-}
-
-showQuestion();
-
-</script>
 
 </body>
 </html>
