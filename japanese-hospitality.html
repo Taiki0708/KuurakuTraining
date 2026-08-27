@@ -505,7 +505,8 @@ function showResults() {
 
     if (percentage >= 80) {
 
-        document.getElementById("resultTitle").textContent = "Well done! ✓";
+        document.getElementById("resultTitle").textContent = "Well done! ✓"
+localStorage.setItem("japaneseHospitalityCompleted", "true");;
 
         document.getElementById("statusTitle").textContent =
             "Passed!";
