@@ -1,606 +1,1072 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>ServeUp - Restaurant Basics</title>
+<title>ServeUp - Restaurant Basics</title>
 
-  <style>
-.feedback-title {
+<style>
+
+/* =========================
+   BASIC
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #ffffff;
+    color: #374151;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 55px 0 40px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.logo {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 9px;
+    color: #374151;
+    margin-bottom: 10px;
+}
+
+.tagline {
+    font-size: 16px;
+    color: #9ca3af;
+    margin-bottom: 4px;
+}
+
+.course-title {
+    font-size: 22px;
+    color: #6b7280;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress {
+    font-size: 18px;
+    color: #6b7280;
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   QUIZ CARD
+========================= */
+
+.quiz-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 35px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+}
+
+.question {
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #374151;
+    margin-bottom: 28px;
+}
+
+
+/* =========================
+   ANSWERS
+========================= */
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.answer {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    background: #ffffff;
+    text-align: left;
+    font-size: 18px;
+    color: #374151;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.answer:hover {
+    background: #f7f7f7;
+}
+
+.answer:disabled {
+    cursor: default;
+}
+
+.answer.correct {
+    background: #f3faf5;
+    border: 2px solid #b7dfc1;
+    color: #5b9b63;
+}
+
+.answer.incorrect {
+    background: #fdf5f5;
+    border: 2px solid #e5b8b8;
+    color: #c96b6b;
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+.feedback {
+    display: none;
+    width: 100%;
+    margin-top: 24px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+
+/* Feedback header */
+
+.feedback-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 24px;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 22px;
+}
+
+
+/* Feedback icon */
+
+.feedback-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #ffffff;
+    font-size: 17px;
     font-weight: 700;
+}
+
+.feedback.correct .feedback-icon {
+    background: #59b963;
+}
+
+.feedback.incorrect .feedback-icon {
+    background: #dc6b6b;
+}
+
+
+/* Correct / Not quite */
+
+.feedback-title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.feedback.correct .feedback-title {
+    color: #398b43;
+}
+
+.feedback.incorrect .feedback-title {
+    color: #b94a4a;
+}
+
+
+/* Feedback text */
+
+#feedbackText {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #374151;
+    margin: 0;
+}
+
+
+/* Correct answer */
+
+#correctAnswer {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: #374151;
+}
+
+
+/* Explanation */
+
+#explanation {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #374151;
+}
+
+
+/* =========================
+   NEXT BUTTON
+========================= */
+
+.next-button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 17px;
+    border: none;
+    border-radius: 10px;
+    background: #465363;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: none;
+}
+
+.next-button:hover {
+    background: #374151;
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+.result {
+    display: none;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 55px 35px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+}
+
+.result-small {
+    font-size: 16px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+}
+
+.result-title {
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0 0 25px;
+    color: #374151;
+}
+
+.score {
+    font-size: 68px;
+    font-weight: 700;
+    color: #374151;
     margin-bottom: 15px;
 }
 
-.feedback-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 18px;
+.result-message {
+    font-size: 16px;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.result-status {
+    font-size: 22px;
     font-weight: 700;
+    margin-bottom: 25px;
 }
 
-.feedback-icon.correct {
-    background: #5b9b63;
+.passed {
+    color: #398b43;
 }
 
-.feedback-icon.wrong {
-    background: #c96b6b;
+.not-passed {
+    color: #b94a4a;
 }
-    * {
-        box-sizing: border-box;
-    }
 
-    body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background: #f7f7f5;
-        color: #222;
-    }
+.try-again {
+    display: inline-block;
+    padding: 15px 35px;
+    border: none;
+    border-radius: 10px;
+    background: #465363;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    margin-top: 35px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
 
     .container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 50px 25px;
-    }
-
-    .header {
-        text-align: center;
-        margin-bottom: 50px;
+        width: 92%;
+        padding-top: 35px;
     }
 
     .logo {
-        font-size: 48px;
-        letter-spacing: 10px;
-        font-weight: 700;
-        margin-bottom: 10px;
+        font-size: 30px;
+        letter-spacing: 6px;
     }
 
-    .subtitle {
-        font-size: 22px;
-        color: #777;
+    .header {
+        margin-bottom: 40px;
     }
 
-    .progress {
-        color: #777;
-        font-size: 18px;
-        margin-bottom: 25px;
+    .quiz-card {
+        padding: 22px;
     }
 
     .question {
-        font-size: 30px;
-        line-height: 1.4;
-        margin-bottom: 30px;
-    }
-
-    .answers {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
+        font-size: 21px;
     }
 
     .answer {
-        width: 100%;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 14px;
-        background: white;
-        text-align: left;
-        font-size: 18px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .answer:hover {
-        background: #f0f0ee;
-    }
-
-    .answer.selected {
-        border: 2px solid #555;
-    }
-
-    .answer.correct {
-        background: #edf7ed;
-        border: 2px solid #75a875;
-    }
-
-    .answer.wrong {
-        background: #fbeeee;
-        border: 2px solid #c77;
+        font-size: 15px;
     }
 
     .feedback {
-        display: none;
-        margin-top: 30px;
-        padding: 25px;
-        background: white;
-        border-radius: 16px;
-        border: 1px solid #ddd;
+        padding: 20px;
     }
 
-    .feedback h3 {
-        margin-top: 0;
-        font-size: 24px;
+    .feedback-title {
+        font-size: 20px;
     }
 
-    .feedback p {
-        font-size: 17px;
-        line-height: 1.6;
-        color: #555;
-    }
-
-    .key-point {
-        margin-top: 18px;
-        padding: 15px;
-        background: #f3f3f1;
-        border-radius: 10px;
-        font-weight: 600;
-    }
-
-    .next-button {
-        width: 100%;
-        margin-top: 25px;
-        padding: 18px;
-        border: none;
-        border-radius: 12px;
-        background: #222;
-        color: white;
-        font-size: 18px;
-        cursor: pointer;
-    }
-
-    .next-button:hover {
-        background: #444;
-    }
-
-    .result {
-        display: none;
-        text-align: center;
-        background: white;
-        padding: 45px 25px;
-        border-radius: 20px;
-        border: 1px solid #ddd;
-    }
-
-    .result h2 {
-        font-size: 42px;
-        margin-bottom: 20px;
+    #feedbackText,
+    #correctAnswer,
+    #explanation {
+        font-size: 16px;
     }
 
     .score {
-        font-size: 70px;
-        font-weight: 700;
-        margin: 20px 0;
+        font-size: 55px;
     }
 
-    .result p {
-        font-size: 19px;
-        color: #666;
-        line-height: 1.6;
-    }
+}
 
-    .retry {
-        display: inline-block;
-        margin-top: 25px;
-        padding: 16px 35px;
-        background: #222;
-        color: white;
-        text-decoration: none;
-        border-radius: 10px;
-        font-size: 18px;
-    }
-
-    @media (max-width: 600px) {
-        .container {
-            padding: 30px 18px;
-        }
-
-        .logo {
-            font-size: 36px;
-        }
-
-        .question {
-            font-size: 24px;
-        }
-
-        .answer {
-            font-size: 16px;
-        }
-    }
 </style>
 </head>
 
+
 <body>
 
-  <div class="container">
+<div class="container">
+
+    <!-- HEADER -->
 
     <div class="header">
-      <div class="logo">SERVEUP</div>
 
-      <div class="tagline">
-        Restaurant Training Made Simple
-      </div>
-
-      <div class="subtitle">
-        Restaurant Basics
-      </div>
-    </div>
-
-
-    <div class="progress" id="progress">
-      Question 1 / 10
-    </div>
-
-
-    <div class="card">
-
-      <div id="quiz">
-
-        <h2 class="question" id="question"></h2>
-
-        <div id="answers"></div>
-
-<div id="feedback" class="feedback">
-    <div class="feedback-title">
-        <span id="feedbackIcon" class="feedback-icon"></span>
-        <span id="feedbackTitleText"></span>
-    </div>
-
-    <div id="feedbackText" class="feedback-message"></div>
-
-    <div id="keyPoint" class="key-point"></div>
-</div>
-        <button
-          id="nextButton"
-          class="next-button"
-          onclick="nextQuestion()">
-          Next Question →
-        </button>
-
-      </div>
-
-
-      <div id="result" class="result">
-
-        <h2>Training Complete</h2>
-
-        <div class="score" id="score"></div>
-
-        <div class="passed">
-          <h3>Passed! ✓</h3>
-
-          <p>
-            You have successfully completed the Restaurant Basics training.
-            Keep applying these principles in your daily work.
-          </p>
+        <div class="logo">
+            SERVEUP
         </div>
 
-        <a class="back-button" href="index.html">
-          Back to Training
-        </a>
+        <div class="tagline">
+            Restaurant Training Made Simple
+        </div>
 
-      </div>
+        <div class="course-title">
+            Restaurant Basics
+        </div>
 
     </div>
 
 
-    <footer>
-      © 2026 ServeUp
-    </footer>
+    <!-- QUIZ -->
 
-  </div>
+    <div id="quiz">
+
+        <div id="progress" class="progress">
+            Question 1 / 10
+        </div>
 
 
-  <script>
+        <div class="quiz-card">
 
-    const questions = [
+            <div id="question" class="question">
+            </div>
 
-      {
-        question: "What should you do first when you arrive for your shift?",
+
+            <div id="answers" class="answers">
+            </div>
+
+
+            <!-- FEEDBACK -->
+
+            <div id="feedback" class="feedback">
+
+                <div class="feedback-header">
+
+                    <div id="feedbackIcon" class="feedback-icon">
+                        ✓
+                    </div>
+
+                    <div id="feedbackTitle" class="feedback-title">
+                        Correct
+                    </div>
+
+                </div>
+
+
+                <div id="feedbackText">
+
+                    <p id="correctAnswer">
+                    </p>
+
+                    <p id="explanation">
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- NEXT BUTTON -->
+
+            <button id="nextButton" class="next-button">
+                Next Question →
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div id="result" class="result">
+
+        <div class="result-small">
+            Training Complete
+        </div>
+
+        <h1 id="resultTitle" class="result-title">
+            Keep practicing!
+        </h1>
+
+        <div id="score" class="score">
+            0%
+        </div>
+
+        <div id="resultMessage" class="result-message">
+        </div>
+
+        <div id="resultStatus" class="result-status">
+        </div>
+
+        <button class="try-again" onclick="restartQuiz()">
+            Try Again
+        </button>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+        © 2026 ServeUp
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   QUESTIONS
+========================= */
+
+const questions = [
+
+    {
+        question: "What is the most important thing when greeting a guest?",
+
         answers: [
-          "Start working immediately without checking anything.",
-          "Check your appearance, prepare yourself and be ready for work.",
-          "Wait until someone tells you what to do.",
-          "Go directly to the dining area and sit down."
+            "Ignore them until they sit down",
+            "Greet them warmly and promptly",
+            "Ask for payment immediately",
+            "Tell them today's specials first"
         ],
+
         correct: 1,
-        explanation:
-          "Being prepared before the shift helps the team start smoothly and professionally."
-      },
 
-      {
-        question: "What is the most important thing when speaking with a customer?",
-        answers: [
-          "Speak as quickly as possible.",
-          "Avoid eye contact.",
-          "Speak politely and clearly.",
-          "Only speak when the customer asks a question."
-        ],
-        correct: 2,
         explanation:
-          "Clear and polite communication helps customers feel comfortable and respected."
-      },
+            "Guests should be welcomed warmly and promptly so they feel comfortable from the beginning."
+    },
 
-      {
-        question: "What should you do when you enter the service area?",
+
+    {
+        question: "What should you do before serving food to a guest?",
+
         answers: [
-          "Check the area and make sure everything is ready.",
-          "Wait for another employee.",
-          "Ignore the area.",
-          "Immediately leave the area."
+            "Check that the table is clean and ready",
+            "Leave the food at the entrance",
+            "Ask another guest to make space",
+            "Serve without checking"
         ],
+
         correct: 0,
-        explanation:
-          "Checking your work area helps prevent problems and keeps service running smoothly."
-      },
 
-      {
-        question: "Why is teamwork important in a restaurant?",
+        explanation:
+            "A clean and properly prepared table creates a safe and comfortable experience for the guest."
+    },
+
+
+    {
+        question: "What is the best way to respond to a guest complaint?",
+
         answers: [
-          "It allows employees to avoid communication.",
-          "It helps everyone work together efficiently.",
-          "It means only managers are responsible.",
-          "It allows employees to work separately."
+            "Argue with the guest",
+            "Ignore the complaint",
+            "Listen carefully and respond calmly",
+            "Tell the guest it is not your problem"
         ],
+
+        correct: 2,
+
+        explanation:
+            "Listening carefully and responding calmly helps resolve the problem and shows respect for the guest."
+    },
+
+
+    {
+        question: "Why is hand washing important in a restaurant?",
+
+        answers: [
+            "It makes the hands smell better",
+            "It helps prevent the spread of germs",
+            "It makes service faster",
+            "It is only necessary at the end of the shift"
+        ],
+
         correct: 1,
-        explanation:
-          "Good teamwork improves communication, efficiency and the customer experience."
-      },
 
-      {
-        question: "What should you do if you do not understand an instruction?",
+        explanation:
+            "Proper hand washing is one of the most important ways to prevent contamination and protect guests."
+    },
+
+
+    {
+        question: "What should you do if you are unsure about a guest's request?",
+
         answers: [
-          "Ignore it.",
-          "Guess what to do.",
-          "Ask for clarification.",
-          "Wait until the end of the shift."
+            "Guess what they want",
+            "Ignore the request",
+            "Ask a colleague or manager for help",
+            "Tell the guest to decide themselves"
         ],
+
         correct: 2,
-        explanation:
-          "Asking for clarification is better than making a mistake because you misunderstood an instruction."
-      },
 
-      {
-        question: "How should restaurant equipment be treated?",
+        explanation:
+            "If you are unsure, ask for help rather than guessing. This reduces mistakes and gives the guest better service."
+    },
+
+
+    {
+        question: "What is good table service?",
+
         answers: [
-          "Use it carefully and according to instructions.",
-          "Use it however you want.",
-          "Leave it dirty after use.",
-          "Only managers need to care about equipment."
+            "Checking on guests without disturbing them",
+            "Never looking at the table",
+            "Talking only to other staff",
+            "Leaving guests completely alone"
         ],
+
         correct: 0,
-        explanation:
-          "Proper use and care of equipment helps maintain safety and efficiency."
-      },
 
-      {
-        question: "What should you do when your work area becomes messy?",
-        answers: [
-          "Leave it until the end of the day.",
-          "Ask a customer to clean it.",
-          "Clean and organize it as soon as possible.",
-          "Ignore it if customers cannot see it."
-        ],
-        correct: 2,
         explanation:
-          "Keeping the work area clean and organized supports safe and efficient service."
-      },
+            "Good service means paying attention to guests while giving them enough space to enjoy their meal."
+    },
 
-      {
-        question: "What should you do if you make a mistake during service?",
-        answers: [
-          "Hide the mistake.",
-          "Blame another employee.",
-          "Report it and take appropriate action.",
-          "Ignore it."
-        ],
-        correct: 2,
-        explanation:
-          "Being honest about mistakes allows the team to solve problems quickly and professionally."
-      },
 
-      {
-        question: "What is a good way to support your coworkers?",
-        answers: [
-          "Help when appropriate and communicate clearly.",
-          "Only focus on yourself.",
-          "Avoid speaking with coworkers.",
-          "Wait until someone asks for help."
-        ],
-        correct: 0,
-        explanation:
-          "Supporting coworkers helps the whole team provide better service."
-      },
+    {
+        question: "What should you do when carrying hot food?",
 
-      {
-        question: "What is the main goal of restaurant service?",
         answers: [
-          "Finish work as quickly as possible.",
-          "Provide a safe, professional and positive experience for customers.",
-          "Avoid speaking with customers.",
-          "Only focus on completing individual tasks."
+            "Walk quickly without looking",
+            "Warn others and handle it carefully",
+            "Carry it above guests' heads",
+            "Leave it unattended"
         ],
+
         correct: 1,
+
         explanation:
-          "Professional restaurant service is about providing customers with a safe, welcoming and positive experience."
-      }
-
-    ];
+            "Hot food should always be handled carefully, and nearby staff should be warned when necessary."
+    },
 
 
-    let currentQuestion = 0;
-    let score = 0;
-    let answered = false;
+    {
+        question: "Why is food temperature important?",
+
+        answers: [
+            "Only because it looks better",
+            "It helps maintain food quality and safety",
+            "It makes the restaurant quieter",
+            "It is not important"
+        ],
+
+        correct: 1,
+
+        explanation:
+            "Keeping food at appropriate temperatures helps maintain quality and reduces food safety risks."
+    },
 
 
-    function showQuestion() {
+    {
+        question: "What should you do if you drop something on the floor?",
 
-      answered = false;
+        answers: [
+            "Put it back immediately",
+            "Leave it there",
+            "Clean it up and follow restaurant procedures",
+            "Hide it under the table"
+        ],
 
-      const q = questions[currentQuestion];
+        correct: 2,
 
-      document.getElementById("progress").textContent =
-        "Question " + (currentQuestion + 1) + " / " + questions.length;
+        explanation:
+            "Anything dropped on the floor should be handled according to food safety and cleaning procedures."
+    },
 
-      document.getElementById("question").textContent =
+
+    {
+        question: "What is the goal of good restaurant service?",
+
+        answers: [
+            "Finish the shift as quickly as possible",
+            "Make guests feel welcomed, comfortable and cared for",
+            "Sell the most expensive items",
+            "Avoid speaking to guests"
+        ],
+
+        correct: 1,
+
+        explanation:
+            "The goal of good service is to create a welcoming, comfortable and positive experience for every guest."
+    }
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+
+/* =========================
+   SHOW QUESTION
+========================= */
+
+function showQuestion() {
+
+    answered = false;
+
+    const q = questions[currentQuestion];
+
+
+    document.getElementById("progress").textContent =
+        "Question " +
+        (currentQuestion + 1) +
+        " / " +
+        questions.length;
+
+
+    document.getElementById("question").textContent =
         q.question;
 
-      const answersDiv =
+
+    const answersDiv =
         document.getElementById("answers");
 
-      answersDiv.innerHTML = "";
+    answersDiv.innerHTML = "";
 
-      q.answers.forEach(function(answer, index) {
 
-        const button = document.createElement("button");
+    const feedback =
+        document.getElementById("feedback");
+
+    feedback.style.display = "none";
+
+
+    document.getElementById("nextButton").style.display =
+        "none";
+
+
+    q.answers.forEach(function(answer, index) {
+
+        const button =
+            document.createElement("button");
+
 
         button.className = "answer";
 
-        button.textContent = answer;
+
+        button.textContent =
+            String.fromCharCode(65 + index) +
+            ". " +
+            answer;
+
 
         button.onclick = function() {
-          selectAnswer(index, button);
+
+            selectAnswer(index, button);
+
         };
+
 
         answersDiv.appendChild(button);
 
-      });
+    });
 
-      document.getElementById("feedback").className =
-        "feedback";
+}
 
-      document.getElementById("feedbackTitle").textContent = "";
 
-      document.getElementById("feedbackText").textContent = "";
+/* =========================
+   SELECT ANSWER
+========================= */
 
-      document.getElementById("nextButton").style.display =
-        "none";
+function selectAnswer(index, button) {
+
+    if (answered) {
+        return;
     }
 
 
-    function selectAnswer(index, button) {
+    answered = true;
 
-      if (answered) {
-        return;
-      }
 
-      answered = true;
+    const q = questions[currentQuestion];
 
-      const q = questions[currentQuestion];
 
-      const allAnswers =
+    const allButtons =
         document.querySelectorAll(".answer");
 
-      allAnswers.forEach(function(answer) {
-        answer.disabled = true;
-      });
+
+    allButtons.forEach(function(btn) {
+
+        btn.disabled = true;
+
+    });
 
 
-      if (index === q.correct) {
+    const feedback =
+        document.getElementById("feedback");
+
+
+    const feedbackIcon =
+        document.getElementById("feedbackIcon");
+
+
+    const feedbackTitle =
+        document.getElementById("feedbackTitle");
+
+
+    const correctAnswer =
+        document.getElementById("correctAnswer");
+
+
+    const explanation =
+        document.getElementById("explanation");
+
+
+    /* =========================
+       CORRECT
+    ========================= */
+
+    if (index === q.correct) {
 
         score++;
 
+
         button.classList.add("correct");
 
-        document.getElementById("feedback").className =
-          "feedback correct";
-document.getElementById("feedbackIcon").textContent = "✓";
-        document.getElementById("feedbackTitleText").textContent =
-          "Correct!";
 
-      } else {
+        feedback.className =
+            "feedback correct";
+
+
+        feedbackIcon.textContent =
+            "✓";
+
+
+        feedbackTitle.textContent =
+            "Correct";
+
+    }
+
+
+    /* =========================
+       INCORRECT
+    ========================= */
+
+    else {
 
         button.classList.add("incorrect");
 
-        allAnswers[q.correct].classList.add("correct");
 
-        document.getElementById("feedback").className =
-          "feedback incorrect";
-document.getElementById("feedbackIcon").textContent = "×";
-        document.getElementById("feedbackTitleText").textContent =
-          "Incorrect";
-
-      }
+        allButtons[q.correct].classList.add("correct");
 
 
-      document.getElementById("feedbackText").textContent =
+        feedback.className =
+            "feedback incorrect";
+
+
+        feedbackIcon.textContent =
+            "×";
+
+
+        feedbackTitle.textContent =
+            "Not quite";
+
+    }
+
+
+    /* =========================
+       CORRECT ANSWER TEXT
+    ========================= */
+
+    correctAnswer.textContent =
+        "The correct answer is " +
+        String.fromCharCode(65 + q.correct) +
+        ". " +
+        q.answers[q.correct];
+
+
+    /* =========================
+       EXPLANATION
+    ========================= */
+
+    explanation.textContent =
         q.explanation;
 
 
-      if (currentQuestion < questions.length - 1) {
-
-        document.getElementById("nextButton").style.display =
-          "inline-block";
-
-      } else {
-
-        document.getElementById("nextButton").textContent =
-          "View Result →";
-
-        document.getElementById("nextButton").style.display =
-          "inline-block";
-      }
-    }
-
-
-    function nextQuestion() {
-
-      currentQuestion++;
-
-      if (currentQuestion < questions.length) {
-
-        showQuestion();
-
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-
-      } else {
-
-        showResult();
-
-      }
-    }
-
-
-    function showResult() {
-
-      document.getElementById("quiz").style.display =
-        "none";
-
-      document.getElementById("progress").style.display =
-        "none";
-
-      document.getElementById("result").style.display =
+    feedback.style.display =
         "block";
 
 
-      const percentage =
-        Math.round((score / questions.length) * 100);
+    document.getElementById("nextButton").style.display =
+        "block";
 
-      document.getElementById("score").textContent =
+}
+
+
+/* =========================
+   NEXT QUESTION
+========================= */
+
+function nextQuestion() {
+
+    currentQuestion++;
+
+
+    if (currentQuestion < questions.length) {
+
+        showQuestion();
+
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+    else {
+
+        showResult();
+
+    }
+
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+function showResult() {
+
+    document.getElementById("quiz").style.display =
+        "none";
+
+
+    document.getElementById("result").style.display =
+        "block";
+
+
+    const percentage =
+        Math.round(
+            (score / questions.length) * 100
+        );
+
+
+    document.getElementById("score").textContent =
         percentage + "%";
 
 
-      localStorage.setItem(
-        "restaurantBasicsCompleted",
-        "true"
-      );
+    const resultTitle =
+        document.getElementById("resultTitle");
+
+
+    const resultStatus =
+        document.getElementById("resultStatus");
+
+
+    const resultMessage =
+        document.getElementById("resultMessage");
+
+
+    if (percentage >= 80) {
+
+        resultTitle.textContent =
+            "Training Complete!";
+
+
+        resultStatus.textContent =
+            "Passed ✓";
+
+
+        resultStatus.className =
+            "result-status passed";
+
+
+        resultMessage.textContent =
+            "You answered " +
+            score +
+            " out of " +
+            questions.length +
+            " questions correctly. Great job!";
+
     }
+
+    else {
+
+        resultTitle.textContent =
+            "Keep practicing!";
+
+
+        resultStatus.textContent =
+            "Not Passed ×";
+
+
+        resultStatus.className =
+            "result-status not-passed";
+
+
+        resultMessage.textContent =
+            "You answered " +
+            score +
+            " out of " +
+            questions.length +
+            " questions correctly. You need 80% or higher to pass.";
+
+    }
+
+}
+
+
+/* =========================
+   RESTART
+========================= */
+
+function restartQuiz() {
+
+    currentQuestion = 0;
+
+    score = 0;
+
+    answered = false;
+
+
+    document.getElementById("result").style.display =
+        "none";
+
+
+    document.getElementById("quiz").style.display =
+        "block";
 
 
     showQuestion();
 
-  </script>
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+/* =========================
+   NEXT BUTTON
+========================= */
+
+document.getElementById("nextButton").onclick =
+    nextQuestion;
+
+
+/* =========================
+   START
+========================= */
+
+showQuestion();
+
+</script>
 
 </body>
 </html>
