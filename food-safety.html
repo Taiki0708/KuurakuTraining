@@ -505,6 +505,8 @@ function showResults() {
 
     if (percentage >= 80) {
 
+localStorage.setItem("foodSafetyCompleted", "true");
+
         document.getElementById("resultTitle").textContent = "Well done! ✓";
 
         document.getElementById("statusTitle").textContent =

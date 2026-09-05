@@ -610,6 +610,8 @@ function showResult() {
 
     if (percentage >= 80) {
 
+localStorage.setItem("customerServiceCompleted", "true");
+
         document.getElementById("resultTitle").textContent =
             "Well done! ✓";
 

@@ -102,6 +102,13 @@ body {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.completion-status {
+    margin: 12px 0 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5b9b63;
+}
+
 .course-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.07);
@@ -271,6 +278,8 @@ body {
                 Customer Service
             </h2>
 
+<div class="completion-status" id="customerServiceStatus"></div>
+
             <p>
                 Learn the basics of professional customer service and how to create a positive guest experience.
             </p>
@@ -292,6 +301,8 @@ body {
             <h2>
                 Food Safety
             </h2>
+
+<div class="completion-status" id="foodSafetyStatus"></div>
 
             <p>
                 Learn essential food safety practices, hygiene principles and safe restaurant procedures.
@@ -316,6 +327,8 @@ body {
                 Japanese Hospitality
             </h2>
 
+<div class="completion-status" id="japaneseHospitalityStatus"></div>
+
             <p>
                 Learn the principles of Japanese hospitality and how to create thoughtful service experiences.
             </p>
@@ -339,6 +352,8 @@ body {
                 Restaurant Basics
             </h2>
 
+<div class="completion-status" id="restaurantBasicsStatus"></div>
+
             <p>
                 Learn the fundamental knowledge and everyday practices needed to work effectively in a restaurant.
             </p>
@@ -361,6 +376,30 @@ body {
 
 
 </div>
+
+<script>
+if (localStorage.getItem("customerServiceCompleted") === "true") {
+    document.getElementById("customerServiceStatus").textContent = "✓ Completed";
+}
+</script>
+
+<script>
+if (localStorage.getItem("foodSafetyCompleted") === "true") {
+    document.getElementById("foodSafetyStatus").textContent = "✓ Completed";
+}
+</script>
+
+<script>
+if (localStorage.getItem("japaneseHospitalityCompleted") === "true") {
+    document.getElementById("japaneseHospitalityStatus").textContent = "✓ Completed";
+}
+</script>
+
+<script>
+if (localStorage.getItem("restaurantBasicsCompleted") === "true") {
+    document.getElementById("restaurantBasicsStatus").textContent = "✓ Completed";
+}
+</script>
 
 </body>
 </html>

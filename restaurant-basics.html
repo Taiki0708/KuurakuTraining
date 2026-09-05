@@ -970,6 +970,8 @@ function showResult() {
 
     if (percentage >= 80) {
 
+localStorage.setItem("restaurantBasicsCompleted", "true");
+
         resultTitle.textContent =
             "Training Complete!";
 
