@@ -7,195 +7,297 @@
 <title>ServeUp - Restaurant Training</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     background: #ffffff;
-    color: #263238;
+    color: #374151;
 }
 
 .container {
     width: 90%;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 50px 0 70px;
+    padding: 60px 0 50px;
 }
+
 
 /* HEADER */
 
 .header {
     text-align: center;
-    margin-bottom: 55px;
+    margin-bottom: 60px;
 }
 
 .logo {
-    font-size: 44px;
+    font-size: 42px;
     font-weight: 700;
-    letter-spacing: 8px;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    color: #777;
-    font-size: 18px;
-    margin-bottom: 6px;
+    letter-spacing: 10px;
+    color: #374151;
+    margin-bottom: 12px;
 }
 
 .tagline {
-    color: #999;
     font-size: 17px;
+    color: #9ca3af;
+    margin-bottom: 8px;
 }
 
-/* TRAINING LIST */
-
-.training-list {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
+.subtitle {
+    font-size: 21px;
+    color: #6b7280;
 }
 
-.card {
-    background: #ffffff;
-    border: 1px solid #eeeeee;
-    border-radius: 18px;
-    padding: 30px 32px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+
+/* WELCOME */
+
+.welcome {
+    margin-bottom: 45px;
 }
 
-.card h2 {
+.welcome h1 {
+    font-size: 30px;
+    font-weight: 600;
     margin: 0 0 12px;
-    font-size: 24px;
+    color: #374151;
 }
 
-.card p {
-    margin: 0 0 22px;
-    color: #777;
-    font-size: 16px;
-    line-height: 1.6;
+.welcome p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #6b7280;
 }
+
+
+/* COURSES */
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #374151;
+}
+
+.courses {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+
+/* COURSE CARD */
+
+.course-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 30px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+}
+
+.course-number {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.course-card h2 {
+    font-size: 23px;
+    margin: 0 0 12px;
+    color: #374151;
+}
+
+.course-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6b7280;
+    min-height: 48px;
+    margin: 0 0 25px;
+}
+
 
 /* BUTTON */
 
-.button {
+.start-button {
     display: inline-block;
-    padding: 14px 22px;
+    padding: 12px 20px;
+    background: #eef5f1;
+    color: #52665b;
+    border: 1px solid #dbe8e0;
     border-radius: 10px;
-    background: #e8f5ed;
-    border: 1px solid #c8dfd1;
-    color: #4d8060;
     text-decoration: none;
-    font-size: 16px;
-    transition: 0.2s;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.2s ease;
 }
 
-.button:hover {
-    background: #dcefe4;
+.start-button:hover {
+    background: #e2eee7;
 }
 
-.button.completed {
-    background: #e8f5ed;
-    color: #4d8060;
-}
 
 /* FOOTER */
 
-footer {
-    margin-top: 40px;
-    color: #777;
-    font-size: 15px;
+.footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 25px;
+    border-top: 1px solid #eeeeee;
+    font-size: 14px;
+    color: #9ca3af;
 }
+
 
 /* MOBILE */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
     .container {
-        width: 94%;
-        padding-top: 35px;
+        width: 92%;
+        padding-top: 40px;
     }
 
     .logo {
-        font-size: 34px;
-        letter-spacing: 6px;
+        font-size: 32px;
+        letter-spacing: 7px;
     }
 
-    .card {
+    .tagline {
+        font-size: 15px;
+    }
+
+    .subtitle {
+        font-size: 19px;
+    }
+
+    .header {
+        margin-bottom: 45px;
+    }
+
+    .welcome h1 {
+        font-size: 25px;
+    }
+
+    .welcome p {
+        font-size: 16px;
+    }
+
+    .courses {
+        grid-template-columns: 1fr;
+    }
+
+    .course-card {
         padding: 25px;
     }
 
-    .card h2 {
-        font-size: 21px;
-    }
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
-    <header class="header">
+
+    <!-- HEADER -->
+
+    <div class="header">
 
         <div class="logo">
             SERVEUP
         </div>
 
-        <div class="subtitle">
+        <div class="tagline">
             Restaurant Training Made Simple
         </div>
 
-        <div class="tagline">
+        <div class="subtitle">
             Simple training for better service.
         </div>
 
-    </header>
+    </div>
 
 
-    <main class="training-list">
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+            Welcome to ServeUp
+        </h1>
+
+        <p>
+            Build the essential knowledge and skills needed to work confidently in a restaurant.
+            Choose a training course below to get started.
+        </p>
+
+    </div>
+
+
+    <!-- COURSES -->
+
+    <div class="section-title">
+        Training Courses
+    </div>
+
+
+    <div class="courses">
 
 
         <!-- CUSTOMER SERVICE -->
 
-        <div class="card">
+        <div class="course-card">
+
+            <div class="course-number">
+                COURSE 01
+            </div>
 
             <h2>
                 Customer Service
             </h2>
 
             <p>
-                Learn the basics of professional customer service in a restaurant.
+                Learn the basics of professional customer service and how to create a positive guest experience.
             </p>
 
-            <a
-                href="customer-service.html"
-                class="button"
-                id="customerButton">
-                Start Training →
-            </a>
-
+<a href="customer-service-learning.html" class="start-button">
+    Start Training →
+</a>
         </div>
 
 
         <!-- FOOD SAFETY -->
 
-        <div class="card">
+        <div class="course-card">
+
+            <div class="course-number">
+                COURSE 02
+            </div>
 
             <h2>
                 Food Safety
             </h2>
 
             <p>
-                Learn essential food safety practices for restaurant staff.
+                Learn essential food safety practices, hygiene principles and safe restaurant procedures.
             </p>
 
-            <a
-                href="food-safety.html"
-                class="button"
-                id="foodButton">
+<a href="food-safety-learning.html" class="start-button">
                 Start Training →
             </a>
 
@@ -204,20 +306,21 @@ footer {
 
         <!-- JAPANESE HOSPITALITY -->
 
-        <div class="card">
+        <div class="course-card">
+
+            <div class="course-number">
+                COURSE 03
+            </div>
 
             <h2>
                 Japanese Hospitality
             </h2>
 
             <p>
-                Learn the principles of Japanese hospitality and service.
+                Learn the principles of Japanese hospitality and how to create thoughtful service experiences.
             </p>
 
-            <a
-                href="japanese-hospitality.html"
-                class="button"
-                id="japaneseButton">
+<a href="japanese-hospitality-learning.html" class="start-button">
                 Start Training →
             </a>
 
@@ -226,81 +329,38 @@ footer {
 
         <!-- RESTAURANT BASICS -->
 
-        <div class="card">
+        <div class="course-card">
+
+            <div class="course-number">
+                COURSE 04
+            </div>
 
             <h2>
                 Restaurant Basics
             </h2>
 
             <p>
-                Learn essential knowledge and skills for working in a restaurant.
+                Learn the fundamental knowledge and everyday practices needed to work effectively in a restaurant.
             </p>
 
-            <a
-                href="restaurant-basics.html"
-                class="button"
-                id="restaurantButton">
+<a href="restaurant-basics-learning.html" class="start-button">
                 Start Training →
             </a>
 
         </div>
 
 
-    </main>
+    </div>
 
 
-    <footer>
+    <!-- FOOTER -->
+
+    <div class="footer">
         © 2026 ServeUp
-    </footer>
+    </div>
+
 
 </div>
-
-
-<script>
-
-function updateButton(id, storageKey) {
-
-    const button = document.getElementById(id);
-
-    if (localStorage.getItem(storageKey) === "true") {
-
-        button.textContent = "Review Training →";
-
-        button.classList.add("completed");
-
-    } else {
-
-        button.textContent = "Start Training →";
-
-    }
-}
-
-
-/*
-    Check completion status
-*/
-
-updateButton(
-    "customerButton",
-    "customerServiceCompleted"
-);
-
-updateButton(
-    "foodButton",
-    "foodSafetyCompleted"
-);
-
-updateButton(
-    "japaneseButton",
-    "japaneseHospitalityCompleted"
-);
-
-updateButton(
-    "restaurantButton",
-    "restaurantBasicsCompleted"
-);
-
-</script>
 
 </body>
 </html>
