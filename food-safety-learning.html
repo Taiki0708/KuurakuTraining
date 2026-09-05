@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ServeUp - Food Safety</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #ffffff;
+    color: #374151;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 0 60px;
+}
+
+
+/* HEADER */
+
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.logo {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: 9px;
+    color: #374151;
+    margin-bottom: 10px;
+}
+
+.course-label {
+    font-size: 15px;
+    color: #9ca3af;
+}
+
+
+/* INTRO */
+
+.intro {
+    margin-bottom: 45px;
+}
+
+.intro h1 {
+    font-size: 34px;
+    font-weight: 600;
+    margin: 0 0 15px;
+    color: #374151;
+}
+
+.intro p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #6b7280;
+    margin: 0;
+}
+
+
+/* SECTION */
+
+.section {
+    margin-bottom: 35px;
+}
+
+.section h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 15px;
+    color: #374151;
+}
+
+.section p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #6b7280;
+    margin: 0;
+}
+
+
+/* PRINCIPLES */
+
+.principles {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.principle {
+    padding: 20px 22px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.principle-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #374151;
+}
+
+.principle-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6b7280;
+}
+
+
+/* EXAMPLE */
+
+.example {
+    margin-top: 20px;
+    padding: 22px;
+    border-radius: 14px;
+    background: #f7f8f7;
+    border: 1px solid #e5e7eb;
+}
+
+.example-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #8a958e;
+    margin-bottom: 8px;
+}
+
+.example p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #4b5563;
+}
+
+
+/* KEY POINT */
+
+.key-point {
+    margin-top: 25px;
+    padding: 22px;
+    border-left: 4px solid #aabdb2;
+    background: #f8faf9;
+}
+
+.key-point-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.key-point p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #6b7280;
+}
+
+
+/* QUIZ */
+
+.quiz-area {
+    margin-top: 50px;
+    padding-top: 35px;
+    border-top: 1px solid #eeeeee;
+    text-align: center;
+}
+
+.quiz-area p {
+    font-size: 15px;
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+
+.quiz-button {
+    display: inline-block;
+    padding: 15px 28px;
+    border-radius: 10px;
+    background: #465363;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.quiz-button:hover {
+    background: #374151;
+}
+
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 25px;
+    border-top: 1px solid #eeeeee;
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 92%;
+        padding-top: 35px;
+    }
+
+    .logo {
+        font-size: 30px;
+        letter-spacing: 7px;
+    }
+
+    .intro h1 {
+        font-size: 28px;
+    }
+
+    .section h2 {
+        font-size: 22px;
+    }
+
+    .intro p,
+    .section p {
+        font-size: 16px;
+    }
+
+    .principle {
+        padding: 18px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo">
+            SERVEUP
+        </div>
+
+        <div class="course-label">
+            Food Safety Training
+        </div>
+
+    </div>
+
+
+    <!-- INTRO -->
+
+    <div class="intro">
+
+        <h1>
+            Food Safety
+        </h1>
+
+        <p>
+            Food safety is essential for protecting guests, maintaining
+            food quality and preventing contamination in the restaurant.
+        </p>
+
+    </div>
+
+
+    <!-- SECTION 1 -->
+
+    <div class="section">
+
+        <h2>
+            Why is food safety important?
+        </h2>
+
+        <p>
+            Every restaurant has a responsibility to serve food that is safe
+            to eat. Good food safety practices help prevent contamination,
+            reduce health risks and protect both guests and staff.
+        </p>
+
+    </div>
+
+
+    <!-- SECTION 2 -->
+
+    <div class="section">
+
+        <h2>
+            The Five Principles of Food Safety
+        </h2>
+
+
+        <div class="principles">
+
+
+            <div class="principle">
+
+                <div class="principle-title">
+                    1. Clean
+                </div>
+
+                <div class="principle-text">
+                    Keep hands, surfaces, equipment and work areas clean.
+                    Wash hands regularly and follow the restaurant's cleaning procedures.
+                </div>
+
+            </div>
+
+
+            <div class="principle">
+
+                <div class="principle-title">
+                    2. Separate
+                </div>
+
+                <div class="principle-text">
+                    Keep raw and cooked foods separate to reduce the risk
+                    of cross-contamination.
+                </div>
+
+            </div>
+
+
+            <div class="principle">
+
+                <div class="principle-title">
+                    3. Cook
+                </div>
+
+                <div class="principle-text">
+                    Cook food properly and follow the restaurant's procedures
+                    for safe cooking and preparation.
+                </div>
+
+            </div>
+
+
+            <div class="principle">
+
+                <div class="principle-title">
+                    4. Keep Food at Safe Temperatures
+                </div>
+
+                <div class="principle-text">
+                    Store and hold food at appropriate temperatures to help
+                    maintain quality and reduce food safety risks.
+                </div>
+
+            </div>
+
+
+            <div class="principle">
+
+                <div class="principle-title">
+                    5. Report Problems
+                </div>
+
+                <div class="principle-text">
+                    If you notice unsafe food, damaged equipment, poor hygiene
+                    or another food safety problem, report it to a manager immediately.
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- SECTION 3 -->
+
+    <div class="section">
+
+        <h2>
+            Hand Washing
+        </h2>
+
+        <p>
+            Proper hand washing is one of the most important ways to prevent
+            the spread of germs and contamination. Hands should be washed
+            regularly, especially before handling food and whenever contamination
+            may occur.
+        </p>
+
+
+        <div class="example">
+
+            <div class="example-label">
+                EXAMPLE
+            </div>
+
+            <p>
+                Before preparing or serving food, wash your hands properly.
+                If you touch something dirty or potentially contaminated,
+                wash your hands again before continuing.
+            </p>
+
+        </div>
+
+
+        <div class="key-point">
+
+            <div class="key-point-title">
+                Key Point
+            </div>
+
+            <p>
+                Clean hands → Safe food → Protected guests
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- SECTION 4 -->
+
+    <div class="section">
+
+        <h2>
+            Preventing Cross-Contamination
+        </h2>
+
+        <p>
+            Cross-contamination can happen when harmful bacteria or other
+            contaminants are transferred from one food, surface or piece of
+            equipment to another. Keep raw and cooked foods separate and
+            follow the restaurant's procedures for food preparation and storage.
+        </p>
+
+
+        <div class="key-point">
+
+            <div class="key-point-title">
+                Remember
+            </div>
+
+            <p>
+                Keep raw food and ready-to-eat food separate.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- SECTION 5 -->
+
+    <div class="section">
+
+        <h2>
+            When You Notice a Food Safety Problem
+        </h2>
+
+        <p>
+            Do not ignore food safety problems. If you notice something that
+            may make food unsafe, stop and report the issue to a manager.
+            Following the correct procedure is more important than simply
+            finishing the task quickly.
+        </p>
+
+
+        <div class="example">
+
+            <div class="example-label">
+                EXAMPLE
+            </div>
+
+            <p>
+                You notice that a food item has been left out for too long.
+                Do not simply continue serving it. Inform the responsible
+                manager and follow the restaurant's food safety procedure.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUIZ -->
+
+    <div class="quiz-area">
+
+        <p>
+            Ready to test your food safety knowledge?
+        </p>
+
+        <a href="food-safety.html" class="quiz-button">
+            Start Quiz →
+        </a>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+        © 2026 ServeUp
+    </div>
+
+
+</div>
+
+</body>
+</html>
