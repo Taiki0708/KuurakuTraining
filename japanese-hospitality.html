@@ -215,45 +215,8 @@ body {
     }
 }
 
-/* Shared ServeUp navigation and visual foundation */
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    background: #ffffff;
-    color: #374151;
-}
-
-.home-link {
-    display: inline-block;
-    margin-bottom: 28px;
-    color: #52665b;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.home-link:hover {
-    color: #374151;
-    text-decoration: underline;
-}
-
-.start-button,
-.quiz-button,
-.next-button,
-.next-btn,
-.try-again,
-.retry {
-    background: #465363;
-}
-
-.start-button:hover,
-.quiz-button:hover,
-.next-button:hover,
-.next-btn:hover,
-.try-again:hover,
-.retry:hover {
-    background: #374151;
-}
 </style>
+    <link rel="stylesheet" href="serveup.css">
 </head>
 
 <body>
@@ -277,7 +240,7 @@ body {
 
         <div class="feedback" id="feedback"></div>
 
-        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+        <button class="next-btn" id="nextBtn">
             Next →
         </button>
 
@@ -306,8 +269,9 @@ body {
 
 </div>
 
-<script>
+<script src="quiz.js"></script>
 
+<script>
 const questions = [
 
 {
@@ -432,159 +396,23 @@ explanation: "The goal of hospitality is to create a comfortable and positive ex
 
 ];
 
-let currentQuestion = 0;
-let score = 0;
-let answered = false;
-
-function loadQuestion() {
-
-    answered = false;
-
-    const q = questions[currentQuestion];
-
-    document.getElementById("progress").textContent =
-        "Question " + (currentQuestion + 1) + " / " + questions.length;
-
-    document.getElementById("question").textContent = q.question;
-
-    const optionsDiv = document.getElementById("options");
-    optionsDiv.innerHTML = "";
-
-    document.getElementById("feedback").style.display = "none";
-    document.getElementById("nextBtn").style.display = "none";
-
-    q.options.forEach((option, index) => {
-
-        const button = document.createElement("button");
-
-        button.className = "option";
-        button.textContent = String.fromCharCode(65 + index) + ". " + option;
-
-        button.onclick = function() {
-            selectAnswer(index, button);
-        };
-
-        optionsDiv.appendChild(button);
-
-    });
+ServeUpQuiz.init({
+    questions,
+    ...{
+    "answerContainerId": "options",
+    "optionClass": "option",
+    "incorrectClass": "incorrect",
+    "nextButtonId": "nextBtn",
+    "quizId": "quiz",
+    "resultId": "result",
+    "feedbackMode": "inline",
+    "resultMode": "course",
+    "storageKey": "japaneseHospitalityCompleted",
+    "courseName": "Japanese Hospitality",
+    "nextLabel": "Next →",
+    "resultsLabel": "See Results →"
 }
-
-function selectAnswer(selected, clickedButton) {
-
-    if (answered) return;
-
-    answered = true;
-
-    const q = questions[currentQuestion];
-    const buttons = document.querySelectorAll(".option");
-
-    buttons.forEach(button => {
-        button.disabled = true;
-    });
-
-    if (selected === q.answer) {
-
-        score++;
-
-        clickedButton.classList.add("correct");
-
-        document.getElementById("feedback").innerHTML =
-    '<div class="feedback-title"><span class="feedback-icon correct">✓</span> Correct!</div>' +
-    '<div>' + q.explanation + '</div>';
-
-    } else {
-
-        clickedButton.classList.add("incorrect");
-
-        buttons[q.answer].classList.add("correct");
-
-        document.getElementById("feedback").innerHTML =
-    '<div class="feedback-title"><span class="feedback-icon wrong">✕</span> Not quite.</div>' +
-    '<div>The correct answer is <strong>' +
-    String.fromCharCode(65 + q.answer) +
-    '</strong>.<br><br>' +
-    q.explanation + '</div>';
-    }
-
-    document.getElementById("feedback").style.display = "block";
-
-    if (currentQuestion < questions.length - 1) {
-        document.getElementById("nextBtn").style.display = "block";
-    } else {
-        document.getElementById("nextBtn").textContent = "See Results →";
-        document.getElementById("nextBtn").style.display = "block";
-    }
-}
-
-function nextQuestion() {
-
-    if (currentQuestion < questions.length - 1) {
-
-        currentQuestion++;
-
-        loadQuestion();
-
-    } else {
-
-        showResults();
-
-    }
-}
-
-function showResults() {
-
-    const percentage = Math.round((score / questions.length) * 100);
-
-    document.getElementById("quiz").style.display = "none";
-    document.getElementById("result").style.display = "block";
-
-    document.getElementById("score").textContent = percentage + "%";
-
-    document.getElementById("resultText").textContent =
-        "You answered " + score + " out of " +
-        questions.length + " questions correctly.";
-
-    if (percentage >= 80) {
-
-        document.getElementById("resultTitle").textContent = "Well done! ✓";
-        localStorage.setItem("japaneseHospitalityCompleted", "true");
-
-        document.getElementById("statusTitle").textContent =
-            "Passed!";
-
-        document.getElementById("statusText").textContent =
-            "You have successfully completed the Japanese Hospitality Training. " +
-            "Keep practicing these Japanese hospitality principles in your daily work.";
-
-    } else {
-
-        document.getElementById("resultTitle").textContent =
-            "Keep practicing!";
-
-        document.getElementById("statusTitle").textContent =
-            "Not passed yet.";
-
-        document.getElementById("statusText").textContent =
-            "Review the food safety principles and try again. " +
-            "You need 80% or higher to pass.";
-    }
-}
-
-function restartQuiz() {
-
-    currentQuestion = 0;
-    score = 0;
-
-    document.getElementById("result").style.display = "none";
-    document.getElementById("quiz").style.display = "block";
-
-    document.getElementById("nextBtn").textContent = "Next →";
-
-    loadQuestion();
-}
-
-loadQuestion();
-
+});
 </script>
 
 </body>
