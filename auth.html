@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in | ServeUp</title>
+<link rel="stylesheet" href="serveup.css">
+<style>
+.container { width: 90%; max-width: 520px; margin: 0 auto; padding: 60px 0; }
+.auth-card { border: 1px solid var(--serveup-border); border-radius: 18px; padding: 32px; box-shadow: 0 3px 12px rgba(0,0,0,0.04); }
+.logo { text-align: center; font-size: 36px; letter-spacing: 8px; font-weight: 700; margin-bottom: 10px; }
+.subtitle { text-align: center; color: var(--serveup-muted); margin-bottom: 38px; }
+label { display: block; margin: 18px 0 7px; font-weight: 600; }
+input { width: 100%; padding: 13px; border: 1px solid var(--serveup-border); border-radius: 10px; font: inherit; }
+.auth-actions { display: grid; gap: 10px; margin-top: 24px; }
+.auth-button { border: 0; border-radius: 10px; padding: 14px; color: #fff; font: inherit; font-weight: 600; cursor: pointer; background: var(--serveup-button); }
+.auth-button:hover { background: var(--serveup-button-hover); }
+.secondary-button { background: #eef5f1; color: #52665b; border: 1px solid #dbe8e0; }
+.secondary-button:hover { background: #e2eee7; }
+.message { min-height: 24px; margin-top: 18px; color: var(--serveup-muted); line-height: 1.5; }
+.message.error { color: #b94a4a; }
+</style>
+</head>
+<body>
+<div class="container">
+    <a class="home-link" href="index.html">← Back to Home</a>
+    <div class="logo">SERVEUP</div>
+    <p class="subtitle">Sign in to save your training progress.</p>
+    <main class="auth-card">
+        <h1>Training account</h1>
+        <p>Use your email address and password to sign in or create an account.</p>
+        <form id="authForm">
+            <label for="email">Email address</label>
+            <input id="email" type="email" autocomplete="email" required>
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password" minlength="6" required>
+            <div class="auth-actions">
+                <button class="auth-button" type="submit">Sign in</button>
+                <button class="auth-button secondary-button" id="signUpButton" type="button">Create account</button>
+            </div>
+        </form>
+        <p id="message" class="message" role="status"></p>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script>
+const form = document.getElementById("authForm");
+const message = document.getElementById("message");
+
+function showMessage(text, isError) {
+    message.textContent = text;
+    message.className = isError ? "message error" : "message";
+}
+
+form.addEventListener("submit", async event => {
+    event.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const { error } = await ServeUpProgress.client.auth.signInWithPassword({ email, password });
+    if (error) {
+        showMessage(error.message, true);
+        return;
+    }
+    window.location.href = "index.html";
+});
+
+document.getElementById("signUpButton").addEventListener("click", async () => {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const { data, error } = await ServeUpProgress.client.auth.signUp({ email, password });
+    if (error) {
+        showMessage(error.message, true);
+        return;
+    }
+
+    if (data.session) {
+        window.location.href = "index.html";
+    } else {
+        showMessage("Account created. Check your email to confirm your address, then sign in.");
+    }
+});
+</script>
+</body>
+</html>
