@@ -283,6 +283,8 @@ body {
     </div>
 
 
+    <div id="accountArea" class="account-area" aria-live="polite"></div>
+
     <!-- WELCOME -->
 
     <div class="welcome">
@@ -431,58 +433,9 @@ body {
 
 </div>
 
-<script>
-if (localStorage.getItem("customerServiceCompleted") === "true") {
-    document.getElementById("customerServiceStatus").textContent = "✓ Completed";
-}
-</script>
-
-<script>
-if (localStorage.getItem("foodSafetyCompleted") === "true") {
-    document.getElementById("foodSafetyStatus").textContent = "✓ Completed";
-}
-</script>
-
-<script>
-if (localStorage.getItem("japaneseHospitalityCompleted") === "true") {
-    document.getElementById("japaneseHospitalityStatus").textContent = "✓ Completed";
-}
-</script>
-
-<script>
-if (localStorage.getItem("restaurantBasicsCompleted") === "true") {
-    document.getElementById("restaurantBasicsStatus").textContent = "✓ Completed";
-}
-</script>
-
-<script>
-function updateProgress() {
-    const completedCourses = [
-        "customerServiceCompleted",
-        "foodSafetyCompleted",
-        "japaneseHospitalityCompleted",
-        "restaurantBasicsCompleted"
-    ];
-
-    let completed = 0;
-
-    completedCourses.forEach(course => {
-        if (localStorage.getItem(course) === "true") {
-            completed++;
-        }
-    });
-
-    const percentage = (completed / completedCourses.length) * 100;
-
-    document.getElementById("progressText").textContent =
-        completed + " / " + completedCourses.length + " Courses Completed";
-
-    document.getElementById("progressFill").style.width =
-        percentage + "%";
-}
-
-updateProgress();
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script src="dashboard.js"></script>
 
 </body>
 </html>
