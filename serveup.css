@@ -49,3 +49,54 @@ body {
 .retry:hover {
     background: var(--serveup-button-hover);
 }
+
+
+.account-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 35px;
+    padding: 14px 16px;
+    border: 1px solid var(--serveup-border);
+    border-radius: 12px;
+    color: var(--serveup-muted);
+    font-size: 15px;
+}
+
+.account-link,
+.sign-out-button {
+    flex: 0 0 auto;
+    color: #52665b;
+    font: inherit;
+    font-weight: 600;
+}
+
+.account-link {
+    text-decoration: none;
+}
+
+.account-link:hover {
+    color: var(--serveup-ink);
+    text-decoration: underline;
+}
+
+.sign-out-button {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+}
+
+.sign-out-button:hover {
+    color: var(--serveup-ink);
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .account-area {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+}
