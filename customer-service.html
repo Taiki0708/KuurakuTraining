@@ -216,45 +216,8 @@
         }
     }
 
-/* Shared ServeUp navigation and visual foundation */
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    background: #ffffff;
-    color: #374151;
-}
-
-.home-link {
-    display: inline-block;
-    margin-bottom: 28px;
-    color: #52665b;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.home-link:hover {
-    color: #374151;
-    text-decoration: underline;
-}
-
-.start-button,
-.quiz-button,
-.next-button,
-.next-btn,
-.try-again,
-.retry {
-    background: #465363;
-}
-
-.start-button:hover,
-.quiz-button:hover,
-.next-button:hover,
-.next-btn:hover,
-.try-again:hover,
-.retry:hover {
-    background: #374151;
-}
 </style>
+    <link rel="stylesheet" href="serveup.css">
 </head>
 
 <body>
@@ -288,7 +251,7 @@ body {
 
         </div>
 
-        <button class="next-button" id="nextButton" onclick="nextQuestion()" style="display:none;">
+        <button class="next-button" id="nextButton" style="display:none;">
             Next →
         </button>
 
@@ -312,8 +275,9 @@ body {
 </div>
 
 
-<script>
+<script src="quiz.js"></script>
 
+<script>
 const questions = [
 
     {
@@ -517,171 +481,22 @@ const questions = [
 
 ];
 
-
-let currentQuestion = 0;
-let score = 0;
-let answered = false;
-
-
-function loadQuestion() {
-
-    answered = false;
-
-    const q = questions[currentQuestion];
-
-    document.getElementById("progress").textContent =
-        "Question " + (currentQuestion + 1) + " / " + questions.length;
-
-    document.getElementById("question").textContent = q.question;
-
-    const answersDiv = document.getElementById("answers");
-
-    answersDiv.innerHTML = "";
-
-    document.getElementById("feedback").style.display = "none";
-
-    document.getElementById("nextButton").style.display = "none";
-
-
-    q.answers.forEach((answer, index) => {
-
-        const button = document.createElement("button");
-
-        button.className = "answer";
-
-        button.textContent =
-            String.fromCharCode(65 + index) + ". " + answer;
-
-        button.onclick = function() {
-            selectAnswer(index, button);
-        };
-
-        answersDiv.appendChild(button);
-
-    });
-
+ServeUpQuiz.init({
+    questions,
+    ...{
+    "answerContainerId": "answers",
+    "optionClass": "answer",
+    "incorrectClass": "wrong",
+    "nextButtonId": "nextButton",
+    "quizId": "quiz",
+    "resultId": "result",
+    "feedbackMode": "keypoint",
+    "resultMode": "customer",
+    "storageKey": "customerServiceCompleted",
+    "nextLabel": "Next →",
+    "resultsLabel": "See Results →"
 }
-
-
-function selectAnswer(index, selectedButton) {
-
-    if (answered) {
-        return;
-    }
-
-    answered = true;
-
-    const q = questions[currentQuestion];
-
-    const buttons = document.querySelectorAll(".answer");
-
-    buttons.forEach((button, i) => {
-
-        button.disabled = true;
-
-        if (i === q.correct) {
-            button.classList.add("correct");
-        }
-
-    });
-
-
-    if (index === q.correct) {
-
-        score++;
-
-        selectedButton.classList.add("correct");
-
-        document.getElementById("feedbackTitle").innerHTML =
-    '<span class="feedback-icon correct">✓</span> Correct!';
-
-    } else {
-
-        selectedButton.classList.add("wrong");
-
-        document.getElementById("feedbackTitle").innerHTML =
-    '<span class="feedback-icon wrong">✕</span> Not quite.';
-
-    }
-
-
-    document.getElementById("feedbackText").textContent =
-        q.explanation;
-
-    document.getElementById("keyPoint").textContent =
-        "Key point: " + q.key;
-
-    document.getElementById("feedback").style.display =
-        "block";
-
-    document.getElementById("nextButton").style.display =
-        "block";
-
-}
-
-
-function nextQuestion() {
-
-    currentQuestion++;
-
-    if (currentQuestion < questions.length) {
-
-        loadQuestion();
-
-    } else {
-
-        showResult();
-
-    }
-
-}
-
-
-function showResult() {
-
-    document.getElementById("quiz").style.display = "none";
-
-    document.getElementById("result").style.display = "block";
-
-    const percentage =
-        Math.round((score / questions.length) * 100);
-
-    document.getElementById("score").textContent =
-        percentage + "%";
-
-    if (percentage >= 80) {
-
-localStorage.setItem("customerServiceCompleted", "true");
-
-        document.getElementById("resultTitle").textContent =
-            "Well done! ✓";
-
-        document.getElementById("resultMessage").textContent =
-            "Passed! You answered " +
-            score +
-            " out of " +
-            questions.length +
-            " questions correctly. Keep using these customer service principles in your daily work.";
-
-    } else {
-
-        document.getElementById("resultTitle").textContent =
-            "Keep practicing!";
-
-        document.getElementById("resultMessage").textContent =
-            "Not passed yet. You answered " +
-            score +
-            " out of " +
-            questions.length +
-            " questions correctly. Review the customer service principles and try again. You need 80% or higher to pass.";
-
-    }
-
-}
-
-
-loadQuestion();
-
+});
 </script>
 
 </body>
