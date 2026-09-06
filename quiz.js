@@ -95,7 +95,15 @@
                 byId(config.resultId).style.display = "block";
                 setText("score", percentage + "%");
 
-                if (passed) localStorage.setItem(config.storageKey, "true");
+                if (passed) {
+                    localStorage.setItem(config.storageKey, "true");
+
+                    if (window.ServeUpProgress) {
+                        window.ServeUpProgress
+                            .saveCompletion(config.storageKey, percentage)
+                            .catch(error => console.error("Could not save training progress.", error));
+                    }
+                }
 
                 if (config.resultMode === "restaurant") {
                     setText("resultTitle", passed ? "Training Complete!" : "Keep practicing!");
