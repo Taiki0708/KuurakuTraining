@@ -189,3 +189,19 @@ body {
 @media (max-width: 800px) {
     .assignment-form { grid-template-columns: 1fr; }
 }
+
+
+.assignment-form .auth-button {
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 14px;
+    background: var(--serveup-button);
+    color: #ffffff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.assignment-form .auth-button:hover {
+    background: var(--serveup-button-hover);
+}
