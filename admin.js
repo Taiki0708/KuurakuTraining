@@ -39,6 +39,7 @@
             renderReport(report);
             populateLearners(learners);
             renderAssignments(assignments);
+            renderFollowUp(assignments, report);
             populateManagedCourses();
             populateQuestionCourses();
             await loadQuestions();
@@ -217,6 +218,32 @@
             console.error("Could not delete question.", error);
             status.textContent = "The question could not be deleted.";
         }
+    }
+
+    function renderFollowUp(assignments, report) {
+        const completed = new Set(report.map(item => item.email + "|" + item.course_id));
+        const now = new Date();
+        const soon = new Date(now); soon.setDate(now.getDate() + 7);
+        const rows = document.getElementById("followUpRows");
+        rows.innerHTML = "";
+        let overdue = 0, dueSoon = 0, uncompleted = 0;
+        assignments.forEach(item => {
+            const done = completed.has(item.email + "|" + item.course_id);
+            if (!done) uncompleted += 1;
+            const due = item.due_date ? new Date(item.due_date + "T23:59:59") : null;
+            const isOverdue = !done && due && due < now;
+            const isDueSoon = !done && due && due >= now && due <= soon;
+            if (isOverdue) overdue += 1;
+            if (isDueSoon) dueSoon += 1;
+            if (!isOverdue && !isDueSoon) return;
+            const row = document.createElement("tr");
+            [item.email, courseNames[item.course_id] || item.course_id, item.due_date || "No deadline", isOverdue ? "Overdue" : "Due soon"].forEach(value => { const cell = document.createElement("td"); cell.textContent = value; row.appendChild(cell); });
+            rows.appendChild(row);
+        });
+        document.getElementById("overdueCount").textContent = overdue;
+        document.getElementById("dueSoonCount").textContent = dueSoon;
+        document.getElementById("uncompletedCount").textContent = uncompleted;
+        document.getElementById("followUpEmpty").hidden = rows.children.length > 0;
     }
 
     function renderAssignments(assignments) {
