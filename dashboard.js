@@ -39,6 +39,31 @@
         document.getElementById("progressFill").style.width = percentage + "%";
     }
 
+    function renderAssignments(assignments) {
+        const card = document.getElementById("assignedCourses");
+        const list = document.getElementById("assignmentList");
+        const message = document.getElementById("assignmentMessage");
+        if (!assignments.length) return;
+
+        const courseNames = {
+            "customer-service": "Customer Service",
+            "food-safety": "Food Safety",
+            "japanese-hospitality": "Japanese Hospitality",
+            "restaurant-basics": "Restaurant Basics"
+        };
+
+        card.hidden = false;
+        message.textContent = "Courses assigned to you by your manager:";
+        assignments.forEach(assignment => {
+            const item = document.createElement("li");
+            item.textContent = courseNames[assignment.course_id] || assignment.course_id;
+            if (assignment.due_date) {
+                item.textContent += " — Due " + new Date(assignment.due_date + "T00:00:00").toLocaleDateString();
+            }
+            list.appendChild(item);
+        });
+    }
+
     function renderAccount(user) {
         const accountArea = document.getElementById("accountArea");
         accountArea.innerHTML = "";
@@ -87,7 +112,11 @@
         }
 
         try {
-            const courses = await window.ServeUpProgress.getCompletedCourses();
+            const [courses, assignments] = await Promise.all([
+                window.ServeUpProgress.getCompletedCourses(),
+                window.ServeUpProgress.getMyAssignments()
+            ]);
+            renderAssignments(assignments);
             const completed = courses
                 .map(course => ({
                     "customer-service": "customerServiceCompleted",
