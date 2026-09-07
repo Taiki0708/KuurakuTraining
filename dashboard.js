@@ -91,7 +91,11 @@
             await window.ServeUpProgress.client.auth.signOut();
             window.location.reload();
         });
-        accountArea.append(message, button);
+        const myLink = document.createElement("a");
+        myLink.href = "my-training.html";
+        myLink.className = "account-link";
+        myLink.textContent = "My training";
+        accountArea.append(message, myLink, button);
 
         window.ServeUpProgress.getMyRole().then(role => {
             if (role !== "admin") return;
