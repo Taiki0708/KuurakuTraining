@@ -46,6 +46,7 @@
             document.getElementById("courseForm").addEventListener("submit", submitCourse);
             document.getElementById("managedCourseSelect").addEventListener("change", populateCourseForm);
             document.getElementById("questionCourseSelect").addEventListener("change", loadQuestions);
+            document.getElementById("questionLocaleSelect").addEventListener("change", loadQuestions);
             document.getElementById("managedQuestionSelect").addEventListener("change", populateQuestionForm);
             document.getElementById("newQuestionButton").addEventListener("click", createNewQuestion);
             document.getElementById("questionForm").addEventListener("submit", submitQuestion);
@@ -125,7 +126,7 @@
         const status = document.getElementById("questionStatus");
         status.textContent = "Loading questions…";
         try {
-            managedQuestions = await window.ServeUpProgress.getAdminCourseQuestions(document.getElementById("questionCourseSelect").value);
+            managedQuestions = await window.ServeUpProgress.getAdminCourseQuestionsLocale(document.getElementById("questionCourseSelect").value, document.getElementById("questionLocaleSelect").value);
             const select = document.getElementById("managedQuestionSelect");
             select.innerHTML = "";
             managedQuestions.forEach((question, index) => {
@@ -194,7 +195,7 @@
         }
         status.textContent = "Saving question…";
         try {
-            await window.ServeUpProgress.saveTrainingQuestion(selectedQuestionId, document.getElementById("questionCourseSelect").value, document.getElementById("questionText").value, answers, correctAnswer, document.getElementById("questionExplanation").value, Number(document.getElementById("questionOrder").value));
+            await window.ServeUpProgress.saveTrainingQuestionLocale(selectedQuestionId, document.getElementById("questionCourseSelect").value, document.getElementById("questionLocaleSelect").value, document.getElementById("questionText").value, answers, correctAnswer, document.getElementById("questionExplanation").value, Number(document.getElementById("questionOrder").value));
             await loadQuestions();
             status.textContent = "Question saved.";
         } catch (error) {
