@@ -58,7 +58,9 @@
             const item = document.createElement("li");
             item.textContent = courseNames[assignment.course_id] || assignment.course_id;
             if (assignment.due_date) {
+                const due = new Date(assignment.due_date + "T23:59:59");
                 item.textContent += " — Due " + new Date(assignment.due_date + "T00:00:00").toLocaleDateString();
+                if (due < new Date()) item.className = "overdue-item";
             }
             list.appendChild(item);
         });
