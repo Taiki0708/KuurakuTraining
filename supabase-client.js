@@ -201,6 +201,19 @@ window.ServeUpProgress = {
             }, { onConflict: "user_id,course_id" });
 
         if (error) throw error;
+        await this.issueTrainingCertificate(courseId);
         return true;
+    },
+
+    async issueTrainingCertificate(courseId) {
+        const { data, error } = await supabaseClient.rpc("issue_training_certificate", { p_course_id: courseId });
+        if (error) throw error;
+        return (data || [])[0] || null;
+    },
+
+    async getMyTrainingCertificate(courseId) {
+        const { data, error } = await supabaseClient.rpc("get_my_training_certificate", { p_course_id: courseId });
+        if (error) throw error;
+        return (data || [])[0] || null;
     }
 };
