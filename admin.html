@@ -58,6 +58,11 @@
             <p id="assignmentStatus" class="empty-state" aria-live="polite"></p>
         </section>
 
+<section class="admin-panel">
+<h2>Follow-up needed</h2>
+<div class="summary"><div class="summary-card">Overdue<span id="overdueCount" class="summary-number">0</span></div><div class="summary-card">Due within 7 days<span id="dueSoonCount" class="summary-number">0</span></div><div class="summary-card">Uncompleted assignments<span id="uncompletedCount" class="summary-number">0</span></div></div>
+<div class="report-card"><table class="report-table"><thead><tr><th>Learner</th><th>Course</th><th>Due date</th><th>Follow-up</th></tr></thead><tbody id="followUpRows"></tbody></table><p id="followUpEmpty" class="empty-state" hidden>No follow-up needed.</p></div>
+</section>
         <section class="admin-panel">
             <h2>Course settings</h2>
             <p class="subtitle">Edit the title, description, display order, and published status of the existing courses.</p>
