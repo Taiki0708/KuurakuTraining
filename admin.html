@@ -11,9 +11,16 @@
 .logo { font-size: 36px; letter-spacing: 8px; font-weight: 700; margin-bottom: 10px; }
 .subtitle { color: var(--serveup-muted); }
 .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 26px 0; }
-.summary-card { padding: 20px; border: 1px solid var(--serveup-border); border-radius: 14px; }
+.summary-card, .admin-panel { padding: 20px; border: 1px solid var(--serveup-border); border-radius: 14px; margin: 26px 0; }
 .summary-number { display: block; font-size: 30px; font-weight: 700; margin-top: 8px; }
-@media (max-width: 700px) { .summary { grid-template-columns: 1fr; } .report-card { overflow-x: auto; } }
+.course-editor { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.course-editor label { display: grid; gap: 7px; font-weight: 600; }
+.course-editor input, .course-editor select, .course-editor textarea { width: 100%; padding: 10px; font: inherit; border: 1px solid var(--serveup-border); border-radius: 8px; }
+.course-editor textarea { min-height: 92px; resize: vertical; }
+.course-editor .full-width { grid-column: 1 / -1; }
+.checkbox-label { display: flex !important; align-items: center; gap: 9px; }
+.checkbox-label input { width: auto; }
+@media (max-width: 700px) { .summary, .course-editor { grid-template-columns: 1fr; } .report-card { overflow-x: auto; } }
 </style>
 </head>
 <body>
@@ -41,6 +48,31 @@
             </form>
             <p id="assignmentStatus" class="empty-state" aria-live="polite"></p>
         </section>
+
+        <section class="admin-panel">
+            <h2>Course settings</h2>
+            <p class="subtitle">Edit the title, description, display order, and published status of the existing courses.</p>
+            <form id="courseForm" class="course-editor">
+                <label class="full-width">Course
+                    <select id="managedCourseSelect" required></select>
+                </label>
+                <label>Title
+                    <input id="managedCourseTitle" type="text" required maxlength="120">
+                </label>
+                <label>Display order
+                    <input id="managedCourseOrder" type="number" min="1" max="99" required>
+                </label>
+                <label class="full-width">Description
+                    <textarea id="managedCourseDescription" required maxlength="500"></textarea>
+                </label>
+                <label class="checkbox-label full-width">
+                    <input id="managedCourseActive" type="checkbox"> Published for learners
+                </label>
+                <div class="full-width"><button class="auth-button" type="submit">Save course settings</button></div>
+            </form>
+            <p id="courseStatus" class="empty-state" aria-live="polite"></p>
+        </section>
+
         <section class="report-card">
             <table class="report-table">
                 <thead><tr><th>Learner</th><th>Assigned course</th><th>Due date</th><th>Status</th></tr></thead>
