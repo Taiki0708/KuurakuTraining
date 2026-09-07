@@ -107,6 +107,11 @@
         }).catch(error => console.error("Could not load user role.", error));
     }
 
+    function applyCourseVisibility(courses) {
+        const active = new Set(courses.map(course => course.id));
+        document.querySelectorAll("[data-course-id]").forEach(card => { card.hidden = !active.has(card.dataset.courseId); });
+    }
+
     async function initialise() {
         const user = await window.ServeUpProgress.getCurrentUser();
         renderAccount(user);
@@ -118,10 +123,12 @@
         }
 
         try {
-            const [courses, assignments] = await Promise.all([
+            const [courses, assignments, activeCourses] = await Promise.all([
                 window.ServeUpProgress.getCompletedCourses(),
-                window.ServeUpProgress.getMyAssignments()
+                window.ServeUpProgress.getMyAssignments(),
+                window.ServeUpProgress.getActiveCourses()
             ]);
+            applyCourseVisibility(activeCourses);
             renderAssignments(assignments);
             const completed = courses
                 .map(course => ({
