@@ -95,6 +95,36 @@ window.ServeUpProgress = {
         if (error) throw error;
     },
 
+    async getAdminCourseQuestions(courseId) {
+        const { data, error } = await supabaseClient.rpc("get_admin_course_questions", {
+            p_course_id: courseId
+        });
+        if (error) throw error;
+        return data || [];
+    },
+
+    async saveTrainingQuestion(id, courseId, questionText, answers, correctAnswer, explanation, sortOrder) {
+        const { data, error } = await supabaseClient.rpc("save_training_question", {
+            p_id: id,
+            p_course_id: courseId,
+            p_question_text: questionText,
+            p_answers: answers,
+            p_correct_answer: correctAnswer,
+            p_explanation: explanation,
+            p_sort_order: sortOrder
+        });
+        if (error) throw error;
+        return data;
+    },
+
+    async deleteTrainingQuestion(id, courseId) {
+        const { error } = await supabaseClient.rpc("delete_training_question", {
+            p_id: id,
+            p_course_id: courseId
+        });
+        if (error) throw error;
+    },
+
     async assignCourse(userId, courseId, dueDate) {
         const { error } = await supabaseClient.rpc("assign_training_course", {
             p_user_id: userId,
