@@ -65,6 +65,15 @@
             window.location.reload();
         });
         accountArea.append(message, button);
+
+        window.ServeUpProgress.getMyRole().then(role => {
+            if (role !== "admin") return;
+            const adminLink = document.createElement("a");
+            adminLink.href = "admin.html";
+            adminLink.className = "account-link";
+            adminLink.textContent = "Admin dashboard";
+            accountArea.insertBefore(adminLink, button);
+        }).catch(error => console.error("Could not load user role.", error));
     }
 
     async function initialise() {
