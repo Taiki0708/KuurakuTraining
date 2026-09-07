@@ -26,6 +26,28 @@
     </header>
     <div id="accessMessage" class="empty-state">Checking access…</div>
     <section id="reportContent" hidden>
+        <section class="assignment-admin">
+            <h2>Assign training</h2>
+            <form id="assignmentForm" class="assignment-form">
+                <label>Learner<select id="learnerSelect" required></select></label>
+                <label>Course<select id="courseSelect" required>
+                    <option value="customer-service">Customer Service</option>
+                    <option value="food-safety">Food Safety</option>
+                    <option value="japanese-hospitality">Japanese Hospitality</option>
+                    <option value="restaurant-basics">Restaurant Basics</option>
+                </select></label>
+                <label>Due date <input id="dueDate" type="date"></label>
+                <button class="auth-button" type="submit">Assign course</button>
+            </form>
+            <p id="assignmentStatus" class="empty-state" aria-live="polite"></p>
+        </section>
+        <section class="report-card">
+            <table class="report-table">
+                <thead><tr><th>Learner</th><th>Assigned course</th><th>Due date</th></tr></thead>
+                <tbody id="assignmentRows"></tbody>
+            </table>
+            <p id="assignmentEmptyState" class="empty-state" hidden>No assigned courses yet.</p>
+        </section>
         <div class="summary">
             <div class="summary-card">Completed courses<span id="completionCount" class="summary-number">0</span></div>
             <div class="summary-card">Learners<span id="learnerCount" class="summary-number">0</span></div>
