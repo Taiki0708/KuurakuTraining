@@ -8,6 +8,7 @@
         "restaurant-basics": "Restaurant Basics"
     };
     let managedCourses = [];
+    let currentReport = [];
     let managedQuestions = [];
     let selectedQuestionId = null;
 
@@ -36,7 +37,10 @@
             managedCourses = courses;
             accessMessage.hidden = true;
             content.hidden = false;
+            currentReport = report;
             renderReport(report);
+            document.getElementById("learnerSearch").addEventListener("input", event => renderReport(currentReport, event.target.value));
+            document.getElementById("exportReport").addEventListener("click", exportReport);
             populateLearners(learners);
             renderAssignments(assignments);
             renderFollowUp(assignments, report);
@@ -275,7 +279,18 @@
         }
     }
 
-    function renderReport(report) {
+    function exportReport() {
+        const rows = [["Learner", "Course", "Score", "Completed"]].concat(currentReport.map(item => [item.email, courseNames[item.course_id] || item.course_id, item.score, item.completed_at]));
+        const csv = rows.map(row => row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(",")).join("\n");
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+        link.download = "serveup-training-progress.csv";
+        link.click();
+        URL.revokeObjectURL(link.href);
+    }
+
+    function renderReport(report, filter = "") {
+        report = report.filter(item => item.email.toLowerCase().includes(filter.toLowerCase()));
         const rows = document.getElementById("reportRows");
         const uniqueLearners = new Set(report.map(item => item.email));
         const average = report.length ? Math.round(report.reduce((total, item) => total + item.score, 0) / report.length) : 0;
