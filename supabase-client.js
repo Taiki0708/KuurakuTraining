@@ -104,6 +104,9 @@ window.ServeUpProgress = {
         if (error) throw error;
     },
 
+    async getAdminCourseQuestionsLocale(courseId, locale) { const { data, error } = await supabaseClient.from("course_questions").select("id, course_id, locale, question_text, answers, correct_answer, explanation, sort_order").eq("course_id", courseId).eq("locale", locale).order("sort_order"); if (error) throw error; return data || []; },
+    async saveTrainingQuestionLocale(id, courseId, locale, questionText, answers, correctAnswer, explanation, sortOrder) { const { data, error } = await supabaseClient.rpc("save_training_question_locale", { p_id:id, p_course_id:courseId, p_locale:locale, p_question_text:questionText, p_answers:answers, p_correct_answer:correctAnswer, p_explanation:explanation, p_sort_order:sortOrder }); if (error) throw error; return data; },
+
     async getAdminCourseQuestions(courseId) {
         const { data, error } = await supabaseClient.rpc("get_admin_course_questions", {
             p_course_id: courseId
