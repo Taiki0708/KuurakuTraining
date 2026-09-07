@@ -53,6 +53,40 @@ window.ServeUpProgress = {
         return data ? data.role : "learner";
     },
 
+    async getMyAssignments() {
+        const user = await this.getCurrentUser();
+        if (!user) return [];
+
+        const { data, error } = await supabaseClient
+            .from("course_assignments")
+            .select("course_id, due_date")
+            .order("due_date", { ascending: true, nullsFirst: false });
+
+        if (error) throw error;
+        return data || [];
+    },
+
+    async getAdminLearners() {
+        const { data, error } = await supabaseClient.rpc("get_training_learners");
+        if (error) throw error;
+        return data || [];
+    },
+
+    async getAdminAssignments() {
+        const { data, error } = await supabaseClient.rpc("get_training_assignments");
+        if (error) throw error;
+        return data || [];
+    },
+
+    async assignCourse(userId, courseId, dueDate) {
+        const { error } = await supabaseClient.rpc("assign_training_course", {
+            p_user_id: userId,
+            p_course_id: courseId,
+            p_due_date: dueDate || null
+        });
+        if (error) throw error;
+    },
+
     async getManagerReport() {
         const { data, error } = await supabaseClient.rpc("get_training_report");
         if (error) throw error;
