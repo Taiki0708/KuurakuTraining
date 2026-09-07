@@ -60,8 +60,11 @@
 
         assignments.forEach(assignment => {
             const row = document.createElement("tr");
+            const overdue = assignment.due_date && new Date(assignment.due_date + "T23:59:59") < new Date();
+            if (overdue) row.className = "overdue-row";
             [assignment.email, courseNames[assignment.course_id] || assignment.course_id,
-                assignment.due_date ? new Date(assignment.due_date + "T00:00:00").toLocaleDateString() : "No deadline"]
+                assignment.due_date ? new Date(assignment.due_date + "T00:00:00").toLocaleDateString() : "No deadline",
+                overdue ? "Overdue" : "On schedule"]
                 .forEach(value => {
                     const cell = document.createElement("td");
                     cell.textContent = value;
