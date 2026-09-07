@@ -78,6 +78,23 @@ window.ServeUpProgress = {
         return data || [];
     },
 
+    async getAdminCourses() {
+        const { data, error } = await supabaseClient.rpc("get_admin_courses");
+        if (error) throw error;
+        return data || [];
+    },
+
+    async saveTrainingCourse(id, sortOrder, isActive, title, description) {
+        const { error } = await supabaseClient.rpc("save_training_course", {
+            p_id: id,
+            p_sort_order: sortOrder,
+            p_is_active: isActive,
+            p_title: title,
+            p_description: description
+        });
+        if (error) throw error;
+    },
+
     async assignCourse(userId, courseId, dueDate) {
         const { error } = await supabaseClient.rpc("assign_training_course", {
             p_user_id: userId,
