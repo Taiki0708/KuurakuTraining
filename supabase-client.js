@@ -84,6 +84,9 @@ window.ServeUpProgress = {
     async addTrainingGroupMember(groupId, userId) { const { error } = await supabaseClient.rpc("add_training_group_member", { p_group_id: groupId, p_user_id: userId }); if (error) throw error; },
     async assignTrainingGroupCourse(groupId, courseId, dueDate) { const { data, error } = await supabaseClient.rpc("assign_training_group_course", { p_group_id: groupId, p_course_id: courseId, p_due_date: dueDate || null }); if (error) throw error; return data; },
 
+    async saveTrainingCourseTranslation(courseId, locale, title, description) { const { error } = await supabaseClient.rpc("save_training_course_translation", { p_course_id: courseId, p_locale: locale, p_title: title, p_description: description }); if (error) throw error; },
+    async getCourseTranslation(courseId, locale) { const { data, error } = await supabaseClient.rpc("get_course_translation", { p_course_id: courseId, p_locale: locale }); if (error) throw error; return (data || [])[0] || null; },
+
     async getAdminCourses() {
         const { data, error } = await supabaseClient.rpc("get_admin_courses");
         if (error) throw error;
