@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | ServeUp</title>
+<link rel="stylesheet" href="serveup.css">
+<style>
+.container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 60px 0; }
+.header { margin-bottom: 28px; }
+.logo { font-size: 36px; letter-spacing: 8px; font-weight: 700; margin-bottom: 10px; }
+.subtitle { color: var(--serveup-muted); }
+.summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 26px 0; }
+.summary-card { padding: 20px; border: 1px solid var(--serveup-border); border-radius: 14px; }
+.summary-number { display: block; font-size: 30px; font-weight: 700; margin-top: 8px; }
+@media (max-width: 700px) { .summary { grid-template-columns: 1fr; } .report-card { overflow-x: auto; } }
+</style>
+</head>
+<body>
+<main class="container">
+    <a href="index.html" class="home-link">← Back to Home</a>
+    <header class="header">
+        <div class="logo">SERVEUP</div>
+        <p class="subtitle">Administrator training report</p>
+        <h1>Training progress</h1>
+    </header>
+    <div id="accessMessage" class="empty-state">Checking access…</div>
+    <section id="reportContent" hidden>
+        <div class="summary">
+            <div class="summary-card">Completed courses<span id="completionCount" class="summary-number">0</span></div>
+            <div class="summary-card">Learners<span id="learnerCount" class="summary-number">0</span></div>
+            <div class="summary-card">Average score<span id="averageScore" class="summary-number">0%</span></div>
+        </div>
+        <div class="report-card">
+            <table class="report-table">
+                <thead><tr><th>Learner</th><th>Course</th><th>Score</th><th>Completed</th></tr></thead>
+                <tbody id="reportRows"></tbody>
+            </table>
+            <p id="emptyState" class="empty-state" hidden>No completed courses yet.</p>
+        </div>
+    </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
