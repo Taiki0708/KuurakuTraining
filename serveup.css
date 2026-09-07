@@ -205,3 +205,6 @@ body {
 .assignment-form .auth-button:hover {
     background: var(--serveup-button-hover);
 }
+
+.overdue-row td { background: #fdf5f5; color: #b94a4a; }
+.overdue-item { color: #b94a4a; font-weight: 700; }
