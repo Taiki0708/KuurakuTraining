@@ -25,13 +25,68 @@
                 return;
             }
 
-            const report = await window.ServeUpProgress.getManagerReport();
+            const [report, learners, assignments] = await Promise.all([
+                window.ServeUpProgress.getManagerReport(),
+                window.ServeUpProgress.getAdminLearners(),
+                window.ServeUpProgress.getAdminAssignments()
+            ]);
             accessMessage.hidden = true;
             content.hidden = false;
             renderReport(report);
+            populateLearners(learners);
+            renderAssignments(assignments);
+            document.getElementById("assignmentForm").addEventListener("submit", submitAssignment);
         } catch (error) {
             console.error("Could not load the manager report.", error);
             accessMessage.textContent = "The report could not be loaded. Please try again.";
+        }
+    }
+
+    function populateLearners(learners) {
+        const select = document.getElementById("learnerSelect");
+        select.innerHTML = "";
+        learners.forEach(learner => {
+            const option = document.createElement("option");
+            option.value = learner.user_id;
+            option.textContent = learner.email;
+            select.appendChild(option);
+        });
+    }
+
+    function renderAssignments(assignments) {
+        const rows = document.getElementById("assignmentRows");
+        rows.innerHTML = "";
+        document.getElementById("assignmentEmptyState").hidden = assignments.length > 0;
+
+        assignments.forEach(assignment => {
+            const row = document.createElement("tr");
+            [assignment.email, courseNames[assignment.course_id] || assignment.course_id,
+                assignment.due_date ? new Date(assignment.due_date + "T00:00:00").toLocaleDateString() : "No deadline"]
+                .forEach(value => {
+                    const cell = document.createElement("td");
+                    cell.textContent = value;
+                    row.appendChild(cell);
+                });
+            rows.appendChild(row);
+        });
+    }
+
+    async function submitAssignment(event) {
+        event.preventDefault();
+        const status = document.getElementById("assignmentStatus");
+        status.textContent = "Saving assignment…";
+        try {
+            await window.ServeUpProgress.assignCourse(
+                document.getElementById("learnerSelect").value,
+                document.getElementById("courseSelect").value,
+                document.getElementById("dueDate").value
+            );
+            const assignments = await window.ServeUpProgress.getAdminAssignments();
+            renderAssignments(assignments);
+            status.textContent = "Course assigned.";
+        } catch (error) {
+            console.error("Could not assign course.", error);
+            status.textContent = "The assignment could not be saved.";
         }
     }
 
