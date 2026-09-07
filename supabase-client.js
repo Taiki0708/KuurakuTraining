@@ -103,6 +103,28 @@ window.ServeUpProgress = {
         return data || [];
     },
 
+    async getPublishedQuizQuestions(storageKey) {
+        const user = await this.getCurrentUser();
+        const courseId = courseIds[storageKey];
+        if (!user || !courseId) return [];
+
+        const { data, error } = await supabaseClient
+            .from("course_questions")
+            .select("question_text, answers, correct_answer, explanation, sort_order")
+            .eq("course_id", courseId)
+            .eq("locale", "en")
+            .order("sort_order", { ascending: true });
+
+        if (error) throw error;
+        return (data || []).map(question => ({
+            question: question.question_text,
+            answers: question.answers,
+            correct: question.correct_answer,
+            explanation: question.explanation || "",
+            key: ""
+        }));
+    },
+
     async saveTrainingQuestion(id, courseId, questionText, answers, correctAnswer, explanation, sortOrder) {
         const { data, error } = await supabaseClient.rpc("save_training_question", {
             p_id: id,
