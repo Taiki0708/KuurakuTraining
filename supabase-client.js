@@ -93,6 +93,21 @@ window.ServeUpProgress = {
         return data || [];
     },
 
+    async recordAttempt(storageKey, score) {
+        const user = await this.getCurrentUser();
+        const courseId = courseIds[storageKey];
+        if (!user || !courseId) return false;
+
+        const { error } = await supabaseClient.from("training_attempts").insert({
+            user_id: user.id,
+            course_id: courseId,
+            score,
+            passed: score >= 80
+        });
+        if (error) throw error;
+        return true;
+    },
+
     async saveCompletion(storageKey, score) {
         const user = await this.getCurrentUser();
         const courseId = courseIds[storageKey];
