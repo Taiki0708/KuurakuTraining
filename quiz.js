@@ -13,8 +13,14 @@
     window.ServeUpQuiz = {
         async init(config) {
             const state = { current: 0, score: 0, answered: false };
+            const locale = localStorage.getItem("serveupLanguage") || "en";
+            const text = {
+                en: { loading: "Loading quiz…", question: "Question", correct: "Correct", notQuite: "Not quite", next: "Next →", results: "See Results →" },
+                ja: { loading: "クイズを読み込み中…", question: "問題", correct: "正解", notQuite: "不正解", next: "次へ →", results: "結果を見る →" },
+                hi: { loading: "क्विज़ लोड हो रही है…", question: "प्रश्न", correct: "सही", notQuite: "सही नहीं", next: "अगला →", results: "परिणाम देखें →" }
+            }[locale] || {};
             let questions = config.questions;
-            setText("progress", "Loading quiz…");
+            setText("progress", text.loading || "Loading quiz…");
 
             if (window.ServeUpProgress) {
                 try {
@@ -35,12 +41,12 @@
                 const question = questions[state.current];
                 const answers = getAnswers(question);
 
-                setText("progress", "Question " + (state.current + 1) + " / " + questions.length);
+                setText("progress", (text.question || "Question") + " " + (state.current + 1) + " / " + questions.length);
                 setText("question", question.question);
                 answerContainer.innerHTML = "";
                 if (feedback) feedback.style.display = "none";
                 nextButton.style.display = "none";
-                nextButton.textContent = config.nextLabel || "Next →";
+                nextButton.textContent = text.next || config.nextLabel || "Next →";
 
                 answers.forEach((answer, index) => {
                     const button = document.createElement("button");
@@ -68,7 +74,7 @@
                 if (config.feedbackMode === "detailed") {
                     feedback.className = "feedback " + (selected === correct ? "correct" : "incorrect");
                     setText("feedbackIcon", selected === correct ? "✓" : "×");
-                    setText("feedbackTitle", selected === correct ? "Correct" : "Not quite");
+                    setText("feedbackTitle", selected === correct ? (text.correct || "Correct") : (text.notQuite || "Not quite"));
                     setText("correctAnswer", "The correct answer is " + String.fromCharCode(65 + correct) + ". " + getAnswers(question)[correct]);
                     setText("explanation", question.explanation);
                 } else if (config.feedbackMode === "keypoint") {
@@ -87,8 +93,8 @@
 
                 feedback.style.display = "block";
                 nextButton.textContent = state.current === questions.length - 1
-                    ? (config.resultsLabel || "See Results →")
-                    : (config.nextLabel || "Next →");
+                    ? (text.results || config.resultsLabel || "See Results →")
+                    : (text.next || config.nextLabel || "Next →");
                 nextButton.style.display = "block";
             }
 
