@@ -26,6 +26,8 @@ window.ServeUpProgress = {
         return data.user;
     },
 
+    async getActiveCourses() { const { data, error } = await supabaseClient.from("courses").select("id, sort_order").eq("is_active", true).order("sort_order"); if (error) throw error; return data || []; },
+
     async getCompletedCourses() {
         const user = await this.getCurrentUser();
         if (!user) return [];
