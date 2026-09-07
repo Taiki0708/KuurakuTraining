@@ -283,7 +283,7 @@ body {
     </div>
 
 
-    <div id="accountArea" class="account-area" aria-live="polite"></div>
+    <div id="accountArea" class="account-area" aria-live="polite"></div><label class="language-switch">Language <select id="languageSelect"><option value="en">English</option><option value="ja">日本語</option><option value="hi">हिन्दी</option></select></label>
 
     <!-- WELCOME -->
 
@@ -330,7 +330,7 @@ body {
 
         <!-- CUSTOMER SERVICE -->
 
-        <div class="course-card">
+        <div class="course-card" data-course-id="customer-service">
 
             <div class="course-number">
                 COURSE 01
@@ -354,7 +354,7 @@ body {
 
         <!-- FOOD SAFETY -->
 
-        <div class="course-card">
+        <div class="course-card" data-course-id="food-safety">
 
             <div class="course-number">
                 COURSE 02
@@ -379,7 +379,7 @@ body {
 
         <!-- JAPANESE HOSPITALITY -->
 
-        <div class="course-card">
+        <div class="course-card" data-course-id="japanese-hospitality">
 
             <div class="course-number">
                 COURSE 03
@@ -404,7 +404,7 @@ body {
 
         <!-- RESTAURANT BASICS -->
 
-        <div class="course-card">
+        <div class="course-card" data-course-id="restaurant-basics">
 
             <div class="course-number">
                 COURSE 04
@@ -442,6 +442,7 @@ body {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js"></script>
 <script src="dashboard.js"></script>
+<script src="language.js"></script>
 
 </body>
 </html>
