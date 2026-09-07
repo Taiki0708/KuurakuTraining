@@ -117,14 +117,20 @@ window.ServeUpProgress = {
         const courseId = courseIds[storageKey];
         if (!user || !courseId) return [];
 
-        const { data, error } = await supabaseClient
+        const locale = localStorage.getItem("serveupLanguage") || "en";
+        const load = async language => supabaseClient
             .from("course_questions")
             .select("question_text, answers, correct_answer, explanation, sort_order")
             .eq("course_id", courseId)
-            .eq("locale", "en")
+            .eq("locale", language)
             .order("sort_order", { ascending: true });
 
+        let { data, error } = await load(locale);
         if (error) throw error;
+        if ((!data || !data.length) && locale !== "en") {
+            ({ data, error } = await load("en"));
+            if (error) throw error;
+        }
         return (data || []).map(question => ({
             question: question.question_text,
             answers: question.answers,
