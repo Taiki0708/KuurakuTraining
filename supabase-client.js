@@ -78,6 +78,12 @@ window.ServeUpProgress = {
         return data || [];
     },
 
+    async getTrainingGroups() { const { data, error } = await supabaseClient.rpc("get_training_groups"); if (error) throw error; return data || []; },
+    async createTrainingGroup(name, description) { const { data, error } = await supabaseClient.rpc("create_training_group", { p_name: name, p_description: description }); if (error) throw error; return data; },
+    async getTrainingGroupMembers(groupId) { const { data, error } = await supabaseClient.rpc("get_training_group_members", { p_group_id: groupId }); if (error) throw error; return data || []; },
+    async addTrainingGroupMember(groupId, userId) { const { error } = await supabaseClient.rpc("add_training_group_member", { p_group_id: groupId, p_user_id: userId }); if (error) throw error; },
+    async assignTrainingGroupCourse(groupId, courseId, dueDate) { const { data, error } = await supabaseClient.rpc("assign_training_group_course", { p_group_id: groupId, p_course_id: courseId, p_due_date: dueDate || null }); if (error) throw error; return data; },
+
     async getAdminCourses() {
         const { data, error } = await supabaseClient.rpc("get_admin_courses");
         if (error) throw error;
