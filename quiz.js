@@ -11,9 +11,19 @@
     }
 
     window.ServeUpQuiz = {
-        init(config) {
+        async init(config) {
             const state = { current: 0, score: 0, answered: false };
-            const questions = config.questions;
+            let questions = config.questions;
+            setText("progress", "Loading quiz…");
+
+            if (window.ServeUpProgress) {
+                try {
+                    const managedQuestions = await window.ServeUpProgress.getPublishedQuizQuestions(config.storageKey);
+                    if (managedQuestions.length) questions = managedQuestions;
+                } catch (error) {
+                    console.error("Could not load managed quiz questions.", error);
+                }
+            }
             const getAnswers = question => question.answers || question.options;
             const getCorrect = question => question.correct ?? question.answer;
             const answerContainer = byId(config.answerContainerId);
