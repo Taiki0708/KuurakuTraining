@@ -95,6 +95,12 @@
                 byId(config.resultId).style.display = "block";
                 setText("score", percentage + "%");
 
+                if (window.ServeUpProgress) {
+                    window.ServeUpProgress
+                        .recordAttempt(config.storageKey, percentage)
+                        .catch(error => console.error("Could not save training attempt.", error));
+                }
+
                 if (passed) {
                     localStorage.setItem(config.storageKey, "true");
 
@@ -111,6 +117,18 @@
                     status.textContent = passed ? "Passed ✓" : "Not Passed ×";
                     status.className = "result-status " + (passed ? "passed" : "not-passed");
                     setText("resultMessage", "You answered " + state.score + " out of " + questions.length + " questions correctly. " + (passed ? "Great job!" : "You need 80% or higher to pass."));
+                if (passed) {
+                    const certificateHost = byId("resultMessage") || byId("resultText");
+                    if (certificateHost) {
+                        const certificate = document.createElement("a");
+                        certificate.href = "certificate.html?course=" + encodeURIComponent(config.storageKey);
+                        certificate.className = "certificate-link";
+                        certificate.textContent = "View certificate →";
+                        certificateHost.appendChild(document.createElement("br"));
+                        certificateHost.appendChild(certificate);
+                    }
+                }
+
                 } else if (config.resultMode === "customer") {
                     setText("resultTitle", passed ? "Well done! ✓" : "Keep practicing!");
                     setText("resultMessage", passed
