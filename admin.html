@@ -128,6 +128,15 @@
             <p id="questionStatus" class="empty-state" aria-live="polite"></p>
         </section>
 
+<section id="groupAdmin" class="admin-panel" hidden>
+<h2>Group management</h2>
+<form id="groupForm" class="course-editor"><label>Group name<input id="groupName" required></label><label>Description<input id="groupDescription"></label><div><button class="auth-button">Create group</button></div></form>
+<label>Group<select id="groupSelect"></select></label>
+<form id="memberForm" class="course-editor"><label>Learner<select id="groupLearnerSelect"></select></label><div><button class="auth-button">Add learner</button></div></form>
+<p id="groupMembers" class="empty-state"></p>
+<form id="groupAssignmentForm" class="course-editor"><label>Course<select id="groupCourseSelect"><option value="customer-service">Customer Service</option><option value="food-safety">Food Safety</option><option value="japanese-hospitality">Japanese Hospitality</option><option value="restaurant-basics">Restaurant Basics</option></select></label><label>Due date<input id="groupDueDate" type="date"></label><div><button class="auth-button">Assign to group</button></div></form>
+<p id="groupStatus" class="empty-state"></p>
+</section>
         <section class="report-card">
             <table class="report-table">
                 <thead><tr><th>Learner</th><th>Assigned course</th><th>Due date</th><th>Status</th></tr></thead>
@@ -152,5 +161,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js"></script>
 <script src="admin.js"></script>
+<script src="groups.js"></script>
 </body>
 </html>
