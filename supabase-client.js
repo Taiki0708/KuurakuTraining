@@ -223,6 +223,8 @@ window.ServeUpProgress = {
         return (data || [])[0] || null;
     },
 
+    async getMyCertificates() { const { data, error } = await supabaseClient.from("certificates").select("course_id, certificate_number, issued_at").order("issued_at", { ascending: false }); if (error) throw error; return data || []; },
+
     async getMyTrainingCertificate(courseId) {
         const { data, error } = await supabaseClient.rpc("get_my_training_certificate", { p_course_id: courseId });
         if (error) throw error;
