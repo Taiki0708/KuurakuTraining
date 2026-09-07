@@ -26,6 +26,10 @@ window.ServeUpProgress = {
         return data.user;
     },
 
+    async getActiveAnnouncements() { const { data, error } = await supabaseClient.from("training_announcements").select("title, message").eq("is_active", true).order("created_at", { ascending: false }).limit(1); if (error) throw error; return data || []; },
+    async getTrainingAnnouncements() { const { data, error } = await supabaseClient.rpc("get_training_announcements"); if (error) throw error; return data || []; },
+    async saveTrainingAnnouncement(id,title,message,isActive) { const { data, error } = await supabaseClient.rpc("save_training_announcement",{p_id:id,p_title:title,p_message:message,p_is_active:isActive}); if(error) throw error; return data; },
+
     async getActiveCourses() { const { data, error } = await supabaseClient.from("courses").select("id, sort_order").eq("is_active", true).order("sort_order"); if (error) throw error; return data || []; },
 
     async getCompletedCourses() {
