@@ -39,6 +39,26 @@ window.ServeUpProgress = {
         return data || [];
     },
 
+    async getMyRole() {
+        const user = await this.getCurrentUser();
+        if (!user) return null;
+
+        const { data, error } = await supabaseClient
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", user.id)
+            .maybeSingle();
+
+        if (error) throw error;
+        return data ? data.role : "learner";
+    },
+
+    async getManagerReport() {
+        const { data, error } = await supabaseClient.rpc("get_training_report");
+        if (error) throw error;
+        return data || [];
+    },
+
     async saveCompletion(storageKey, score) {
         const user = await this.getCurrentUser();
         const courseId = courseIds[storageKey];
