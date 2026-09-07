@@ -20,6 +20,15 @@
 .course-editor .full-width { grid-column: 1 / -1; }
 .checkbox-label { display: flex !important; align-items: center; gap: 9px; }
 .checkbox-label input { width: auto; }
+.question-list { display: grid; gap: 8px; margin-bottom: 18px; }
+.question-editor { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.question-editor label { display: grid; gap: 7px; font-weight: 600; }
+.question-editor input, .question-editor select, .question-editor textarea { width: 100%; padding: 10px; font: inherit; border: 1px solid var(--serveup-border); border-radius: 8px; }
+.question-editor textarea { min-height: 92px; resize: vertical; }
+.question-editor .full-width { grid-column: 1 / -1; }
+.question-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.danger-button { background: #fff0f0; color: #a23a3a; border: 1px solid #f0caca; padding: 12px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
 @media (max-width: 700px) { .summary, .course-editor { grid-template-columns: 1fr; } .report-card { overflow-x: auto; } }
 </style>
 </head>
@@ -71,6 +80,52 @@
                 <div class="full-width"><button class="auth-button" type="submit">Save course settings</button></div>
             </form>
             <p id="courseStatus" class="empty-state" aria-live="polite"></p>
+        </section>
+
+
+        <section class="admin-panel">
+            <h2>Question settings</h2>
+            <p class="subtitle">Create, edit, reorder, or delete quiz questions. Changes are stored safely for administrators only.</p>
+            <div class="question-list">
+                <label>Course
+                    <select id="questionCourseSelect" required></select>
+                </label>
+                <label>Question
+                    <select id="managedQuestionSelect"></select>
+                </label>
+                <button id="newQuestionButton" class="start-button" type="button">+ New question</button>
+            </div>
+            <form id="questionForm" class="question-editor">
+                <label class="full-width">Question text
+                    <textarea id="questionText" required maxlength="1000"></textarea>
+                </label>
+                <label>Answer 1
+                    <input id="answer1" type="text" required maxlength="500">
+                </label>
+                <label>Answer 2
+                    <input id="answer2" type="text" required maxlength="500">
+                </label>
+                <label>Answer 3 <span class="subtitle">(optional)</span>
+                    <input id="answer3" type="text" maxlength="500">
+                </label>
+                <label>Answer 4 <span class="subtitle">(optional)</span>
+                    <input id="answer4" type="text" maxlength="500">
+                </label>
+                <label>Correct answer
+                    <select id="correctAnswer" required></select>
+                </label>
+                <label>Display order
+                    <input id="questionOrder" type="number" min="1" max="999" required>
+                </label>
+                <label class="full-width">Explanation <span class="subtitle">(optional)</span>
+                    <textarea id="questionExplanation" maxlength="1000"></textarea>
+                </label>
+                <div class="question-actions full-width">
+                    <button class="auth-button" type="submit">Save question</button>
+                    <button id="deleteQuestionButton" class="danger-button" type="button" hidden>Delete question</button>
+                </div>
+            </form>
+            <p id="questionStatus" class="empty-state" aria-live="polite"></p>
         </section>
 
         <section class="report-card">
