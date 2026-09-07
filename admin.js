@@ -7,6 +7,7 @@
         "japanese-hospitality": "Japanese Hospitality",
         "restaurant-basics": "Restaurant Basics"
     };
+    let managedCourses = [];
 
     async function initialise() {
         const accessMessage = document.getElementById("accessMessage");
@@ -25,17 +26,22 @@
                 return;
             }
 
-            const [report, learners, assignments] = await Promise.all([
+            const [report, learners, assignments, courses] = await Promise.all([
                 window.ServeUpProgress.getManagerReport(),
                 window.ServeUpProgress.getAdminLearners(),
-                window.ServeUpProgress.getAdminAssignments()
+                window.ServeUpProgress.getAdminAssignments(),
+                window.ServeUpProgress.getAdminCourses()
             ]);
+            managedCourses = courses;
             accessMessage.hidden = true;
             content.hidden = false;
             renderReport(report);
             populateLearners(learners);
             renderAssignments(assignments);
+            populateManagedCourses();
             document.getElementById("assignmentForm").addEventListener("submit", submitAssignment);
+            document.getElementById("courseForm").addEventListener("submit", submitCourse);
+            document.getElementById("managedCourseSelect").addEventListener("change", populateCourseForm);
         } catch (error) {
             console.error("Could not load the manager report.", error);
             accessMessage.textContent = "The report could not be loaded. Please try again.";
@@ -51,6 +57,52 @@
             option.textContent = learner.email;
             select.appendChild(option);
         });
+    }
+
+    function populateManagedCourses() {
+        const select = document.getElementById("managedCourseSelect");
+        select.innerHTML = "";
+        managedCourses.forEach(course => {
+            const option = document.createElement("option");
+            option.value = course.id;
+            option.textContent = course.title || course.id;
+            select.appendChild(option);
+        });
+        populateCourseForm();
+    }
+
+    function populateCourseForm() {
+        const id = document.getElementById("managedCourseSelect").value;
+        const course = managedCourses.find(item => item.id === id);
+        if (!course) return;
+        document.getElementById("managedCourseTitle").value = course.title || "";
+        document.getElementById("managedCourseDescription").value = course.description || "";
+        document.getElementById("managedCourseOrder").value = course.sort_order;
+        document.getElementById("managedCourseActive").checked = course.is_active;
+    }
+
+    async function submitCourse(event) {
+        event.preventDefault();
+        const status = document.getElementById("courseStatus");
+        const id = document.getElementById("managedCourseSelect").value;
+        status.textContent = "Saving course settings…";
+        try {
+            await window.ServeUpProgress.saveTrainingCourse(
+                id,
+                Number(document.getElementById("managedCourseOrder").value),
+                document.getElementById("managedCourseActive").checked,
+                document.getElementById("managedCourseTitle").value,
+                document.getElementById("managedCourseDescription").value
+            );
+            managedCourses = await window.ServeUpProgress.getAdminCourses();
+            populateManagedCourses();
+            document.getElementById("managedCourseSelect").value = id;
+            populateCourseForm();
+            status.textContent = "Course settings saved.";
+        } catch (error) {
+            console.error("Could not save course settings.", error);
+            status.textContent = "The course settings could not be saved.";
+        }
     }
 
     function renderAssignments(assignments) {
