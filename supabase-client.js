@@ -262,4 +262,22 @@ window.ServeUpProgress = {
         if (error) throw error;
     },
 
+
+    async getPlatformOrganizationMembers(organizationId) {
+        const { data, error } = await supabaseClient.rpc("get_platform_organization_members", {
+            p_organization_id: organizationId
+        });
+        if (error) throw error;
+        return data || [];
+    },
+
+    async addPlatformOrganizationMember(organizationId, email, role) {
+        const { error } = await supabaseClient.rpc("add_platform_organization_member", {
+            p_organization_id: organizationId,
+            p_email: email,
+            p_role: role
+        });
+        if (error) throw error;
+    },
+
 };
