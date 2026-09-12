@@ -28,11 +28,12 @@
                 return;
             }
 
+            const platformAdmin = await window.ServeUpProgress.isPlatformAdmin();
             const [report, learners, assignments, courses] = await Promise.all([
                 window.ServeUpProgress.getManagerReport(),
                 window.ServeUpProgress.getAdminLearners(),
                 window.ServeUpProgress.getAdminAssignments(),
-                window.ServeUpProgress.getAdminCourses()
+                platformAdmin ? window.ServeUpProgress.getAdminCourses() : Promise.resolve([])
             ]);
             managedCourses = courses;
             accessMessage.hidden = true;
@@ -44,21 +45,27 @@
             populateLearners(learners);
             renderAssignments(assignments);
             renderFollowUp(assignments, report);
-            populateManagedCourses();
-            populateQuestionCourses();
-            await loadQuestions();
             document.getElementById("assignmentForm").addEventListener("submit", submitAssignment);
-            document.getElementById("courseForm").addEventListener("submit", submitCourse);
-            document.getElementById("managedCourseSelect").addEventListener("change", populateCourseForm);
-            document.getElementById("questionCourseSelect").addEventListener("change", loadQuestions);
-            document.getElementById("questionLocaleSelect").addEventListener("change", loadQuestions);
-            document.getElementById("managedQuestionSelect").addEventListener("change", populateQuestionForm);
-            document.getElementById("newQuestionButton").addEventListener("click", createNewQuestion);
-            document.getElementById("questionForm").addEventListener("submit", submitQuestion);
-            document.getElementById("deleteQuestionButton").addEventListener("click", deleteQuestion);
-            ["answer1", "answer2", "answer3", "answer4"].forEach(id =>
-                document.getElementById(id).addEventListener("input", updateCorrectAnswerOptions)
-            );
+            if (platformAdmin) {
+                ["platformCourseAdmin", "platformQuestionAdmin", "announcementAdmin"].forEach(id => {
+                    const panel = document.getElementById(id);
+                    if (panel) panel.hidden = false;
+                });
+                populateManagedCourses();
+                populateQuestionCourses();
+                await loadQuestions();
+                document.getElementById("courseForm").addEventListener("submit", submitCourse);
+                document.getElementById("managedCourseSelect").addEventListener("change", populateCourseForm);
+                document.getElementById("questionCourseSelect").addEventListener("change", loadQuestions);
+                document.getElementById("questionLocaleSelect").addEventListener("change", loadQuestions);
+                document.getElementById("managedQuestionSelect").addEventListener("change", populateQuestionForm);
+                document.getElementById("newQuestionButton").addEventListener("click", createNewQuestion);
+                document.getElementById("questionForm").addEventListener("submit", submitQuestion);
+                document.getElementById("deleteQuestionButton").addEventListener("click", deleteQuestion);
+                ["answer1", "answer2", "answer3", "answer4"].forEach(id =>
+                    document.getElementById(id).addEventListener("input", updateCorrectAnswerOptions)
+                );
+            }
         } catch (error) {
             console.error("Could not load the manager report.", error);
             accessMessage.textContent = "The report could not be loaded. Please try again.";
