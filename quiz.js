@@ -25,7 +25,7 @@
             if (window.ServeUpProgress) {
                 try {
                     const managedQuestions = await window.ServeUpProgress.getPublishedQuizQuestions(config.storageKey);
-                    if (managedQuestions.length) questions = managedQuestions;
+                    if (managedQuestions.length) questions = [...config.questions, ...managedQuestions];
                 } catch (error) {
                     console.error("Could not load managed quiz questions.", error);
                 }
