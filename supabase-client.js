@@ -236,4 +236,30 @@ window.ServeUpProgress = {
         if (error) throw error;
         return (data || [])[0] || null;
     }
+
+    async getPlatformOrganizations() {
+        const { data, error } = await supabaseClient.rpc("get_platform_organizations");
+        if (error) throw error;
+        return data || [];
+    },
+
+    async createPlatformOrganization(name, plan) {
+        const { data, error } = await supabaseClient.rpc("create_platform_organization", {
+            p_name: name,
+            p_plan: plan
+        });
+        if (error) throw error;
+        return data;
+    },
+
+    async updatePlatformOrganization(id, name, plan, status) {
+        const { error } = await supabaseClient.rpc("update_platform_organization", {
+            p_id: id,
+            p_name: name,
+            p_plan: plan,
+            p_status: status
+        });
+        if (error) throw error;
+    },
+
 };
