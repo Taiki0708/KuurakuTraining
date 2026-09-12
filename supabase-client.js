@@ -46,17 +46,17 @@ window.ServeUpProgress = {
     },
 
     async getMyRole() {
-        const user = await this.getCurrentUser();
-        if (!user) return null;
-
-        const { data, error } = await supabaseClient
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", user.id)
-            .maybeSingle();
-
+        const { data, error } = await supabaseClient.rpc("get_my_training_access");
         if (error) throw error;
-        return data ? data.role : "learner";
+        const access = (data || [])[0];
+        return access ? access.role : "learner";
+    },
+
+    async isPlatformAdmin() {
+        const { data, error } = await supabaseClient.rpc("get_my_training_access");
+        if (error) throw error;
+        const access = (data || [])[0];
+        return Boolean(access && access.platform_admin);
     },
 
     async getMyAssignments() {
