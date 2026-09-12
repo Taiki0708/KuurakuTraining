@@ -59,6 +59,18 @@
       </table>
       <p id="empty" class="muted" hidden>No organizations yet.</p>
     </section>
+
+    <section class="card">
+      <h2>Members</h2>
+      <p class="muted">The user must already have created an account with this email address.</p>
+      <form id="addMember">
+        <label>Organization<select id="memberOrganization" required></select></label>
+        <label>Email address<input id="memberEmail" type="email" required placeholder="staff@example.com"></label>
+        <label>Role<select id="memberRole"><option value="learner">Learner</option><option value="admin">Administrator</option></select></label>
+        <button type="submit">Add or update member</button>
+      </form>
+      <div id="memberList" class="muted" style="margin-top:18px">Choose an organization to view members.</div>
+    </section>
   </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -71,6 +83,8 @@
   const empty = document.getElementById("empty");
   const message = document.getElementById("message");
   const setMessage = (text, kind = "") => { message.textContent = text; message.className = kind; };
+  const memberOrganization = document.getElementById("memberOrganization");
+  const memberList = document.getElementById("memberList");
   const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
 
   async function loadOrganizations() {
@@ -82,6 +96,9 @@
       document.getElementById("activeCount").textContent = organizations.filter(x => x.status === "active").length;
       document.getElementById("trialCount").textContent = organizations.filter(x => x.plan === "trial").length;
       empty.hidden = organizations.length > 0;
+      const previousOrganization = memberOrganization.value;
+      memberOrganization.innerHTML = organizations.map(item => '<option value="' + esc(item.id) + '">' + esc(item.name) + '</option>').join("");
+      if (organizations.some(item => item.id === previousOrganization)) memberOrganization.value = previousOrganization;
       rows.innerHTML = organizations.map(item => {
         const planOptions = ["trial","starter","standard","pro"].map(v => '<option value="' + v + '"' + (item.plan === v ? " selected" : "") + '>' + v[0].toUpperCase() + v.slice(1) + "</option>").join("");
         const statusOptions = ["active","paused","cancelled"].map(v => '<option value="' + v + '"' + (item.status === v ? " selected" : "") + '>' + v[0].toUpperCase() + v.slice(1) + "</option>").join("");
@@ -97,11 +114,40 @@
           await loadOrganizations();
         } catch (error) { setMessage(error.message || "Could not update organization.", "error"); button.disabled = false; }
       }));
+      if (organizations.length) await loadMembers();
+      else memberList.textContent = "No organizations yet.";
     } catch (error) {
       rows.innerHTML = "";
       setMessage(error.message || "Could not load organizations.", "error");
     }
   }
+
+  async function loadMembers() {
+    const organizationId = memberOrganization.value;
+    if (!organizationId) { memberList.textContent = "No organization selected."; return; }
+    memberList.textContent = "Loading members…";
+    try {
+      const members = await ServeUpProgress.getPlatformOrganizationMembers(organizationId);
+      memberList.innerHTML = members.length
+        ? '<strong>Current members</strong><ul>' + members.map(member => '<li>' + esc(member.email) + ' — ' + esc(member.role) + '</li>').join("") + '</ul>'
+        : "No members yet.";
+    } catch (error) { memberList.textContent = error.message || "Could not load members."; }
+  }
+
+  memberOrganization.addEventListener("change", loadMembers);
+
+  document.getElementById("addMember").addEventListener("submit", async event => {
+    event.preventDefault();
+    const button = event.currentTarget.querySelector("button");
+    button.disabled = true;
+    try {
+      await ServeUpProgress.addPlatformOrganizationMember(memberOrganization.value, document.getElementById("memberEmail").value.trim(), document.getElementById("memberRole").value);
+      event.currentTarget.reset();
+      setMessage("Member added.", "success");
+      await loadOrganizations();
+    } catch (error) { setMessage(error.message || "Could not add member.", "error"); }
+    button.disabled = false;
+  });
 
   document.getElementById("createOrganization").addEventListener("submit", async event => {
     event.preventDefault();
