@@ -235,7 +235,7 @@ window.ServeUpProgress = {
         const { data, error } = await supabaseClient.rpc("get_my_training_certificate", { p_course_id: courseId });
         if (error) throw error;
         return (data || [])[0] || null;
-    }
+    },
 
     async getPlatformOrganizations() {
         const { data, error } = await supabaseClient.rpc("get_platform_organizations");
