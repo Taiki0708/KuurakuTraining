@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#344d43">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/serveup-192.png">
 
 <title>ServeUp - Restaurant Training</title>
 
@@ -302,6 +306,12 @@ body {
 
     </div>
 
+<section class="training-notice" aria-labelledby="v1Title">
+    <h2 id="v1Title">ServeUp V1 · 8 courses / 240 questions</h2>
+    <p>New multilingual training, short randomized tests, wrong-answer review and manager practical checks.</p>
+    <a class="start-button" href="v1.html">Open V1 training →</a>
+</section>
+
 <div class="progress-card">
     <div class="progress-header">
         <h2>Your Progress</h2>
@@ -445,6 +455,7 @@ body {
 <script src="supabase-client.js?v=4ede70035"></script>
 <script src="dashboard.js"></script>
 <script src="language.js"></script><script src="announcements.js"></script>
+<script src="pwa.js"></script>
 
 <p style="text-align:center;margin:28px"><a href="pricing.html">料金プランを見る</a></p></body>
 </html>

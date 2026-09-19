@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="ServeUp placeholder maskable icon">
+  <rect width="512" height="512" fill="#344d43"/>
+  <circle cx="256" cy="256" r="134" fill="#e8f1ea"/>
+  <circle cx="256" cy="256" r="98" fill="#344d43"/>
+  <path d="M179 244c0-45 31-75 77-75 39 0 65 21 73 54h-39c-5-12-16-19-34-19-24 0-38 15-38 40s14 40 38 40c18 0 29-8 35-22h39c-7 35-34 57-74 57-46 0-77-30-77-75Z" fill="#f4f8f5"/>
+  <path d="M346 164v184" stroke="#dba36b" stroke-width="15" stroke-linecap="round"/>
+</svg>

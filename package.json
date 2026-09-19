@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "serveup",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node --test test/*.test.cjs",
+    "lint": "node scripts/check.mjs",
+    "typecheck": "node scripts/check.mjs",
+    "build": "node scripts/check.mjs"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "ServeUp",
+  "short_name": "ServeUp",
+  "description": "Multilingual restaurant staff training",
+  "start_url": "./v1.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f8f5",
+  "theme_color": "#344d43",
+  "icons": [
+    { "src": "icons/serveup-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/serveup-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/serveup-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/serveup-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

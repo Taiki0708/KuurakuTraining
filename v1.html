@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#344d43">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>ServeUp | Training</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/serveup-192.png">
+  <link rel="stylesheet" href="v1.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="index.html">ServeUp</a><nav><a href="v1.html" id="allCoursesLink">Courses</a><a href="my-training.html" id="myTrainingLink">My training</a><a href="v1-admin.html" id="adminLink" hidden>Manager</a></nav></header>
+  <main class="shell">
+    <div class="toolbar"><label for="locale">Language</label><select id="locale"><option value="en">English</option><option value="ja">日本語</option><option value="hi">हिन्दी</option></select></div>
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+    <section id="dashboard" hidden>
+      <h1 id="dashboardTitle">Your training</h1><p id="dashboardLead"></p>
+      <div class="summary"><div class="summary-card"><strong id="completion">0 / 8</strong><span id="completionLabel"></span></div><div class="summary-card"><strong id="completionRate">0%</strong><span id="rateLabel"></span></div></div>
+      <div id="courseCards" class="course-grid"></div>
+    </section>
+    <section id="courseView" hidden>
+      <a href="v1.html" class="back" id="backLink">← All courses</a><h1 id="courseTitle"></h1><p id="courseDescription"></p>
+      <div class="summary"><div class="summary-card"><strong id="latestScore">—</strong><span id="latestLabel"></span></div><div class="summary-card"><strong id="bestScore">—</strong><span id="bestLabel"></span></div><div class="summary-card"><strong id="attemptCount">0</strong><span id="attemptLabel"></span></div></div>
+      <p id="courseStatus" class="message"></p><div class="actions"><button id="startButton" type="button"></button><button id="reviewButton" type="button" class="secondary"></button></div>
+      <section id="quizPanel" class="panel" hidden><p id="quizProgress" class="eyebrow"></p><h2 id="questionText"></h2><div id="answerButtons" class="answers" role="group" aria-label="Answers"></div><div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div><button id="nextButton" type="button" hidden></button></section>
+      <section id="resultPanel" class="panel" hidden><h2 id="resultTitle"></h2><p id="resultText"></p><div class="actions"><button id="retryButton" type="button"></button><button id="resultReviewButton" type="button" class="secondary"></button></div></section>
+      <section id="reviewPanel" class="panel" hidden><h2 id="reviewTitle"></h2><div id="reviewItems"></div></section>
+      <section class="panel"><h2 id="practicalTitle"></h2><p id="practicalSummary"></p><ul id="practicalItems" class="practical-list"></ul></section>
+      <section class="panel"><h2 id="certificateTitle"></h2><p id="certificateStatus"></p><a id="certificateLink" hidden></a></section>
+    </section>
+    <aside id="installHelp" class="panel install" hidden><h2 id="installTitle"></h2><p id="installText"></p><button id="installButton" type="button" hidden></button></aside>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+  <script src="quiz-core.js"></script>
+  <script src="v1-store.js"></script>
+  <script src="v1.js"></script>
+  <script src="pwa.js"></script>
+</body>
+</html>
