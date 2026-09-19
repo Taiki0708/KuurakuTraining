@@ -1,5 +1,9 @@
-const SUPABASE_URL = "https://wngljrvtoifrrsewcixx.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_-pK8oYgClXDfOfxUIzE8Xw_l-GRXcVV";
+const SUPABASE_CONFIG = window.SERVEUP_SUPABASE_CONFIG || {
+    url: "https://wngljrvtoifrrsewcixx.supabase.co",
+    publishableKey: "sb_publishable_-pK8oYgClXDfOfxUIzE8Xw_l-GRXcVV"
+};
+const SUPABASE_URL = SUPABASE_CONFIG.url;
+const SUPABASE_PUBLISHABLE_KEY = SUPABASE_CONFIG.publishableKey;
 
 if (!window.supabase) {
     throw new Error("Supabase client library failed to load.");

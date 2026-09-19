@@ -6,6 +6,8 @@ const root = path.resolve(__dirname, '..');
 const schema = fs.readFileSync(path.join(root, 'migrations/001_serveup_v1.sql'), 'utf8');
 const seed = fs.readFileSync(path.join(root, 'migrations/002_serveup_v1_seed.sql'), 'utf8');
 const stagingAccess = fs.readFileSync(path.join(root, 'migrations/003_serveup_staging_access.sql'), 'utf8');
+const stagingMembers = fs.readFileSync(path.join(root, 'migrations/004_serveup_staging_test_members.sql'), 'utf8');
+const scoringFix = fs.readFileSync(path.join(root, 'migrations/005_fix_attempt_scoring.sql'), 'utf8');
 
 test('all user-data V1 tables enable row-level security', () => {
   for (const table of ['v1_course_settings','v1_question_keys','v1_practical_items','v1_quiz_sessions','v1_quiz_attempts','v1_practical_reviews','v1_certificates','v1_profile_preferences']) {
@@ -48,4 +50,18 @@ test('staging access bootstrap is scoped, server-readable and closed to browser 
   assert.match(stagingAccess, /revoke all on public\.serveup_memberships from anon, authenticated/i);
   assert.match(stagingAccess, /learner\.organization_id = access\.organization_id/i);
   assert.match(stagingAccess, /learner\.role = 'learner'/i);
+});
+
+test('staging test-member seed is idempotent and contains no passwords', () => {
+  assert.match(stagingMembers, /manager@serveup-staging\.test/);
+  assert.match(stagingMembers, /learner@serveup-staging\.test/);
+  assert.match(stagingMembers, /on conflict \(user_id\) do update/i);
+  assert.doesNotMatch(stagingMembers, /encrypted_password|password\s*=/i);
+});
+
+test('attempt scoring qualifies question IDs and keeps answer keys server-side', () => {
+  assert.match(scoringFix, /selected\(question_id\)/i);
+  assert.match(scoringFix, /question_key\.id = selected\.question_id/i);
+  assert.match(scoringFix, /security definer/i);
+  assert.match(scoringFix, /revoke all on function public\.submit_v1_attempt/i);
 });

@@ -3,6 +3,9 @@
     const $ = id => document.getElementById(id);
     const core = window.ServeUpQuizCore;
     const store = window.ServeUpV1Store;
+    const environment = window.ServeUpEnvironment || { isStaging:false, route:(path, values = {}) => {
+        const query = new URLSearchParams(values); return query.size ? `${path}?${query}` : path;
+    }};
     const labels = {
         en: { courses:'Courses', training:'My training', manager:'Manager', title:'Your training', lead:'Learn practical restaurant skills, one short test at a time.', complete:'Courses passed', rate:'Quiz completion rate', open:'Open course →', quiz:'Quiz', practical:'Practical', latest:'Latest score', best:'Best score', attempts:'Attempts', start:'Start 10-question test', resume:'Resume test', retry:'Try another set', review:'Review wrong answers', noWrong:'No wrong answers in your latest test.', noHistory:'Question-level answers are not available for this imported legacy completion.', question:'Question', next:'Next →', result:'See result →', correct:'Correct', incorrect:'Not quite', explanation:'Why', key:'Key point', passed:'Quiz passed', failed:'Not passed yet', need:'Passing score', saved:'Saved across devices', local:'Saved on this device only. Database setup is still needed for cross-device progress.', practicalTitle:'Practical check', checked:'Checked', unchecked:'Not checked', practicing:'Practicing', independent:'Can perform independently', needsReview:'Needs review', certTitle:'Certificate', certPending:'A certificate has not been issued yet.', certReady:'View certificate →', certPractical:'This course also requires manager confirmation.', signIn:'Please sign in to use V1 training.', offline:'Could not load training data. Please check your connection.', all:'← All courses', install:'Install ServeUp', installText:'On iPhone: Share → Add to Home Screen. On Android: browser menu → Install app or Add to Home Screen.', installButton:'Install app', reviewDraft:'Safety-related draft questions need manager review before operational use.' },
         ja: { courses:'コース', training:'学習状況', manager:'店長画面', title:'あなたの学習', lead:'飲食店で必要な対応を、短いテストで学びましょう。', complete:'クイズ合格コース', rate:'クイズ完了率', open:'コースを見る →', quiz:'クイズ', practical:'実技', latest:'最新の点数', best:'最高点', attempts:'受験回数', start:'10問のテストを始める', resume:'途中から再開', retry:'別の問題で再受験', review:'不正解を復習', noWrong:'直近のテストに不正解はありません。', noHistory:'旧コースから引き継いだ完了記録には、問題ごとの回答履歴がありません。', question:'問題', next:'次へ →', result:'結果を見る →', correct:'正解', incorrect:'不正解', explanation:'解説', key:'大切な点', passed:'クイズ合格', failed:'まだ合格していません', need:'合格点', saved:'端末間で保存済み', local:'この端末だけに保存しました。端末間の同期にはDB設定が必要です。', practicalTitle:'実技確認', checked:'確認済み', unchecked:'未確認', practicing:'練習中', independent:'一人でできる', needsReview:'再確認が必要', certTitle:'修了証', certPending:'修了証はまだ発行されていません。', certReady:'修了証を見る →', certPractical:'このコースは店長による実技確認も必要です。', signIn:'V1の学習にはログインしてください。', offline:'学習データを読み込めません。通信を確認してください。', all:'← 全コース', install:'ServeUpをインストール', installText:'iPhone: 共有 → ホーム画面に追加。Android: ブラウザのメニュー → アプリをインストール、またはホーム画面に追加。', installButton:'インストール', reviewDraft:'安全に関する問題は、業務に使う前に管理者の確認が必要です。' },
@@ -43,7 +46,7 @@
             card.append(element('h2', '', translation(course.title)));
             card.append(element('p', '', translation(course.description)));
             card.append(element('p', '', `${t('quiz')}: ${didPass ? t('passed') : t('failed')} · ${t('attempts')}: ${attempts.length}`));
-            const link = element('a', '', t('open')); link.href = `v1.html?course=${encodeURIComponent(course.id)}`; card.append(link); holder.append(card);
+            const link = element('a', '', t('open')); link.href = environment.route('v1.html', { course:course.id }); card.append(link); holder.append(card);
         }
         text('completion', `${passed} / ${state.courses.length}`);
         text('completionRate', `${Math.round(100 * passed / state.courses.length)}%`);
@@ -105,7 +108,7 @@
         const config = courseConfig(state.selected);
         text('certificateStatus', state.certificate ? `${t('checked')} · ${new Date(state.certificate.issued_at).toLocaleDateString(state.locale)}` : `${t('certPending')} ${config.certificate_requirement === 'quiz_and_practical' || config.certificateRequirement === 'quiz_and_practical' ? t('certPractical') : ''}`);
         const link = $('certificateLink'); link.hidden = !state.certificate;
-        if (state.certificate) { link.href = `v1-certificate.html?course=${encodeURIComponent(state.selected.id)}`; link.textContent = t('certReady'); }
+        if (state.certificate) { link.href = environment.route('v1-certificate.html', { course:state.selected.id }); link.textContent = t('certReady'); }
     }
     async function startQuiz(forceNew = false) {
         const course = state.selected;
@@ -207,7 +210,7 @@
         });
         try {
             state.user = await window.ServeUpProgress.getCurrentUser();
-            if (!state.user) { message(t('signIn')); const a=element('a','',t('training')); a.href='auth.html'; $('message').append(a); return; }
+            if (!state.user) { message(t('signIn')); const a=element('a','',t('training')); a.href=environment.route('auth.html', { returnTo:'v1.html' }); $('message').append(a); return; }
             store.saveLanguage(state.user.id, state.locale);
             try { if (await window.ServeUpProgress.getMyRole() === 'admin') $('adminLink').hidden = false; } catch (error) { console.warn(error); }
             const [coursesResponse, bankResponse, settings] = await Promise.all([fetch('data/courses.json', { cache:'no-store' }), fetch('data/questions.json', { cache:'no-store' }), store.settings()]);

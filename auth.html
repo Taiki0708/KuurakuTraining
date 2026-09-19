@@ -23,7 +23,7 @@ input { width: 100%; padding: 13px; border: 1px solid var(--serveup-border); bor
 </head>
 <body>
 <div class="container">
-    <a class="home-link" href="index.html">← Back to Home</a>
+    <a class="home-link" id="authHomeLink" href="index.html">← Back to Home</a>
     <div class="logo">SERVEUP</div>
     <p class="subtitle">Sign in to save your training progress.</p>
     <main class="auth-card">
@@ -43,10 +43,14 @@ input { width: 100%; padding: 13px; border: 1px solid var(--serveup-border); bor
     </main>
 </div>
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="environment.js"></script>
 <script src="supabase-client.js?v=4ede70035"></script>
 <script>
 const form = document.getElementById("authForm");
 const message = document.getElementById("message");
+const environment = window.ServeUpEnvironment || { isStaging:false, route:path => path };
+const requestedReturn = new URLSearchParams(location.search).get('returnTo');
+const returnPage = ['v1.html','v1-admin.html'].includes(requestedReturn) ? requestedReturn : (environment.isStaging ? 'v1.html' : 'index.html');
 
 function showMessage(text, isError) {
     message.textContent = text;
@@ -63,7 +67,7 @@ form.addEventListener("submit", async event => {
         showMessage(error.message, true);
         return;
     }
-    window.location.href = "index.html";
+    window.location.href = environment.route(returnPage);
 });
 
 document.getElementById("signUpButton").addEventListener("click", async () => {
@@ -77,7 +81,7 @@ document.getElementById("signUpButton").addEventListener("click", async () => {
     }
 
     if (data.session) {
-        window.location.href = "index.html";
+        window.location.href = environment.route(returnPage);
     } else {
         showMessage("Account created. Check your email to confirm your address, then sign in.");
     }

@@ -1,4 +1,5 @@
 :root { color-scheme: light; --ink:#263b34; --muted:#52665b; --line:#dbe8e0; --accent:#344d43; --paper:#fff; --wash:#f4f8f5; }
+.environment-banner { position:sticky; top:0; z-index:1000; padding:7px 16px; text-align:center; background:#7c3aed; color:#fff; font-size:13px; font-weight:800; letter-spacing:.08em; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body { margin:0; font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--wash); }

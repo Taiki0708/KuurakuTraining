@@ -18,6 +18,19 @@ body {
     color: var(--serveup-ink);
 }
 
+.environment-banner {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 7px 16px;
+    text-align: center;
+    background: #7c3aed;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
 .home-link {
     display: inline-block;
     margin-bottom: 28px;

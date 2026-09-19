@@ -9,6 +9,8 @@ V1 is additive. The four existing course pages, their progress tables and existi
 3. Have native or professional reviewers check the Japanese, English and Hindi wording.
 4. In a Supabase staging project, run `migrations/001_serveup_v1.sql` and then `migrations/002_serveup_v1_seed.sql`.
    For a completely empty staging project only, run `migrations/003_serveup_staging_access.sql` afterward to add the isolated Kuuraku test organization and compatibility RPCs. Do not use this bootstrap to replace an existing production access layer.
+   After creating the two documented staging Auth users, run `migrations/004_serveup_staging_test_members.sql` to assign manager and learner roles. This file contains no passwords and must not be used in production.
+   For a database that received an earlier copy of migration 001, also run `migrations/005_fix_attempt_scoring.sql`; fresh installs already include the same fix in migration 001.
 5. Test one learner and one manager in the same organisation. Confirm that a manager from another organisation cannot view or update the learner.
 6. Only after staging sign-off, repeat the reviewed migration in production and publish the static files through the existing release process.
 

@@ -1,8 +1,8 @@
 // Bump this value whenever the app shell changes so installed devices receive a safe update prompt.
-const VERSION = 'serveup-v1-1.0.0-2';
+const VERSION = 'serveup-v1-1.0.0-3';
 const SHELL = `${VERSION}-shell`;
 const CONTENT = `${VERSION}-content`;
-const shellFiles = ['v1.html','v1-admin.html','v1-certificate.html','offline.html','v1.css','v1.js','v1-admin.js','v1-store.js','quiz-core.js','pwa.js','manifest.webmanifest','icons/serveup-192.png','icons/serveup-512.png','icons/serveup-maskable-192.png','icons/serveup-maskable-512.png'];
+const shellFiles = ['v1.html','v1-admin.html','v1-certificate.html','offline.html','v1.css','v1.js','v1-admin.js','v1-store.js','quiz-core.js','environment.js','pwa.js','manifest.webmanifest','icons/serveup-192.png','icons/serveup-512.png','icons/serveup-maskable-192.png','icons/serveup-maskable-512.png'];
 self.addEventListener('install', event => {
     event.waitUntil(caches.open(SHELL).then(cache => cache.addAll(shellFiles.map(path => new URL(path, self.registration.scope).href))));
 });
