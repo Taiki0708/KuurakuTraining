@@ -8,449 +8,286 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/serveup-192.png">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
-
 <title>ServeUp - Restaurant Training</title>
 
 <style>
-
-* {
-    box-sizing: border-box;
+:root {
+    --green-900: #123b2a;
+    --green-800: #185438;
+    --green-700: #177245;
+    --green-600: #1f8a52;
+    --green-100: #e7f3ec;
+    --green-50: #f1f8f4;
+    --ink: #17211b;
+    --muted: #66736b;
+    --subtle: #8a958e;
+    --line: #dfe7e2;
+    --paper: #ffffff;
+    --canvas: #f5f8f6;
+    --shadow: 0 18px 45px rgba(24, 65, 43, 0.08);
 }
-
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    background: #ffffff;
-    color: #374151;
+    min-width: 320px;
+    min-height: 100vh;
+    font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: radial-gradient(circle at 85% 0%, rgba(31, 138, 82, 0.09), transparent 28rem), var(--canvas);
 }
+a, button, select { font: inherit; }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 3px solid rgba(31, 138, 82, 0.32); outline-offset: 3px; }
+.skip-link { position: fixed; z-index: 100; top: 12px; left: 12px; transform: translateY(-160%); padding: 10px 14px; border-radius: 10px; color: #fff; background: var(--green-800); }
+.skip-link:focus { transform: translateY(0); }
+.page-shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
 
-.container {
-    width: 90%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 60px 0 50px;
+.site-header { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid rgba(223, 231, 226, 0.9); background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(14px); }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 76px; }
+.brand { display: flex; align-items: center; gap: 15px; min-width: 0; color: inherit; text-decoration: none; }
+.brand img { display: block; width: 152px; height: auto; }
+.brand-copy { padding-left: 15px; border-left: 1px solid var(--line); color: var(--muted); font-size: 13px; line-height: 1.35; }
+.header-tools { display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
+.language-switch { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 5px 7px 5px 12px; border: 1px solid var(--line); border-radius: 12px; color: var(--muted); background: var(--paper); font-size: 13px; font-weight: 700; }
+.language-switch select { min-height: 32px; border: 0; color: var(--ink); background: transparent; cursor: pointer; }
+.account-area { display: flex; align-items: center; gap: 12px; min-height: 44px; color: var(--muted); font-size: 14px; }
+.account-area > span { max-width: 150px; overflow: hidden; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.account-link, .sign-out-button { display: inline-flex; align-items: center; min-height: 40px; color: var(--green-800); font-weight: 700; text-decoration: none; }
+.sign-out-button { padding: 0; border: 0; background: transparent; cursor: pointer; }
+.account-link:hover, .sign-out-button:hover { color: var(--green-600); }
+
+.announcement-wrap { padding-top: 18px; }
+.training-notice { display: flex; align-items: center; gap: 14px; margin: 0; padding: 13px 16px; border: 1px solid #cfe2d6; border-radius: 14px; color: #315541; background: rgba(241, 248, 244, 0.92); font-size: 14px; }
+.notice-icon { display: grid; flex: 0 0 34px; width: 34px; height: 34px; place-items: center; border-radius: 10px; color: var(--green-800); background: #dceee3; font-weight: 900; }
+.training-notice p { margin: 2px 0 0; color: var(--muted); }
+.training-notice a { color: var(--green-800); font-weight: 800; }
+
+.hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr); gap: 48px; align-items: center; margin: 28px 0; padding: clamp(34px, 6vw, 64px); overflow: hidden; border-radius: 28px; color: #fff; background: radial-gradient(circle at 100% 0%, rgba(87, 190, 126, 0.34), transparent 45%), linear-gradient(135deg, #123b2a 0%, #185438 72%, #1b6842 100%); box-shadow: var(--shadow); }
+.eyebrow { margin: 0 0 16px; color: #a9e2bf; font-size: 13px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; }
+.hero h1 { max-width: 700px; margin: 0; font-size: clamp(36px, 5vw, 58px); line-height: 1.04; letter-spacing: -0.045em; }
+.hero-copy { max-width: 680px; margin: 20px 0 0; color: #d6e8dd; font-size: clamp(16px, 2vw, 19px); line-height: 1.7; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 19px; border: 1px solid transparent; border-radius: 12px; font-weight: 800; text-decoration: none; transition: transform 160ms ease, background 160ms ease, border-color 160ms ease; }
+.button:hover { transform: translateY(-1px); }
+.button-primary { color: var(--green-900); background: #fff; }
+.button-primary:hover { background: #edf8f1; }
+.button-secondary { border-color: rgba(255,255,255,.28); color: #fff; background: rgba(255,255,255,.07); }
+.button-secondary:hover { background: rgba(255,255,255,.14); }
+.hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.stat { min-height: 116px; padding: 20px; border: 1px solid rgba(255,255,255,.14); border-radius: 18px; background: rgba(255,255,255,.08); }
+.stat:first-child { grid-column: 1 / -1; }
+.stat strong { display: block; font-size: 31px; letter-spacing: -0.04em; }
+.stat span { display: block; margin-top: 6px; color: #c7ded0; font-size: 13px; line-height: 1.4; }
+
+.dashboard-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; padding-bottom: 64px; }
+.content-panel, .progress-card, .assignment-card { border: 1px solid var(--line); border-radius: 22px; background: var(--paper); box-shadow: 0 8px 26px rgba(24, 65, 43, 0.045); }
+.content-panel { padding: clamp(22px, 4vw, 36px); }
+.section-header { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.section-header h2, .progress-card h2, .assignment-card h2 { margin: 0; color: var(--ink); font-size: 24px; letter-spacing: -0.025em; }
+.section-header p { max-width: 420px; margin: 0; color: var(--muted); line-height: 1.6; }
+.v1-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; margin-bottom: 32px; padding: 24px; border: 1px solid #bfddca; border-radius: 18px; background: linear-gradient(135deg, #eff8f2, #f9fcfa); }
+.v1-badge { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; color: var(--green-800); background: #d9eee1; font-size: 12px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+.v1-card h3 { margin: 10px 0 8px; font-size: 22px; }
+.v1-card p { margin: 0; color: var(--muted); line-height: 1.6; }
+.v1-card .button { color: #fff; background: var(--green-700); }
+.v1-card .button:hover { background: var(--green-800); }
+.subsection-title { margin: 0 0 15px; color: var(--muted); font-size: 13px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+.courses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.course-card { position: relative; display: flex; min-height: 248px; flex-direction: column; padding: 23px; border: 1px solid var(--line); border-radius: 18px; background: #fff; transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
+.course-card:hover { transform: translateY(-2px); border-color: #b9d3c2; box-shadow: 0 12px 28px rgba(24, 65, 43, 0.08); }
+.course-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.course-number { color: var(--subtle); font-size: 11px; font-weight: 900; letter-spacing: .1em; }
+.completion-status { min-height: 22px; margin: 0; color: var(--green-700); font-size: 12px; font-weight: 800; }
+.course-card h3 { margin: 18px 0 9px; font-size: 20px; letter-spacing: -0.025em; }
+.course-card p { flex: 1; margin: 0 0 20px; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.course-link { display: inline-flex; align-items: center; align-self: flex-start; min-height: 44px; color: var(--green-800); font-size: 14px; font-weight: 850; text-decoration: none; }
+.course-link::after { margin-left: 8px; content: "→"; transition: transform 160ms ease; }
+.course-link:hover::after { transform: translateX(3px); }
+.sidebar { display: grid; gap: 18px; }
+.progress-card, .assignment-card { padding: 24px; }
+.progress-label { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin: 18px 0 12px; }
+.progress-label strong { color: var(--green-700); font-size: 32px; letter-spacing: -0.04em; }
+.progress-label span { color: var(--muted); font-size: 13px; text-align: right; }
+.progress-bar { width: 100%; height: 10px; overflow: hidden; border-radius: 999px; background: #e8eeea; }
+.progress-fill { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--green-600), #66ad7f); transition: width 400ms ease; }
+.progress-help { margin: 15px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.assignment-card { margin: 0; }
+.assignment-card p { color: var(--muted); line-height: 1.55; }
+.assignment-list { margin: 14px 0 0; padding-left: 20px; color: var(--muted); line-height: 1.75; }
+.overdue-item { color: #ad3f3f; font-weight: 800; }
+
+.footer { border-top: 1px solid var(--line); background: #fff; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 84px; color: var(--subtle); font-size: 13px; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+.footer a { color: var(--green-800); font-weight: 750; text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+@media (max-width: 940px) {
+    .topbar { align-items: flex-start; padding: 16px 0; }
+    .header-tools { align-items: flex-end; flex-direction: column-reverse; }
+    .account-area { min-height: auto; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: repeat(3, 1fr); }
+    .stat:first-child { grid-column: auto; }
+    .dashboard-layout { grid-template-columns: 1fr; }
+    .sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-row: 1; }
 }
-
-
-/* HEADER */
-
-.header {
-    text-align: center;
-    margin-bottom: 60px;
+@media (max-width: 680px) {
+    .page-shell { width: min(100% - 28px, 1120px); }
+    .site-header { position: static; }
+    .topbar, .header-tools { align-items: stretch; flex-direction: column; }
+    .topbar { gap: 14px; }
+    .brand { justify-content: space-between; }
+    .brand-copy { text-align: right; }
+    .header-tools { width: 100%; gap: 8px; }
+    .language-switch { justify-content: space-between; width: 100%; }
+    .account-area { flex-wrap: wrap; justify-content: flex-start; gap: 8px 15px; }
+    .account-area > span { max-width: 100%; flex-basis: 100%; }
+    .training-notice { align-items: flex-start; }
+    .hero { gap: 30px; margin-top: 18px; padding: 30px 24px; border-radius: 22px; }
+    .hero h1 { font-size: 32px; }
+    .hero-actions, .hero-actions .button { width: 100%; }
+    .hero-stats { grid-template-columns: 1fr; }
+    .stat, .stat:first-child { grid-column: auto; min-height: 90px; }
+    .section-header { align-items: flex-start; flex-direction: column; gap: 8px; }
+    .v1-card { grid-template-columns: 1fr; }
+    .v1-card .button { width: 100%; }
+    .courses, .sidebar { grid-template-columns: 1fr; }
+    .sidebar { grid-row: auto; }
+    .course-card { min-height: 230px; }
+    .footer-inner { align-items: flex-start; flex-direction: column; justify-content: center; padding: 22px 0; }
 }
-
-.logo {
-    display: inline-block;
-    margin-bottom: 12px;
-}
-
-.logo img { display: block; width: 250px; height: auto; }
-
-.tagline {
-    font-size: 17px;
-    color: #9ca3af;
-    margin-bottom: 8px;
-}
-
-.subtitle {
-    font-size: 21px;
-    color: #6b7280;
-}
-
-
-/* WELCOME */
-
-.welcome {
-    margin-bottom: 45px;
-}
-
-.welcome h1 {
-    font-size: 30px;
-    font-weight: 600;
-    margin: 0 0 12px;
-    color: #374151;
-}
-
-.welcome p {
-    margin: 0;
-    font-size: 17px;
-    line-height: 1.7;
-    color: #6b7280;
-}
-
-
-/* COURSES */
-
-.section-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #374151;
-}
-
-.courses {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-
-/* COURSE CARD */
-
-.course-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 18px;
-    padding: 30px;
-    background: #ffffff;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.completion-status {
-    margin: 12px 0 15px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #5b9b63;
-}
-
-.course-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.07);
-}
-
-.course-number {
-    font-size: 13px;
-    color: #9ca3af;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
-}
-
-.course-card h2 {
-    font-size: 23px;
-    margin: 0 0 12px;
-    color: #374151;
-}
-
-.course-card p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #6b7280;
-    min-height: 48px;
-    margin: 0 0 25px;
-}
-
-
-/* BUTTON */
-
-.start-button {
-    display: inline-block;
-    padding: 12px 20px;
-    background: #eef5f1;
-    color: #52665b;
-    border: 1px solid #dbe8e0;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
-    transition: 0.2s ease;
-}
-
-.start-button:hover {
-    background: #e2eee7;
-}
-
-
-/* FOOTER */
-
-.footer {
-    text-align: center;
-    margin-top: 60px;
-    padding-top: 25px;
-    border-top: 1px solid #eeeeee;
-    font-size: 14px;
-    color: #9ca3af;
-}
-
-
-/* MOBILE */
-
-@media (max-width: 700px) {
-
-    .container {
-        width: 92%;
-        padding-top: 40px;
-    }
-
-    .logo img { width: 215px; }
-
-    .tagline {
-        font-size: 15px;
-    }
-
-    .subtitle {
-        font-size: 19px;
-    }
-
-    .header {
-        margin-bottom: 45px;
-    }
-
-    .welcome h1 {
-        font-size: 25px;
-    }
-
-    .welcome p {
-        font-size: 16px;
-    }
-
-    .courses {
-        grid-template-columns: 1fr;
-    }
-
-    .course-card {
-        padding: 25px;
-    }
-
-}
-
-.training-notice { margin: 0 auto 24px; padding: 16px 18px; border: 1px solid #dbe8e0; border-radius: 12px; background: #f8faf9; color: #465363; }
-.training-notice a { color: #465363; font-weight: 700; }
-.progress-card {
-    max-width: 1000px;
-    margin: 0 auto 40px;
-    padding: 25px;
-    background: #ffffff;
-    border: 1px solid #e2e2e2;
-    border-radius: 16px;
-    box-sizing: border-box;
-}
-
-.progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.progress-header h2 {
-    margin: 0;
-    font-size: 22px;
-}
-
-.progress-header span {
-    font-size: 15px;
-    color: #777;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 10px;
-    background: #eeeeec;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    width: 0%;
-    height: 100%;
-    background: #7aa889;
-    border-radius: 10px;
-    transition: width 0.4s ease;
-}
-
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
 </style>
 </head>
 
-
 <body>
+<a class="skip-link" href="#mainContent" data-i18n="skipToContent">Skip to content</a>
 
-<div class="container">
-
-
-    <!-- HEADER -->
-
-    <div class="header">
-
-        <a class="logo" href="index.html" aria-label="ServeUp home"><img src="assets/brand/serveup-logo.svg" alt="ServeUp"></a>
-
-        <div class="tagline">
-            Restaurant Training Made Simple
+<header class="site-header">
+    <div class="page-shell topbar">
+        <a class="brand" href="index.html" aria-label="ServeUp home">
+            <img src="assets/brand/serveup-logo.svg" alt="ServeUp">
+            <span class="brand-copy" data-i18n="brandTagline">Restaurant Training<br>Made Simple</span>
+        </a>
+        <div class="header-tools">
+            <div id="accountArea" class="account-area" aria-live="polite"></div>
+            <label class="language-switch">
+                <span data-i18n="languageLabel">Language</span>
+                <select id="languageSelect" aria-label="Language" data-i18n-aria-label="languageLabel">
+                    <option value="en">English</option>
+                    <option value="ja">日本語</option>
+                    <option value="hi">हिन्दी</option>
+                </select>
+            </label>
         </div>
+    </div>
+</header>
 
-        <div class="subtitle">
-            Simple training for better service.
+<div class="page-shell announcement-wrap">
+    <aside class="training-notice" role="status">
+        <span class="notice-icon" aria-hidden="true">!</span>
+        <div>
+            <strong><span id="announcementTitle" data-i18n="announcementTitle">Training reminder</span></strong>
+            <p><span id="announcementMessage" data-i18n="announcementMessage">Check your assigned courses and due dates.</span> <a href="my-training.html" data-i18n="myTraining">My training</a></p>
         </div>
-
-    </div>
-
-
-    <div id="accountArea" class="account-area" aria-live="polite"></div><aside class="training-notice" role="status"><strong><span id="announcementTitle">Training reminder</span></strong><br><span id="announcementMessage">Check your assigned courses and due dates in <a href="my-training.html">My training</a>.</span></aside><label class="language-switch">Language <select id="languageSelect"><option value="en">English</option><option value="ja">日本語</option><option value="hi">हिन्दी</option></select></label>
-
-    <!-- WELCOME -->
-
-    <div class="welcome">
-
-        <h1>
-            Welcome to ServeUp
-        </h1>
-
-        <p>
-            Build the essential knowledge and skills needed to work confidently in a restaurant.
-            Choose a training course below to get started.
-        </p>
-
-    </div>
-
-<section class="training-notice" aria-labelledby="v1Title">
-    <h2 id="v1Title">ServeUp V1 · 8 courses / 240 questions</h2>
-    <p>New multilingual training, short randomized tests, wrong-answer review and manager practical checks.</p>
-    <a class="start-button" href="v1.html">Open V1 training →</a>
-</section>
-
-<div class="progress-card">
-    <div class="progress-header">
-        <h2>Your Progress</h2>
-        <span id="progressText">0 / 4 Courses Completed</span>
-    </div>
-
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-    </div>
+    </aside>
 </div>
 
-<section id="assignedCourses" class="assignment-card" hidden>
-    <h2>Assigned training</h2>
-    <p id="assignmentMessage"></p>
-    <ul id="assignmentList" class="assignment-list"></ul>
-</section>
+<main id="mainContent" class="page-shell">
+    <section class="hero" aria-labelledby="welcomeTitle">
+        <div>
+            <p class="eyebrow" data-i18n="dashboardEyebrow">Your learning dashboard</p>
+            <h1 id="welcomeTitle" data-i18n="welcomeTitle">Welcome to ServeUp</h1>
+            <p class="hero-copy" data-i18n="welcomeCopy">Build practical restaurant skills at your own pace. Continue your training, check your progress, and get ready for confident service.</p>
+            <div class="hero-actions">
+                <a class="button button-primary" href="v1.html"><span data-i18n="continueTraining">Continue training</span><span aria-hidden="true">→</span></a>
+                <a class="button button-secondary" href="my-training.html" data-i18n="viewMyTraining">View my training</a>
+            </div>
+        </div>
+        <div class="hero-stats" aria-label="ServeUp training summary" data-i18n-aria-label="trainingSummaryAria">
+            <div class="stat"><strong>8</strong><span data-i18n="statCourses">practical training courses</span></div>
+            <div class="stat"><strong>240</strong><span data-i18n="statQuestions">multilingual questions</span></div>
+            <div class="stat"><strong>3</strong><span data-i18n="statLanguages">supported languages</span></div>
+        </div>
+    </section>
 
-<!-- COURSES -->
+    <div class="dashboard-layout">
+        <section class="content-panel" aria-labelledby="trainingLibraryTitle">
+            <div class="section-header">
+                <div>
+                    <p class="eyebrow" style="color: var(--green-700); margin-bottom: 8px;" data-i18n="learnAtYourPace">Learn at your pace</p>
+                    <h2 id="trainingLibraryTitle" data-i18n="trainingLibrary">Training library</h2>
+                </div>
+                <p data-i18n="trainingLibraryCopy">Start with the latest ServeUp program or revisit a foundation course.</p>
+            </div>
 
-    <!-- COURSES -->
+            <article class="v1-card">
+                <div>
+                    <span class="v1-badge" data-i18n="recommended">Recommended</span>
+                    <h3 data-i18n="v1Title">ServeUp V1 · Complete program</h3>
+                    <p data-i18n="v1Copy">8 courses, randomized tests, wrong-answer review, and practical checks by your manager.</p>
+                </div>
+                <a class="button" href="v1.html"><span data-i18n="openV1">Open V1 training</span><span aria-hidden="true">→</span></a>
+            </article>
 
-    <div class="section-title">
-        Training Courses
+            <h3 class="subsection-title" data-i18n="foundationCourses">Foundation courses</h3>
+            <div class="courses">
+                <article class="course-card" data-course-id="customer-service">
+                    <div class="course-topline"><span class="course-number">COURSE 01</span><span class="completion-status" id="customerServiceStatus"></span></div>
+                    <h3>Customer Service</h3>
+                    <p>Learn the basics of professional customer service and how to create a positive guest experience.</p>
+                    <a href="customer-service-learning.html" class="course-link" data-i18n="startTraining">Start training</a>
+                </article>
+                <article class="course-card" data-course-id="food-safety">
+                    <div class="course-topline"><span class="course-number">COURSE 02</span><span class="completion-status" id="foodSafetyStatus"></span></div>
+                    <h3>Food Safety</h3>
+                    <p>Learn essential food safety practices, hygiene principles and safe restaurant procedures.</p>
+                    <a href="food-safety-learning.html" class="course-link" data-i18n="startTraining">Start training</a>
+                </article>
+                <article class="course-card" data-course-id="japanese-hospitality">
+                    <div class="course-topline"><span class="course-number">COURSE 03</span><span class="completion-status" id="japaneseHospitalityStatus"></span></div>
+                    <h3>Japanese Hospitality</h3>
+                    <p>Learn the principles of Japanese hospitality and how to create thoughtful service experiences.</p>
+                    <a href="japanese-hospitality-learning.html" class="course-link" data-i18n="startTraining">Start training</a>
+                </article>
+                <article class="course-card" data-course-id="restaurant-basics">
+                    <div class="course-topline"><span class="course-number">COURSE 04</span><span class="completion-status" id="restaurantBasicsStatus"></span></div>
+                    <h3>Restaurant Basics</h3>
+                    <p>Learn the fundamental knowledge and everyday practices needed to work effectively in a restaurant.</p>
+                    <a href="restaurant-basics-learning.html" class="course-link" data-i18n="startTraining">Start training</a>
+                </article>
+            </div>
+        </section>
+
+        <aside class="sidebar" aria-label="Training progress" data-i18n-aria-label="progressSidebarAria">
+            <section class="progress-card">
+                <h2 data-i18n="yourProgress">Your progress</h2>
+                <div class="progress-label"><strong id="progressPercent">0%</strong><span id="progressText">0 / 4 Courses Completed</span></div>
+                <div class="progress-bar" role="progressbar" aria-label="Course completion" data-i18n-aria-label="courseCompletionAria" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div>
+                <p class="progress-help" data-i18n="progressHelp">Completed courses are saved to your account when you are signed in.</p>
+            </section>
+            <section id="assignedCourses" class="assignment-card" hidden>
+                <h2 data-i18n="assignedTraining">Assigned training</h2>
+                <p id="assignmentMessage"></p>
+                <ul id="assignmentList" class="assignment-list"></ul>
+            </section>
+        </aside>
     </div>
+</main>
 
-    <div class="courses">
-
-
-        <!-- CUSTOMER SERVICE -->
-
-        <div class="course-card" data-course-id="customer-service">
-
-            <div class="course-number">
-                COURSE 01
-            </div>
-
-            <h2>
-                Customer Service
-            </h2>
-
-<div class="completion-status" id="customerServiceStatus"></div>
-
-            <p>
-                Learn the basics of professional customer service and how to create a positive guest experience.
-            </p>
-
-<a href="customer-service-learning.html" class="start-button">
-    Start Training →
-</a>
-        </div>
-
-
-        <!-- FOOD SAFETY -->
-
-        <div class="course-card" data-course-id="food-safety">
-
-            <div class="course-number">
-                COURSE 02
-            </div>
-
-            <h2>
-                Food Safety
-            </h2>
-
-<div class="completion-status" id="foodSafetyStatus"></div>
-
-            <p>
-                Learn essential food safety practices, hygiene principles and safe restaurant procedures.
-            </p>
-
-<a href="food-safety-learning.html" class="start-button">
-                Start Training →
-            </a>
-
-        </div>
-
-
-        <!-- JAPANESE HOSPITALITY -->
-
-        <div class="course-card" data-course-id="japanese-hospitality">
-
-            <div class="course-number">
-                COURSE 03
-            </div>
-
-            <h2>
-                Japanese Hospitality
-            </h2>
-
-<div class="completion-status" id="japaneseHospitalityStatus"></div>
-
-            <p>
-                Learn the principles of Japanese hospitality and how to create thoughtful service experiences.
-            </p>
-
-<a href="japanese-hospitality-learning.html" class="start-button">
-                Start Training →
-            </a>
-
-        </div>
-
-
-        <!-- RESTAURANT BASICS -->
-
-        <div class="course-card" data-course-id="restaurant-basics">
-
-            <div class="course-number">
-                COURSE 04
-            </div>
-
-            <h2>
-                Restaurant Basics
-            </h2>
-
-<div class="completion-status" id="restaurantBasicsStatus"></div>
-
-            <p>
-                Learn the fundamental knowledge and everyday practices needed to work effectively in a restaurant.
-            </p>
-
-<a href="restaurant-basics-learning.html" class="start-button">
-                Start Training →
-            </a>
-
-        </div>
-
-
+<footer class="footer">
+    <div class="page-shell footer-inner">
+        <span>© 2026 ServeUp</span>
+        <nav class="footer-links" aria-label="Footer" data-i18n-aria-label="footerAria"><a href="lp.html" data-i18n="aboutServeUp">About ServeUp</a><a href="pricing.html" data-i18n="pricingPlans">Pricing plans</a></nav>
     </div>
-
-
-    <!-- FOOTER -->
-
-    <div class="footer">
-        © 2026 ServeUp · <a href="lp.html">ServeUpについて</a>
-    </div>
-
-
-</div>
+</footer>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js?v=profile-name-1"></script>
-<script src="dashboard.js?v=profile-name-1"></script>
-<script src="language.js"></script><script src="announcements.js"></script>
+<script src="dashboard.js?v=home-ui-1"></script>
+<script src="language.js?v=home-ui-1"></script>
+<script src="announcements.js"></script>
 <script src="pwa.js"></script>
-
-<p style="text-align:center;margin:28px"><a href="pricing.html">料金プランを見る</a></p></body>
+</body>
 </html>
