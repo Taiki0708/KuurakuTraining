@@ -34,7 +34,8 @@
             v1BrandLink: 'v1.html',
             v1TrainingLink: 'v1.html',
             v1CertificateBack: 'v1.html',
-            authHomeLink: 'v1.html'
+            authHomeLink: 'v1.html',
+            authBackLink: 'v1.html'
         };
         Object.entries(destinations).forEach(([id, path]) => {
             const link = document.getElementById(id);
