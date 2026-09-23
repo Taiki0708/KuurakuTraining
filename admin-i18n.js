@@ -10,6 +10,16 @@
   };
 
   Object.assign(dictionaries.ja, {
+    'Staff progress & practical checks':'スタッフ進捗・実技確認',
+    'Restaurant Orientation':'飲食店オリエンテーション',
+    'Hygiene & Food Safety':'衛生・食品安全',
+    'Guest Service Basics':'接客の基本',
+    'Guest Service Basics · Hospitality':'接客の基本・おもてなし',
+    'Workplace Communication':'職場のコミュニケーション',
+    'Allergies & Dietary Requirements':'アレルギー・食事制限',
+    'Safety & Emergency':'安全・緊急対応',
+    'Order, Serving & Payment':'注文・提供・会計',
+    'Complaints & Difficult Situations':'苦情・難しい状況への対応',
     'Search by name or email':'名前またはメールで検索',
     'Administrator sections':'管理者メニュー',
     'Training summary':'研修概要',
@@ -18,6 +28,16 @@
     'Could not load learner display names.':'スタッフの表示名を読み込めませんでした。'
   });
   Object.assign(dictionaries.hi, {
+    'Staff progress & practical checks':'कर्मचारी प्रगति और व्यावहारिक जाँच',
+    'Restaurant Orientation':'रेस्तरां परिचय',
+    'Hygiene & Food Safety':'स्वच्छता और खाद्य सुरक्षा',
+    'Guest Service Basics':'अतिथि सेवा की मूल बातें',
+    'Guest Service Basics · Hospitality':'अतिथि सेवा और आतिथ्य',
+    'Workplace Communication':'कार्यस्थल संचार',
+    'Allergies & Dietary Requirements':'एलर्जी और आहार आवश्यकताएँ',
+    'Safety & Emergency':'सुरक्षा और आपातकाल',
+    'Order, Serving & Payment':'ऑर्डर, परोसना और भुगतान',
+    'Complaints & Difficult Situations':'शिकायतें और कठिन परिस्थितियाँ',
     'Search by name or email':'नाम या ईमेल से खोजें',
     'Administrator sections':'एडमिन अनुभाग',
     'Training summary':'प्रशिक्षण सारांश',
@@ -46,10 +66,10 @@
       if (language === 'ja') return `メンバー：${value.slice(9)}`;
       if (language === 'hi') return `सदस्य: ${value.slice(9)}`;
     }
-    if (value.startsWith('Manager V1 data unavailable: ')) {
-      const detail = value.slice(29).replace('. Apply the reviewed V1 database migration before using practical approval.', '');
-      if (language === 'ja') return `V1管理データを読み込めません：${detail}。確認済みのV1データベース移行を適用してください。`;
-      if (language === 'hi') return `V1 मैनेजर डेटा उपलब्ध नहीं है: ${detail}।व्यावहारिक अनुमोदन से पहले जाँचा हुआ V1 डेटाबेस माइग्रेशन लागू करें।`;
+    if (value.startsWith('Training manager data unavailable: ')) {
+      const detail = value.slice(35).replace('. Apply the reviewed training database migration before using practical approval.', '');
+      if (language === 'ja') return `研修管理データを読み込めません：${detail}。確認済みの研修データベース移行を適用してください。`;
+      if (language === 'hi') return `प्रशिक्षण मैनेजर डेटा उपलब्ध नहीं है: ${detail}।व्यावहारिक अनुमोदन से पहले जाँचा हुआ प्रशिक्षण डेटाबेस माइग्रेशन लागू करें।`;
     }
     if (value.startsWith('Checked ') && value.includes(' by ')) {
       const parts = value.slice(8).split(' by ');

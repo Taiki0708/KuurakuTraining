@@ -106,7 +106,7 @@
             $('settingsCourse').addEventListener('change', renderSettings); $('settingsForm').addEventListener('submit', saveSettings);
             if (await api.isPlatformAdmin()) { $('settingsPanel').hidden = false; renderSettings(); }
             renderReport(); renderPracticalEditor();
-        } catch (error) { console.error(error); $('status').textContent = `Manager V1 data unavailable: ${error.message}. Apply the reviewed V1 database migration before using practical approval.`; }
+        } catch (error) { console.error(error); $('status').textContent = `Training manager data unavailable: ${error.message}. Apply the reviewed training database migration before using practical approval.`; }
     }
     init();
 }());

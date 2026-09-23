@@ -7,7 +7,7 @@
         try { return JSON.parse(localStorage.getItem(storageKey) || 'null'); } catch { return null; }
     };
     const write = (storageKey, value) => localStorage.setItem(storageKey, JSON.stringify(value));
-    const warn = error => console.warn(`ServeUp V1 sync unavailable; retaining local progress. ${error?.code || 'UNKNOWN'}: ${error?.message || String(error)}`);
+    const warn = error => console.warn(`ServeUp Training sync unavailable; retaining local progress. ${error?.code || 'UNKNOWN'}: ${error?.message || String(error)}`);
     const submit = row => client.rpc('submit_v1_attempt', { p_attempt_id: row.id, p_course_id: row.course_id,
         p_question_ids: row.question_ids, p_answers: row.answers });
 

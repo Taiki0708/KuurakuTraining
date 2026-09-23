@@ -2,10 +2,18 @@
     "use strict";
 
     const courseNames = {
-        "customer-service": "Customer Service",
-        "food-safety": "Food Safety",
-        "japanese-hospitality": "Japanese Hospitality",
-        "restaurant-basics": "Restaurant Basics"
+        "customer-service": "Guest Service Basics",
+        "food-safety": "Hygiene & Food Safety",
+        "japanese-hospitality": "Guest Service Basics · Hospitality",
+        "restaurant-basics": "Restaurant Orientation",
+        "restaurant-orientation": "Restaurant Orientation",
+        "hygiene-food-safety": "Hygiene & Food Safety",
+        "guest-service-basics": "Guest Service Basics",
+        "workplace-communication": "Workplace Communication",
+        "allergies-dietary": "Allergies & Dietary Requirements",
+        "safety-emergency": "Safety & Emergency",
+        "order-serving-payment": "Order, Serving & Payment",
+        "complaints-difficult": "Complaints & Difficult Situations"
     };
     const t = value => window.ServeUpAdminI18n?.t(value) || value;
     let managedCourses = [];

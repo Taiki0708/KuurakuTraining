@@ -26,15 +26,26 @@
             footerAria: "Footer",
             learnAtYourPace: "Learn at your pace",
             trainingLibrary: "Training library",
-            trainingLibraryCopy: "Start with the latest ServeUp program or revisit a foundation course.",
-            recommended: "Recommended",
-            v1Title: "ServeUp V1 · Complete program",
-            v1Copy: "8 courses, randomized tests, wrong-answer review, and practical checks by your manager.",
-            openV1: "Open V1 training",
-            foundationCourses: "Foundation courses",
-            startTraining: "Start training",
-            yourProgress: "Your progress",
-            progressHelp: "Completed courses are saved to your account when you are signed in.",
+            trainingLibraryCopy: "One training program brings all restaurant basics and advanced skills together.",
+            officialProgram: "Official program",
+            programTitle: "ServeUp Training",
+            programCopy: "The original foundation courses are now included in one 8-course program. Your existing records remain available.",
+            openTraining: "Open training",
+            programCoursesAria: "ServeUp Training courses",
+            courseOrientation: "Restaurant Orientation",
+            courseHygiene: "Hygiene & Food Safety",
+            courseService: "Guest Service Basics",
+            courseCommunication: "Workplace Communication",
+            courseAllergies: "Allergies & Dietary Requirements",
+            courseSafety: "Safety & Emergency",
+            courseOrder: "Order, Serving & Payment",
+            courseComplaints: "Complaints & Difficult Situations",
+            oneProgram: "One clear program",
+            programBenefitCourses: "8 courses and 240 multilingual questions",
+            programBenefitReview: "Random tests and wrong-answer review",
+            programBenefitPractical: "Quiz results and manager practical checks",
+            programBenefitHistory: "Existing learning records are preserved",
+            viewCourses: "View all courses",
             assignedTraining: "Assigned training",
             aboutServeUp: "About ServeUp",
             pricingPlans: "Pricing plans"
@@ -60,15 +71,26 @@
             footerAria: "フッター",
             learnAtYourPace: "自分のペースで学ぶ",
             trainingLibrary: "トレーニング一覧",
-            trainingLibraryCopy: "最新のServeUpプログラムから始めるか、基礎コースを復習できます。",
-            recommended: "おすすめ",
-            v1Title: "ServeUp V1 · 総合プログラム",
-            v1Copy: "8コース、ランダムテスト、不正解復習、店長による実技確認に対応しています。",
-            openV1: "V1トレーニングを開く",
-            foundationCourses: "基礎コース",
-            startTraining: "トレーニングを始める",
-            yourProgress: "学習の進捗",
-            progressHelp: "ログイン中は、完了したコースがアカウントに保存されます。",
+            trainingLibraryCopy: "飲食店の基礎から応用までを、1つの研修プログラムで学べます。",
+            officialProgram: "正式プログラム",
+            programTitle: "ServeUp Training",
+            programCopy: "これまでの基礎コースは8コースの中に統合されました。これまでの学習記録は残ります。",
+            openTraining: "研修を開く",
+            programCoursesAria: "ServeUp Trainingのコース",
+            courseOrientation: "飲食店オリエンテーション",
+            courseHygiene: "衛生・食品安全",
+            courseService: "接客の基本",
+            courseCommunication: "職場のコミュニケーション",
+            courseAllergies: "アレルギー・食事制限",
+            courseSafety: "安全・緊急対応",
+            courseOrder: "注文・提供・会計",
+            courseComplaints: "苦情・難しい状況への対応",
+            oneProgram: "迷わない1つの研修体系",
+            programBenefitCourses: "8コース・240問を3言語で学習",
+            programBenefitReview: "ランダムテストと不正解復習",
+            programBenefitPractical: "クイズ結果と店長による実技確認",
+            programBenefitHistory: "これまでの学習記録を保持",
+            viewCourses: "全コースを見る",
             assignedTraining: "割り当てられた研修",
             aboutServeUp: "ServeUpについて",
             pricingPlans: "料金プラン"
@@ -94,41 +116,31 @@
             footerAria: "फुटर",
             learnAtYourPace: "अपनी गति से सीखें",
             trainingLibrary: "प्रशिक्षण लाइब्रेरी",
-            trainingLibraryCopy: "नए ServeUp कार्यक्रम से शुरू करें या बुनियादी कोर्स दोहराएँ।",
-            recommended: "सुझाया गया",
-            v1Title: "ServeUp V1 · पूरा कार्यक्रम",
-            v1Copy: "8 कोर्स, रैंडम टेस्ट, गलत उत्तरों की समीक्षा और मैनेजर द्वारा प्रैक्टिकल जाँच।",
-            openV1: "V1 प्रशिक्षण खोलें",
-            foundationCourses: "बुनियादी कोर्स",
-            startTraining: "प्रशिक्षण शुरू करें",
-            yourProgress: "आपकी प्रगति",
-            progressHelp: "साइन इन रहने पर पूरे किए गए कोर्स आपके खाते में सेव होते हैं।",
+            trainingLibraryCopy: "रेस्तरां की बुनियादी और उन्नत कौशल अब एक ही प्रशिक्षण कार्यक्रम में हैं।",
+            officialProgram: "आधिकारिक कार्यक्रम",
+            programTitle: "ServeUp Training",
+            programCopy: "पुराने बुनियादी कोर्स अब 8-कोर्स कार्यक्रम में शामिल हैं। आपके पुराने प्रशिक्षण रिकॉर्ड सुरक्षित रहेंगे।",
+            openTraining: "प्रशिक्षण खोलें",
+            programCoursesAria: "ServeUp Training कोर्स",
+            courseOrientation: "रेस्तरां परिचय",
+            courseHygiene: "स्वच्छता और खाद्य सुरक्षा",
+            courseService: "अतिथि सेवा की मूल बातें",
+            courseCommunication: "कार्यस्थल संचार",
+            courseAllergies: "एलर्जी और आहार आवश्यकताएँ",
+            courseSafety: "सुरक्षा और आपातकाल",
+            courseOrder: "ऑर्डर, परोसना और भुगतान",
+            courseComplaints: "शिकायतें और कठिन परिस्थितियाँ",
+            oneProgram: "एक स्पष्ट प्रशिक्षण कार्यक्रम",
+            programBenefitCourses: "8 कोर्स और 240 बहुभाषी प्रश्न",
+            programBenefitReview: "रैंडम टेस्ट और गलत उत्तरों की समीक्षा",
+            programBenefitPractical: "क्विज़ परिणाम और मैनेजर प्रैक्टिकल जाँच",
+            programBenefitHistory: "पुराने प्रशिक्षण रिकॉर्ड सुरक्षित हैं",
+            viewCourses: "सभी कोर्स देखें",
             assignedTraining: "निर्धारित प्रशिक्षण",
             aboutServeUp: "ServeUp के बारे में",
             pricingPlans: "मूल्य योजनाएँ"
         }
     };
-
-    const courseFallbacks = {
-        ja: {
-            "customer-service": { title: "接客サービス", description: "プロフェッショナルな接客の基本と、ゲストに良い体験を提供する方法を学びます。" },
-            "food-safety": { title: "食品衛生", description: "食品安全の基本、衛生管理、安全な店舗業務の手順を学びます。" },
-            "japanese-hospitality": { title: "日本のおもてなし", description: "相手の気持ちを考え、一歩先の心配りをするサービスを学びます。" },
-            "restaurant-basics": { title: "飲食店の基礎", description: "飲食店で働くための基本知識と、日々の実践方法を学びます。" }
-        },
-        hi: {
-            "customer-service": { title: "ग्राहक सेवा", description: "पेशेवर ग्राहक सेवा की बुनियादी बातें और अतिथि को अच्छा अनुभव देने के तरीके सीखें।" },
-            "food-safety": { title: "खाद्य सुरक्षा", description: "खाद्य सुरक्षा, स्वच्छता और सुरक्षित रेस्तरां प्रक्रियाओं की आवश्यक बातें सीखें।" },
-            "japanese-hospitality": { title: "जापानी आतिथ्य", description: "अतिथि की भावना को समझकर विचारशील सेवा देना सीखें।" },
-            "restaurant-basics": { title: "रेस्तरां की बुनियाद", description: "रेस्तरां में प्रभावी ढंग से काम करने के लिए आवश्यक ज्ञान और दैनिक अभ्यास सीखें।" }
-        }
-    };
-
-    function matchesLocale(value, locale) {
-        if (locale === "ja") return /[\u3040-\u30ff\u3400-\u9fff]/.test(value || "");
-        if (locale === "hi") return /[\u0900-\u097f]/.test(value || "");
-        return true;
-    }
 
     const savedLanguage = localStorage.getItem("serveupLanguage") || "en";
     select.value = copy[savedLanguage] ? savedLanguage : "en";
@@ -147,21 +159,6 @@
             const value = copy[locale][element.dataset.i18nAriaLabel];
             if (value) element.setAttribute("aria-label", value);
         });
-
-        await Promise.all(Array.from(document.querySelectorAll("[data-course-id]")).map(async card => {
-            try {
-                const translation = await window.ServeUpProgress.getCourseTranslation(card.dataset.courseId, locale);
-                const fallback = courseFallbacks[locale]?.[card.dataset.courseId];
-                const localized = matchesLocale(translation?.title, locale) && matchesLocale(translation?.description, locale)
-                    ? translation
-                    : fallback;
-                if (!localized) return;
-                card.querySelector("h3").textContent = localized.title;
-                card.querySelector("p").textContent = localized.description;
-            } catch (error) {
-                console.error("Could not load course translation.", error);
-            }
-        }));
 
         document.dispatchEvent(new CustomEvent("serveup:languagechange", { detail: { locale } }));
     }

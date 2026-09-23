@@ -1,6 +1,6 @@
-# ServeUp V1 rollout checklist
+# ServeUp Training rollout checklist
 
-V1 is additive. The four existing course pages, their progress tables and existing certificates are not removed or renamed.
+ServeUp Training is additive. The four original course pages, their progress tables and existing certificates are not removed. Learners use the unified eight-course program, while original records remain available for migration and reporting.
 
 ## Before a Kuuraku pilot
 
@@ -11,14 +11,15 @@ V1 is additive. The four existing course pages, their progress tables and existi
    For a completely empty staging project only, run `migrations/003_serveup_staging_access.sql` afterward to add the isolated Kuuraku test organization and compatibility RPCs. Do not use this bootstrap to replace an existing production access layer.
    After creating the two documented staging Auth users, run `migrations/004_serveup_staging_test_members.sql` to assign manager and learner roles. This file contains no passwords and must not be used in production.
    For a database that received an earlier copy of migration 001, also run `migrations/005_fix_attempt_scoring.sql`; fresh installs already include the same fix in migration 001.
+   Run `migrations/006_profile_display_name.sql` if display-name support has not been applied, then run `migrations/007_unify_training_catalog.sql`. Migration 007 activates the eight official course IDs in the existing assignment catalog and keeps the four original rows for historical references.
 5. Test one learner and one manager in the same organisation. Confirm that a manager from another organisation cannot view or update the learner.
 6. Only after staging sign-off, repeat the reviewed migration in production and publish the static files through the existing release process.
 
-The migrations are non-destructive. They add `v1_*` tables, policies, scoring/certificate functions and a practical-completion trigger. The seed also copies existing course completion rows into V1 attempts using a deterministic ID, so rerunning it does not duplicate imported rows. On an empty staging project, missing legacy access functions and the missing `course_progress` table are handled safely: learner-owned V1 data remains available, legacy import is skipped, and manager/platform-admin access stays closed until the existing access layer is installed.
+The migrations are non-destructive. The existing internal `v1_*` table names are retained for database compatibility; they store ServeUp Training sessions, attempts, practical checks and certificates. The seed also copies original course completion rows into training attempts using a deterministic ID, so rerunning it does not duplicate imported rows. On an empty staging project, missing legacy access functions and the missing `course_progress` table are handled safely: learner-owned training data remains available, legacy import is skipped, and manager/platform-admin access stays closed until the existing access layer is installed.
 
 ## Course settings
 
-Platform administrators can use `v1-admin.html` to set:
+Platform administrators can open Staff progress & practical checks from the main admin dashboard to set:
 
 - 1–30 questions per attempt (10 is the default; 15 is supported)
 - pass score (80% is the default)
@@ -28,7 +29,7 @@ The answer key is stored in a table that is not readable by browser clients. Sub
 
 ## Manager practical check
 
-Open `v1-admin.html`, select a learner and a course, then save each item as Not checked, Practicing, Can perform independently or Needs review. The database policy requires:
+Open Staff progress & practical checks from `admin.html`, select a learner and a course, then save each item as Not checked, Practicing, Can perform independently or Needs review. The database policy requires:
 
 - a signed-in manager in the learner's existing management scope;
 - a passing quiz attempt for that learner and course;

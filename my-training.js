@@ -2,6 +2,17 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const api = window.ServeUpProgress;
+  const trainingStore = window.ServeUpV1Store;
+  const trainingCourseIds = [
+    'restaurant-orientation', 'hygiene-food-safety', 'guest-service-basics', 'workplace-communication',
+    'allergies-dietary', 'safety-emergency', 'order-serving-payment', 'complaints-difficult'
+  ];
+  const legacyCourseMap = {
+    'restaurant-basics': 'restaurant-orientation',
+    'food-safety': 'hygiene-food-safety',
+    'customer-service': 'guest-service-basics',
+    'japanese-hospitality': 'guest-service-basics'
+  };
   const courseNames = {
     'customer-service': 'Customer Service',
     'food-safety': 'Food Safety',
@@ -53,22 +64,41 @@
     const assignmentList = $('assignments');
     const completedList = $('completed');
     const certificateList = $('certificates');
-    assignmentList.replaceChildren(...(assignments.length ? assignments.map(item => courseItem(
+    const unifiedAssignments = [...new Map(assignments.map(item => {
+      const courseId = legacyCourseMap[item.course_id] || item.course_id;
+      return [courseId, { ...item, course_id: courseId }];
+    })).values()];
+    assignmentList.replaceChildren(...(unifiedAssignments.length ? unifiedAssignments.map(item => courseItem(
       courseNames[item.course_id] || item.course_id,
-      item.due_date ? `Due ${new Date(item.due_date + 'T00:00:00').toLocaleDateString()}` : 'No deadline'
+      item.due_date ? `Due ${new Date(item.due_date + 'T00:00:00').toLocaleDateString()}` : 'No deadline',
+      `v1.html?course=${encodeURIComponent(item.course_id)}`
     )) : [emptyItem('No assignments yet.')]));
     completedList.replaceChildren(...(completed.length ? completed.map(item => courseItem(
       courseNames[item.course_id] || item.course_id,
-      `${item.score}% · ${new Date(item.completed_at).toLocaleDateString()}`
+      `${item.score}% · ${new Date(item.completed_at).toLocaleDateString()}`,
+      `v1.html?course=${encodeURIComponent(item.course_id)}`
     )) : [emptyItem('No completed courses yet.')]));
     certificateList.replaceChildren(...(certificates.length ? certificates.map(item => courseItem(
-      courseNames[item.course_id] || item.course_id,
+      courseNames[legacyCourseMap[item.course_id] || item.course_id] || item.course_id,
       item.certificate_number,
-      certificateKeys[item.course_id] ? `certificate.html?course=${certificateKeys[item.course_id]}` : undefined
+      certificateKeys[item.course_id]
+        ? `certificate.html?course=${certificateKeys[item.course_id]}`
+        : `v1-certificate.html?course=${encodeURIComponent(item.course_id)}`
     )) : [emptyItem('No certificates yet.')]));
-    $('assignmentCount').textContent = assignments.length;
+    $('assignmentCount').textContent = unifiedAssignments.length;
     $('completedCount').textContent = completed.length;
     $('certificateCount').textContent = certificates.length;
+  }
+
+  function mergeCompleted(legacy, attemptsByCourse) {
+    const rows = legacy.map(item => ({ ...item, course_id: legacyCourseMap[item.course_id] || item.course_id }));
+    attemptsByCourse.flat().filter(item => item.passed).forEach(item => rows.push(item));
+    const latest = new Map();
+    rows.forEach(item => {
+      const previous = latest.get(item.course_id);
+      if (!previous || Date.parse(item.completed_at) > Date.parse(previous.completed_at)) latest.set(item.course_id, item);
+    });
+    return [...latest.values()].sort((a, b) => Date.parse(b.completed_at) - Date.parse(a.completed_at));
   }
 
   async function saveProfile(event) {
@@ -96,11 +126,13 @@
     $('accountEmail').textContent = user.email;
     $('profileForm').addEventListener('submit', saveProfile);
     try {
-      const [profile, assignments, completed, certificates] = await Promise.all([
-        api.getMyProfile(), api.getMyAssignments(), api.getCompletedCourses(), api.getMyCertificates()
+      const [profile, assignments, legacyCompleted, legacyCertificates, attemptsByCourse, trainingCertificates] = await Promise.all([
+        api.getMyProfile(), api.getMyAssignments(), api.getCompletedCourses(), api.getMyCertificates(),
+        Promise.all(trainingCourseIds.map(courseId => trainingStore.attempts(user.id, courseId))),
+        Promise.all(trainingCourseIds.map(courseId => trainingStore.certificate(user.id, courseId)))
       ]);
       setIdentity(profile?.display_name, user.email);
-      renderLists(assignments, completed, certificates);
+      renderLists(assignments, mergeCompleted(legacyCompleted, attemptsByCourse), [...legacyCertificates, ...trainingCertificates.filter(Boolean)]);
     } catch (error) {
       console.error('Could not load account data.', error);
       setIdentity('', user.email);

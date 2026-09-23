@@ -85,12 +85,21 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 3px solid
 .section-header { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
 .section-header h2, .progress-card h2, .assignment-card h2 { margin: 0; color: var(--ink); font-size: 24px; letter-spacing: -0.025em; }
 .section-header p { max-width: 420px; margin: 0; color: var(--muted); line-height: 1.6; }
-.v1-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; margin-bottom: 32px; padding: 24px; border: 1px solid #bfddca; border-radius: 18px; background: linear-gradient(135deg, #eff8f2, #f9fcfa); }
-.v1-badge { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; color: var(--green-800); background: #d9eee1; font-size: 12px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
-.v1-card h3 { margin: 10px 0 8px; font-size: 22px; }
-.v1-card p { margin: 0; color: var(--muted); line-height: 1.6; }
-.v1-card .button { color: #fff; background: var(--green-700); }
-.v1-card .button:hover { background: var(--green-800); }
+.training-program { display: grid; gap: 24px; padding: 28px; border: 1px solid #bfddca; border-radius: 20px; background: linear-gradient(135deg, #eff8f2, #f9fcfa); }
+.program-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; }
+.program-badge { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; color: var(--green-800); background: #d9eee1; font-size: 12px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+.training-program h3 { margin: 10px 0 8px; font-size: 24px; }
+.training-program p { margin: 0; color: var(--muted); line-height: 1.6; }
+.training-program .button { color: #fff; background: var(--green-700); }
+.training-program .button:hover { background: var(--green-800); }
+.program-courses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.program-courses li { display: flex; align-items: center; min-height: 48px; padding: 10px 14px; border: 1px solid #d5e7db; border-radius: 12px; color: var(--ink); background: rgba(255,255,255,.7); font-size: 14px; font-weight: 760; }
+.program-courses span { margin-right: 10px; color: var(--green-700); font-size: 12px; font-weight: 900; }
+.program-summary { display: grid; gap: 16px; }
+.program-summary ul { display: grid; gap: 11px; margin: 18px 0 22px; padding: 0; list-style: none; }
+.program-summary li { display: flex; gap: 9px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.program-summary li::before { color: var(--green-600); content: "✓"; font-weight: 900; }
+.program-summary .button { width: 100%; color: #fff; background: var(--green-700); }
 .subsection-title { margin: 0 0 15px; color: var(--muted); font-size: 13px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
 .courses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .course-card { position: relative; display: flex; min-height: 248px; flex-direction: column; padding: 23px; border: 1px solid var(--line); border-radius: 18px; background: #fff; transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
@@ -150,8 +159,9 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 3px solid
     .hero-stats { grid-template-columns: 1fr; }
     .stat, .stat:first-child { grid-column: auto; min-height: 90px; }
     .section-header { align-items: flex-start; flex-direction: column; gap: 8px; }
-    .v1-card { grid-template-columns: 1fr; }
-    .v1-card .button { width: 100%; }
+    .program-heading { grid-template-columns: 1fr; }
+    .training-program .button { width: 100%; }
+    .program-courses { grid-template-columns: 1fr; }
     .courses, .sidebar { grid-template-columns: 1fr; }
     .sidebar { grid-row: auto; }
     .course-card { min-height: 230px; }
@@ -219,53 +229,41 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 3px solid
                     <p class="eyebrow" style="color: var(--green-700); margin-bottom: 8px;" data-i18n="learnAtYourPace">Learn at your pace</p>
                     <h2 id="trainingLibraryTitle" data-i18n="trainingLibrary">Training library</h2>
                 </div>
-                <p data-i18n="trainingLibraryCopy">Start with the latest ServeUp program or revisit a foundation course.</p>
+                <p data-i18n="trainingLibraryCopy">One training program brings all restaurant basics and advanced skills together.</p>
             </div>
 
-            <article class="v1-card">
-                <div>
-                    <span class="v1-badge" data-i18n="recommended">Recommended</span>
-                    <h3 data-i18n="v1Title">ServeUp V1 · Complete program</h3>
-                    <p data-i18n="v1Copy">8 courses, randomized tests, wrong-answer review, and practical checks by your manager.</p>
+            <article class="training-program">
+                <div class="program-heading">
+                    <div>
+                        <span class="program-badge" data-i18n="officialProgram">Official program</span>
+                        <h3 data-i18n="programTitle">ServeUp Training</h3>
+                        <p data-i18n="programCopy">The original foundation courses are now included in one 8-course program. Your existing records remain available.</p>
+                    </div>
+                    <a class="button" href="v1.html"><span data-i18n="openTraining">Open training</span><span aria-hidden="true">→</span></a>
                 </div>
-                <a class="button" href="v1.html"><span data-i18n="openV1">Open V1 training</span><span aria-hidden="true">→</span></a>
+                <ol class="program-courses" aria-label="ServeUp Training courses" data-i18n-aria-label="programCoursesAria">
+                    <li><span>01</span><b data-i18n="courseOrientation">Restaurant Orientation</b></li>
+                    <li><span>02</span><b data-i18n="courseHygiene">Hygiene &amp; Food Safety</b></li>
+                    <li><span>03</span><b data-i18n="courseService">Guest Service Basics</b></li>
+                    <li><span>04</span><b data-i18n="courseCommunication">Workplace Communication</b></li>
+                    <li><span>05</span><b data-i18n="courseAllergies">Allergies &amp; Dietary Requirements</b></li>
+                    <li><span>06</span><b data-i18n="courseSafety">Safety &amp; Emergency</b></li>
+                    <li><span>07</span><b data-i18n="courseOrder">Order, Serving &amp; Payment</b></li>
+                    <li><span>08</span><b data-i18n="courseComplaints">Complaints &amp; Difficult Situations</b></li>
+                </ol>
             </article>
-
-            <h3 class="subsection-title" data-i18n="foundationCourses">Foundation courses</h3>
-            <div class="courses">
-                <article class="course-card" data-course-id="customer-service">
-                    <div class="course-topline"><span class="course-number">COURSE 01</span><span class="completion-status" id="customerServiceStatus"></span></div>
-                    <h3>Customer Service</h3>
-                    <p>Learn the basics of professional customer service and how to create a positive guest experience.</p>
-                    <a href="customer-service-learning.html" class="course-link" data-i18n="startTraining">Start training</a>
-                </article>
-                <article class="course-card" data-course-id="food-safety">
-                    <div class="course-topline"><span class="course-number">COURSE 02</span><span class="completion-status" id="foodSafetyStatus"></span></div>
-                    <h3>Food Safety</h3>
-                    <p>Learn essential food safety practices, hygiene principles and safe restaurant procedures.</p>
-                    <a href="food-safety-learning.html" class="course-link" data-i18n="startTraining">Start training</a>
-                </article>
-                <article class="course-card" data-course-id="japanese-hospitality">
-                    <div class="course-topline"><span class="course-number">COURSE 03</span><span class="completion-status" id="japaneseHospitalityStatus"></span></div>
-                    <h3>Japanese Hospitality</h3>
-                    <p>Learn the principles of Japanese hospitality and how to create thoughtful service experiences.</p>
-                    <a href="japanese-hospitality-learning.html" class="course-link" data-i18n="startTraining">Start training</a>
-                </article>
-                <article class="course-card" data-course-id="restaurant-basics">
-                    <div class="course-topline"><span class="course-number">COURSE 04</span><span class="completion-status" id="restaurantBasicsStatus"></span></div>
-                    <h3>Restaurant Basics</h3>
-                    <p>Learn the fundamental knowledge and everyday practices needed to work effectively in a restaurant.</p>
-                    <a href="restaurant-basics-learning.html" class="course-link" data-i18n="startTraining">Start training</a>
-                </article>
-            </div>
         </section>
 
         <aside class="sidebar" aria-label="Training progress" data-i18n-aria-label="progressSidebarAria">
-            <section class="progress-card">
-                <h2 data-i18n="yourProgress">Your progress</h2>
-                <div class="progress-label"><strong id="progressPercent">0%</strong><span id="progressText">0 / 4 Courses Completed</span></div>
-                <div class="progress-bar" role="progressbar" aria-label="Course completion" data-i18n-aria-label="courseCompletionAria" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div>
-                <p class="progress-help" data-i18n="progressHelp">Completed courses are saved to your account when you are signed in.</p>
+            <section class="progress-card program-summary">
+                <h2 data-i18n="oneProgram">One clear program</h2>
+                <ul>
+                    <li data-i18n="programBenefitCourses">8 courses and 240 multilingual questions</li>
+                    <li data-i18n="programBenefitReview">Random tests and wrong-answer review</li>
+                    <li data-i18n="programBenefitPractical">Quiz results and manager practical checks</li>
+                    <li data-i18n="programBenefitHistory">Existing learning records are preserved</li>
+                </ul>
+                <a class="button" href="v1.html" data-i18n="viewCourses">View all courses</a>
             </section>
             <section id="assignedCourses" class="assignment-card" hidden>
                 <h2 data-i18n="assignedTraining">Assigned training</h2>
@@ -285,8 +283,8 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 3px solid
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js?v=profile-name-1"></script>
-<script src="dashboard.js?v=home-ui-1"></script>
-<script src="language.js?v=home-ui-1"></script>
+<script src="dashboard.js?v=training-unified-1"></script>
+<script src="language.js?v=training-unified-1"></script>
 <script src="announcements.js"></script>
 <script src="pwa.js"></script>
 </body>

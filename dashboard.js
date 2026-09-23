@@ -1,24 +1,8 @@
 (function () {
     "use strict";
 
-    const storageKeys = [
-        "customerServiceCompleted",
-        "foodSafetyCompleted",
-        "japaneseHospitalityCompleted",
-        "restaurantBasicsCompleted"
-    ];
-
-    const statusIds = {
-        "customer-service": "customerServiceStatus",
-        "food-safety": "foodSafetyStatus",
-        "japanese-hospitality": "japaneseHospitalityStatus",
-        "restaurant-basics": "restaurantBasicsStatus"
-    };
-
     const messages = {
         en: {
-            completed: "✓ Completed",
-            progress: (done, total) => `${done} / ${total} courses completed`,
             signInMessage: "Sign in to save your training progress.",
             signIn: "Sign in",
             signOut: "Sign out",
@@ -27,15 +11,21 @@
             assignedMessage: "Courses assigned to you by your manager:",
             due: "Due",
             courseNames: {
-                "customer-service": "Customer Service",
-                "food-safety": "Food Safety",
-                "japanese-hospitality": "Japanese Hospitality",
-                "restaurant-basics": "Restaurant Basics"
+                "customer-service": "Guest Service Basics",
+                "food-safety": "Hygiene & Food Safety",
+                "japanese-hospitality": "Guest Service Basics",
+                "restaurant-basics": "Restaurant Orientation",
+                "restaurant-orientation": "Restaurant Orientation",
+                "hygiene-food-safety": "Hygiene & Food Safety",
+                "guest-service-basics": "Guest Service Basics",
+                "workplace-communication": "Workplace Communication",
+                "allergies-dietary": "Allergies & Dietary Requirements",
+                "safety-emergency": "Safety & Emergency",
+                "order-serving-payment": "Order, Serving & Payment",
+                "complaints-difficult": "Complaints & Difficult Situations"
             }
         },
         ja: {
-            completed: "✓ 完了",
-            progress: (done, total) => `${total}コース中 ${done}コース完了`,
             signInMessage: "ログインすると学習進捗を保存できます。",
             signIn: "ログイン",
             signOut: "ログアウト",
@@ -44,15 +34,21 @@
             assignedMessage: "店長から割り当てられたコース：",
             due: "期限",
             courseNames: {
-                "customer-service": "接客サービス",
-                "food-safety": "食品衛生",
-                "japanese-hospitality": "日本のおもてなし",
-                "restaurant-basics": "飲食店の基本"
+                "customer-service": "接客の基本",
+                "food-safety": "衛生・食品安全",
+                "japanese-hospitality": "接客の基本",
+                "restaurant-basics": "飲食店オリエンテーション",
+                "restaurant-orientation": "飲食店オリエンテーション",
+                "hygiene-food-safety": "衛生・食品安全",
+                "guest-service-basics": "接客の基本",
+                "workplace-communication": "職場のコミュニケーション",
+                "allergies-dietary": "アレルギー・食事制限",
+                "safety-emergency": "安全・緊急対応",
+                "order-serving-payment": "注文・提供・会計",
+                "complaints-difficult": "苦情・難しい状況への対応"
             }
         },
         hi: {
-            completed: "✓ पूरा हुआ",
-            progress: (done, total) => `${total} में से ${done} कोर्स पूरे`,
             signInMessage: "अपनी प्रशिक्षण प्रगति सेव करने के लिए साइन इन करें।",
             signIn: "साइन इन",
             signOut: "साइन आउट",
@@ -61,17 +57,24 @@
             assignedMessage: "आपके मैनेजर द्वारा निर्धारित कोर्स:",
             due: "समय-सीमा",
             courseNames: {
-                "customer-service": "ग्राहक सेवा",
-                "food-safety": "खाद्य सुरक्षा",
-                "japanese-hospitality": "जापानी आतिथ्य",
-                "restaurant-basics": "रेस्तरां की बुनियादी बातें"
+                "customer-service": "अतिथि सेवा की मूल बातें",
+                "food-safety": "स्वच्छता और खाद्य सुरक्षा",
+                "japanese-hospitality": "अतिथि सेवा की मूल बातें",
+                "restaurant-basics": "रेस्तरां परिचय",
+                "restaurant-orientation": "रेस्तरां परिचय",
+                "hygiene-food-safety": "स्वच्छता और खाद्य सुरक्षा",
+                "guest-service-basics": "अतिथि सेवा की मूल बातें",
+                "workplace-communication": "कार्यस्थल संचार",
+                "allergies-dietary": "एलर्जी और आहार आवश्यकताएँ",
+                "safety-emergency": "सुरक्षा और आपातकाल",
+                "order-serving-payment": "ऑर्डर, परोसना और भुगतान",
+                "complaints-difficult": "शिकायतें और कठिन परिस्थितियाँ"
             }
         }
     };
 
     const state = {
         user: null,
-        completed: [],
         assignments: []
     };
 
@@ -82,34 +85,6 @@
 
     function text() {
         return messages[locale()];
-    }
-
-    function renderProgress(completed) {
-        Object.values(statusIds).forEach(id => {
-            const status = document.getElementById(id);
-            if (status) status.textContent = "";
-        });
-
-        completed.forEach(key => {
-            const courseId = {
-                customerServiceCompleted: "customer-service",
-                foodSafetyCompleted: "food-safety",
-                japaneseHospitalityCompleted: "japanese-hospitality",
-                restaurantBasicsCompleted: "restaurant-basics"
-            }[key];
-            const status = document.getElementById(statusIds[courseId]);
-            if (status) status.textContent = text().completed;
-        });
-
-        const percentage = Math.round((completed.length / storageKeys.length) * 100);
-        const progressText = document.getElementById("progressText");
-        const progressPercent = document.getElementById("progressPercent");
-        const progressFill = document.getElementById("progressFill");
-        const progressBar = document.querySelector(".progress-bar");
-        if (progressText) progressText.textContent = text().progress(completed.length, storageKeys.length);
-        if (progressPercent) progressPercent.textContent = `${percentage}%`;
-        if (progressFill) progressFill.style.width = `${percentage}%`;
-        if (progressBar) progressBar.setAttribute("aria-valuenow", String(percentage));
     }
 
     function renderAssignments(assignments) {
@@ -184,16 +159,8 @@
         }).catch(error => console.error("Could not load user role.", error));
     }
 
-    function applyCourseVisibility(courses) {
-        const active = new Set(courses.map(course => course.id));
-        document.querySelectorAll("[data-course-id]").forEach(card => {
-            card.hidden = !active.has(card.dataset.courseId);
-        });
-    }
-
     function rerenderLocalizedContent() {
         renderAccount(state.user);
-        renderProgress(state.completed);
         renderAssignments(state.assignments);
     }
 
@@ -201,32 +168,14 @@
         state.user = await window.ServeUpProgress.getCurrentUser();
         renderAccount(state.user);
 
-        if (!state.user) {
-            state.completed = storageKeys.filter(key => localStorage.getItem(key) === "true");
-            renderProgress(state.completed);
-            return;
-        }
+        if (!state.user) return;
 
         try {
-            const [courses, assignments, activeCourses] = await Promise.all([
-                window.ServeUpProgress.getCompletedCourses(),
-                window.ServeUpProgress.getMyAssignments(),
-                window.ServeUpProgress.getActiveCourses()
-            ]);
-            applyCourseVisibility(activeCourses);
+            const assignments = await window.ServeUpProgress.getMyAssignments();
             state.assignments = assignments;
-            state.completed = courses.map(course => ({
-                "customer-service": "customerServiceCompleted",
-                "food-safety": "foodSafetyCompleted",
-                "japanese-hospitality": "japaneseHospitalityCompleted",
-                "restaurant-basics": "restaurantBasicsCompleted"
-            }[course.course_id])).filter(Boolean);
             renderAssignments(state.assignments);
-            renderProgress(state.completed);
         } catch (error) {
             console.error("Could not load training progress.", error);
-            state.completed = [];
-            renderProgress(state.completed);
         }
     }
 

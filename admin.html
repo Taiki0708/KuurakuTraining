@@ -24,7 +24,7 @@
                 <h1>Training dashboard</h1>
                 <p class="admin-lead">See who needs support, assign training, and manage learning content from one place.</p>
             </div>
-            <a class="primary-link" href="v1-admin.html">Open V1 practical checks <span aria-hidden="true">→</span></a>
+            <a class="primary-link" href="v1-admin.html">Staff progress &amp; practical checks <span aria-hidden="true">→</span></a>
         </div>
     </header>
 
@@ -82,10 +82,14 @@
                 <form id="assignmentForm" class="assignment-form">
                     <label>Learner<select id="learnerSelect" required></select></label>
                     <label>Course<select id="courseSelect" required>
-                        <option value="customer-service">Customer Service</option>
-                        <option value="food-safety">Food Safety</option>
-                        <option value="japanese-hospitality">Japanese Hospitality</option>
-                        <option value="restaurant-basics">Restaurant Basics</option>
+                        <option value="restaurant-orientation">Restaurant Orientation</option>
+                        <option value="hygiene-food-safety">Hygiene &amp; Food Safety</option>
+                        <option value="guest-service-basics">Guest Service Basics</option>
+                        <option value="workplace-communication">Workplace Communication</option>
+                        <option value="allergies-dietary">Allergies &amp; Dietary Requirements</option>
+                        <option value="safety-emergency">Safety &amp; Emergency</option>
+                        <option value="order-serving-payment">Order, Serving &amp; Payment</option>
+                        <option value="complaints-difficult">Complaints &amp; Difficult Situations</option>
                     </select></label>
                     <label>Due date <input id="dueDate" type="date"></label>
                     <button class="primary-button" type="submit">Assign course</button>
@@ -146,7 +150,7 @@
                     <label>Group<select id="groupSelect"></select></label>
                     <form id="memberForm" class="inline-form"><label>Learner<select id="groupLearnerSelect"></select></label><button class="secondary-button">Add learner</button></form>
                     <p id="groupMembers" class="inline-status"></p>
-                    <form id="groupAssignmentForm" class="editor-grid compact-grid"><label>Course<select id="groupCourseSelect"><option value="customer-service">Customer Service</option><option value="food-safety">Food Safety</option><option value="japanese-hospitality">Japanese Hospitality</option><option value="restaurant-basics">Restaurant Basics</option></select></label><label>Due date<input id="groupDueDate" type="date"></label><div class="form-action"><button class="primary-button">Assign to group</button></div></form>
+                    <form id="groupAssignmentForm" class="editor-grid compact-grid"><label>Course<select id="groupCourseSelect"><option value="restaurant-orientation">Restaurant Orientation</option><option value="hygiene-food-safety">Hygiene &amp; Food Safety</option><option value="guest-service-basics">Guest Service Basics</option><option value="workplace-communication">Workplace Communication</option><option value="allergies-dietary">Allergies &amp; Dietary Requirements</option><option value="safety-emergency">Safety &amp; Emergency</option><option value="order-serving-payment">Order, Serving &amp; Payment</option><option value="complaints-difficult">Complaints &amp; Difficult Situations</option></select></label><label>Due date<input id="groupDueDate" type="date"></label><div class="form-action"><button class="primary-button">Assign to group</button></div></form>
                     <p id="groupStatus" class="inline-status" aria-live="polite"></p>
                 </div>
             </section>
@@ -161,8 +165,8 @@
 </main>
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js?v=profile-name-1"></script>
-<script src="admin-i18n.js?v=1"></script>
-<script src="admin.js?v=serveup-admin-ux-2"></script>
+<script src="admin-i18n.js?v=training-unified-1"></script>
+<script src="admin.js?v=training-unified-1"></script>
 <script src="groups.js"></script>
 <script src="announcements.js"></script>
 </body>
