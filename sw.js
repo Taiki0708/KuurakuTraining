@@ -1,5 +1,5 @@
 // Bump this value whenever the app shell changes so installed devices receive a safe update prompt.
-const VERSION = 'serveup-training-1.0.0-7';
+const VERSION = 'serveup-training-1.0.0-8';
 const SHELL = `${VERSION}-shell`;
 const CONTENT = `${VERSION}-content`;
 const shellFiles = ['v1.html','v1-admin.html','v1-certificate.html','my-training.html','my-training.css','my-training.js?v=training-unified-1','offline.html','v1.css?v=1.0.0-5','v1.js?v=training-unified-1','v1-admin.js?v=training-unified-1','v1-store.js?v=1.0.0-5','admin-i18n.js?v=training-unified-1','quiz-core.js','environment.js?v=1.0.0-5','supabase-client.js?v=1.0.0-5','pwa.js','manifest.webmanifest','icons/serveup-192.png','icons/serveup-512.png','icons/serveup-maskable-192.png','icons/serveup-maskable-512.png'];

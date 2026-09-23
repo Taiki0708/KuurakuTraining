@@ -14,22 +14,8 @@
     });
     window.addEventListener('appinstalled', () => { if (help) help.hidden = true; });
     if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
-    navigator.serviceWorker.register('sw.js').then(registration => {
-        const announce = worker => {
-            if (!worker || !navigator.serviceWorker.controller) return;
-            if (document.getElementById('serveupUpdate')) return;
-            const bar = document.createElement('div'); bar.id = 'serveupUpdate'; bar.className = 'panel'; bar.style.cssText = 'position:fixed;inset:auto 12px 12px;z-index:1000;max-width:500px;margin:auto;box-shadow:0 8px 24px #0002';
-            const message = document.createElement('span'); message.textContent = 'ServeUp update available / 更新できます';
-            const apply = document.createElement('button'); apply.type = 'button'; apply.textContent = 'Update / 更新'; apply.style.marginLeft = '12px';
-            apply.addEventListener('click', () => worker.postMessage('SKIP_WAITING'));
-            bar.append(message, apply); document.body.append(bar);
-        };
-        if (registration.waiting) announce(registration.waiting);
-        registration.addEventListener('updatefound', () => {
-            const worker = registration.installing;
-            worker?.addEventListener('statechange', () => { if (worker.state === 'installed') announce(worker); });
-        });
-        let changed = false;
-        navigator.serviceWorker.addEventListener('controllerchange', () => { if (!changed) { changed = true; location.reload(); } });
-    }).catch(error => console.warn('PWA setup unavailable.', error));
+    // Updates remain in the waiting state until all ServeUp tabs are closed.
+    // The latest app shell is then applied naturally on the next launch without
+    // interrupting a quiz or displaying an update banner over the interface.
+    navigator.serviceWorker.register('sw.js').catch(error => console.warn('PWA setup unavailable.', error));
 }());
