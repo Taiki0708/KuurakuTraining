@@ -43,7 +43,7 @@ Reviewer, timestamp and an optional comment are stored. When every required item
 
 The PWA uses `manifest.webmanifest`, 192/512 normal and maskable icons, and `sw.js`. The service worker caches only the app shell on its own origin, uses network-first content updates and never caches Supabase authentication/API responses. Bump `VERSION` in `sw.js` for each release; installed users then receive the in-app update prompt.
 
-The current icon is a simple temporary ServeUp mark in `icons/serveup.svg` and `icons/serveup-maskable.svg`. Replace those two source assets with the approved brand artwork and regenerate the four PNG sizes before launch.
+The approved ServeUp brand mark is used in `icons/serveup.svg` and `icons/serveup-maskable.svg`, with matching 192px and 512px PNG fallbacks for install compatibility.
 
 ## Local verification
 

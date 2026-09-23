@@ -4,11 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sign in | ServeUp</title>
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="serveup.css">
 <style>
 .container { width: 90%; max-width: 520px; margin: 0 auto; padding: 60px 0; }
 .auth-card { border: 1px solid var(--serveup-border); border-radius: 18px; padding: 32px; box-shadow: 0 3px 12px rgba(0,0,0,0.04); }
-.logo { text-align: center; font-size: 36px; letter-spacing: 8px; font-weight: 700; margin-bottom: 10px; }
+.logo { display:block; margin:0 auto 10px; width:min(100%,250px); }
+.logo img { display:block; width:100%; height:auto; }
 .subtitle { text-align: center; color: var(--serveup-muted); margin-bottom: 38px; }
 label { display: block; margin: 18px 0 7px; font-weight: 600; }
 input { width: 100%; padding: 13px; border: 1px solid var(--serveup-border); border-radius: 10px; font: inherit; }
@@ -24,7 +26,7 @@ input { width: 100%; padding: 13px; border: 1px solid var(--serveup-border); bor
 <body>
 <div class="container">
     <a class="home-link" id="authHomeLink" href="index.html">← Back to Home</a>
-    <div class="logo">SERVEUP</div>
+    <a class="logo" href="index.html" aria-label="ServeUp home"><img src="assets/brand/serveup-logo.svg" alt="ServeUp"></a>
     <p class="subtitle">Sign in to save your training progress.</p>
     <main class="auth-card">
         <h1>Training account</h1>

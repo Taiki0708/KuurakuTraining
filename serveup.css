@@ -7,6 +7,22 @@
     --serveup-button-hover: #374151;
 }
 
+.serveup-logo {
+    display: block;
+    width: min(100%, 250px);
+    height: auto;
+}
+
+.serveup-logo-link {
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.serveup-logo-link .serveup-logo {
+    margin: 0 auto;
+}
+
 * {
     box-sizing: border-box;
 }

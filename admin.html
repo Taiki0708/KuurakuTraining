@@ -4,11 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard | ServeUp</title>
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="serveup.css">
 <style>
 .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 60px 0; }
 .header { margin-bottom: 28px; }
-.logo { font-size: 36px; letter-spacing: 8px; font-weight: 700; margin-bottom: 10px; }
+.logo { display:inline-block; margin-bottom:10px; }
+.logo img { display:block; width:230px; height:auto; }
 .subtitle { color: var(--serveup-muted); }
 .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 26px 0; }
 .summary-card, .admin-panel { padding: 20px; border: 1px solid var(--serveup-border); border-radius: 14px; margin: 26px 0; }
@@ -36,7 +38,7 @@
 <main class="container">
     <a href="index.html" class="home-link">← Back to Home</a> · <a href="v1-admin.html">V1 practical checks and report →</a>
     <header class="header">
-        <div class="logo">SERVEUP</div>
+        <a class="logo" href="index.html" aria-label="ServeUp home"><img src="assets/brand/serveup-logo.svg" alt="ServeUp"></a>
         <p class="subtitle">Administrator training report</p>
         <h1>Training progress</h1>
     </header>

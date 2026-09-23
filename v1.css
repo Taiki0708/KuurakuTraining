@@ -10,7 +10,8 @@ button:disabled { opacity:.65; cursor:default; }
 button.secondary { background:#e2eee7; color:var(--ink); }
 :focus-visible { outline:3px solid #e99544; outline-offset:3px; }
 .topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; padding:14px max(18px,calc((100vw - 1120px)/2)); background:white; border-bottom:1px solid var(--line); }
-.brand { font-size:24px; font-weight:800; letter-spacing:.05em; text-decoration:none; }
+.brand { display:inline-flex; align-items:center; text-decoration:none; }
+.brand img { display:block; width:142px; height:auto; }
 .topbar nav { display:flex; flex-wrap:wrap; gap:18px; }
 .topbar nav a { font-size:14px; font-weight:650; }
 .shell { max-width:1120px; margin:auto; padding:24px 18px 60px; }

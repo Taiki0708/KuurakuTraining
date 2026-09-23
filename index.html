@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#344d43">
+<meta name="theme-color" content="#15803D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/serveup-192.png">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 
 <title>ServeUp - Restaurant Training</title>
 
@@ -39,12 +40,11 @@ body {
 }
 
 .logo {
-    font-size: 42px;
-    font-weight: 700;
-    letter-spacing: 10px;
-    color: #374151;
+    display: inline-block;
     margin-bottom: 12px;
 }
+
+.logo img { display: block; width: 250px; height: auto; }
 
 .tagline {
     font-size: 17px;
@@ -181,10 +181,7 @@ body {
         padding-top: 40px;
     }
 
-    .logo {
-        font-size: 32px;
-        letter-spacing: 7px;
-    }
+    .logo img { width: 215px; }
 
     .tagline {
         font-size: 15px;
@@ -274,9 +271,7 @@ body {
 
     <div class="header">
 
-        <div class="logo">
-            SERVEUP
-        </div>
+        <a class="logo" href="index.html" aria-label="ServeUp home"><img src="assets/brand/serveup-logo.svg" alt="ServeUp"></a>
 
         <div class="tagline">
             Restaurant Training Made Simple

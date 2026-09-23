@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="112" viewBox="0 0 460 112" role="img" aria-labelledby="title desc">
+  <title id="title">ServeUp — Restaurant Training Made Simple</title>
+  <desc id="desc">ServeUp logo with a three-step upward progress symbol and the tagline Restaurant Training Made Simple.</desc>
+  <g transform="translate(8 11)">
+    <rect x="4" y="51" width="31" height="10" rx="3" fill="#16A34A"/>
+    <rect x="14" y="39" width="31" height="10" rx="3" fill="#15803D"/>
+    <rect x="24" y="27" width="28" height="9" rx="2.5" fill="#22C55E"/>
+    <path d="M43 9H59V24L53.5 18.5L47 25H38L49.5 13.5L43 9Z" fill="#15803D"/>
+  </g>
+  <text x="88" y="58" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="46" font-weight="800" letter-spacing="-1.6"><tspan fill="#1F2937">Serve</tspan><tspan fill="#16A34A">Up</tspan></text>
+  <text x="90" y="82" fill="#6B7280" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="500" letter-spacing="0.15">Restaurant Training Made Simple</text>
+</svg>

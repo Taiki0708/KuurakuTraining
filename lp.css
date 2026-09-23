@@ -24,8 +24,8 @@ img { display: block; max-width: 100%; }
 
 .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(36, 63, 53, .08); background: rgba(255, 255, 255, .92); backdrop-filter: blur(16px); }
 .nav-shell { width: min(1180px, calc(100% - 40px)); min-height: 76px; margin: 0 auto; display: flex; align-items: center; gap: 28px; }
-.wordmark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 21px; font-weight: 800; letter-spacing: -.02em; }
-.wordmark img { border-radius: 11px; }
+.wordmark { display: inline-flex; align-items: center; text-decoration: none; }
+.wordmark img { width: 150px; height: auto; }
 .nav-links { margin-left: auto; display: flex; gap: 28px; }
 .nav-links a, .site-footer nav a { color: var(--muted); font-size: 14px; font-weight: 650; text-decoration: none; }
 .nav-links a:hover, .site-footer nav a:hover { color: var(--forest); }
@@ -178,7 +178,7 @@ img { display: block; max-width: 100%; }
 .closing-mark img { position: relative; width: 130px; border-radius: 31px; }
 
 .site-footer { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 40px 0 55px; display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 30px; border-top: 1px solid var(--line); }
-.footer-wordmark { font-size: 18px; }.site-footer > div > p { margin: 7px 0 0; color: var(--muted); font-size: 12px; }
+.footer-wordmark img { width: 138px; }.site-footer > div > p { margin: 7px 0 0; color: var(--muted); font-size: 12px; }
 .site-footer nav { display: flex; gap: 24px; }
 .copyright { grid-column: 1 / -1; margin: 18px 0 0; color: #8c9691; font-size: 12px; }
 
@@ -196,7 +196,7 @@ img { display: block; max-width: 100%; }
 
 @media (max-width: 720px) {
   .nav-shell { width: min(100% - 28px, 1180px); min-height: 66px; }
-  .wordmark { font-size: 18px; }.wordmark img { width: 33px; height: 33px; }
+  .wordmark img { width: 132px; height: auto; }
   .nav-shell .button { min-height: 39px; padding: 8px 13px; font-size: 12px; }
   .hero { min-height: 0; }.hero-shell { width: min(100% - 32px, 1180px); padding: 58px 0 65px; gap: 32px; }
   .hero h1 { font-size: 35px; letter-spacing: -.07em; }.hero-lead { font-size: 16px; }

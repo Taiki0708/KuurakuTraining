@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">ServeUp</title>
-  <desc id="desc">Three rising steps and an upward-right arrow.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">ServeUp symbol</title>
+  <desc id="desc">Three rounded rising steps and an upward-right arrow.</desc>
   <rect width="64" height="64" rx="15" fill="#DCFCE7"/>
   <rect x="4" y="51" width="31" height="10" rx="3" fill="#16A34A"/>
   <rect x="14" y="39" width="31" height="10" rx="3" fill="#15803D"/>
