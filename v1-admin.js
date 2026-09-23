@@ -7,6 +7,8 @@
     const make = (tag, value) => { const node = document.createElement(tag); node.textContent = value; return node; };
     const locale = localStorage.getItem('serveupLanguage') || 'en';
     const name = course => course.title[locale] || course.title.en;
+    const learnerName = learner => learner.display_name?.trim() || learner.email || learner.user_id;
+    const learnerLabel = learner => learner.display_name?.trim() ? `${learner.display_name} · ${learner.email}` : learnerName(learner);
     const permitted = (userId, courseId) => state.attempts.some(attempt => attempt.user_id === userId && attempt.course_id === courseId && attempt.passed);
     const reviews = (userId, courseId) => state.practical.filter(row => row.user_id === userId && row.course_id === courseId);
     const practicalComplete = (userId, course) => course.practicalItems.every(item => reviews(userId, course.id).some(row => row.item_id === item.id && row.status === 'independent'));
@@ -21,7 +23,7 @@
         const staffText = $('staffFilter').value.toLowerCase(); const courseFilter = $('courseFilter').value; const status = $('statusFilter').value;
         const storeFilter = $('storeFilter').value; const roleFilter = $('roleFilter').value;
         for (const learner of state.learners) {
-            if (staffText && !learner.email?.toLowerCase().includes(staffText)) continue;
+            if (staffText && !`${learner.display_name || ''} ${learner.email || ''}`.toLowerCase().includes(staffText)) continue;
             if (storeFilter && (learner.store_name || learner.organization_name || '') !== storeFilter) continue;
             if (roleFilter && (learner.job_role || learner.staff_role || learner.role || '') !== roleFilter) continue;
             for (const course of state.courses) {
@@ -36,7 +38,11 @@
                 const certificate = state.certificates.some(item => item.user_id === learner.user_id && item.course_id === course.id);
                 const language = state.languages.find(item => item.user_id === learner.user_id)?.locale || '—';
                 const row = document.createElement('tr');
-                [learner.email || learner.user_id, name(course), attempts.length ? `${attempts[0].score}%` : '—', attempts.length ? `${Math.max(...attempts.map(item => item.score))}%` : '—', String(attempts.length), attempts.length ? new Date(attempts[0].completed_at).toLocaleDateString() : '—', pass ? 'Passed' : 'Not passed', `${reviews(learner.user_id, course.id).filter(item=>item.status==='independent').length}/${course.practicalItems.length}${pract?' ✓':''}`, certificate ? 'Issued' : 'Not issued', language].forEach(value => row.append(make('td', value)));
+                const staff = document.createElement('td'); staff.className = 'staff-identity';
+                const staffName = make('strong', learnerName(learner)); staff.append(staffName);
+                if (learner.display_name?.trim()) staff.append(make('small', learner.email));
+                row.append(staff);
+                [name(course), attempts.length ? `${attempts[0].score}%` : '—', attempts.length ? `${Math.max(...attempts.map(item => item.score))}%` : '—', String(attempts.length), attempts.length ? new Date(attempts[0].completed_at).toLocaleDateString() : '—', pass ? 'Passed' : 'Not passed', `${reviews(learner.user_id, course.id).filter(item=>item.status==='independent').length}/${course.practicalItems.length}${pract?' ✓':''}`, certificate ? 'Issued' : 'Not issued', language].forEach(value => row.append(make('td', value)));
                 host.append(row);
             }
         }
@@ -88,7 +94,7 @@
             if (!response.ok) throw new Error('Could not load courses.');
             Object.assign(state, { courses:await response.json(), learners, attempts, practical, certificates, languages, settings });
             $('status').textContent = ''; $('content').hidden = false;
-            fillSelect($('learnerSelect'), learners, item => item.email || item.user_id);
+            fillSelect($('learnerSelect'), learners, learnerLabel);
             fillSelect($('practicalCourseSelect'), state.courses, name);
             fillSelect($('settingsCourse'), state.courses, name);
             state.courses.forEach(course => { const option=make('option',name(course)); option.value=course.id; $('courseFilter').append(option); });

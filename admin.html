@@ -6,172 +6,160 @@
 <title>Admin Dashboard | ServeUp</title>
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="serveup.css">
-<style>
-.container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 60px 0; }
-.header { margin-bottom: 28px; }
-.logo { display:inline-block; margin-bottom:10px; }
-.logo img { display:block; width:230px; height:auto; }
-.subtitle { color: var(--serveup-muted); }
-.summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 26px 0; }
-.summary-card, .admin-panel { padding: 20px; border: 1px solid var(--serveup-border); border-radius: 14px; margin: 26px 0; }
-.summary-number { display: block; font-size: 30px; font-weight: 700; margin-top: 8px; }
-.course-editor { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.course-editor label { display: grid; gap: 7px; font-weight: 600; }
-.course-editor input, .course-editor select, .course-editor textarea { width: 100%; padding: 10px; font: inherit; border: 1px solid var(--serveup-border); border-radius: 8px; }
-.course-editor textarea { min-height: 92px; resize: vertical; }
-.course-editor .full-width { grid-column: 1 / -1; }
-.checkbox-label { display: flex !important; align-items: center; gap: 9px; }
-.checkbox-label input { width: auto; }
-.question-list { display: grid; gap: 8px; margin-bottom: 18px; }
-.question-editor { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.question-editor label { display: grid; gap: 7px; font-weight: 600; }
-.question-editor input, .question-editor select, .question-editor textarea { width: 100%; padding: 10px; font: inherit; border: 1px solid var(--serveup-border); border-radius: 8px; }
-.question-editor textarea { min-height: 92px; resize: vertical; }
-.question-editor .full-width { grid-column: 1 / -1; }
-.question-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.danger-button { background: #fff0f0; color: #a23a3a; border: 1px solid #f0caca; padding: 12px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
-
-@media (max-width: 700px) { .summary, .course-editor { grid-template-columns: 1fr; } .report-card { overflow-x: auto; } }
-</style>
+<link rel="stylesheet" href="admin.css">
 </head>
 <body>
-<main class="container">
-    <a href="index.html" class="home-link">← Back to Home</a> · <a href="v1-admin.html">V1 practical checks and report →</a>
-    <header class="header">
-        <a class="logo" href="index.html" aria-label="ServeUp home"><img src="assets/brand/serveup-logo.svg" alt="ServeUp"></a>
-        <p class="subtitle">Administrator training report</p>
-        <h1>Training progress</h1>
-    </header>
-    <div id="accessMessage" class="empty-state">Checking access…</div>
-    <section id="reportContent" hidden>
-        <section class="assignment-admin">
-            <h2>Assign training</h2>
-            <form id="assignmentForm" class="assignment-form">
-                <label>Learner<select id="learnerSelect" required></select></label>
-                <label>Course<select id="courseSelect" required>
-                    <option value="customer-service">Customer Service</option>
-                    <option value="food-safety">Food Safety</option>
-                    <option value="japanese-hospitality">Japanese Hospitality</option>
-                    <option value="restaurant-basics">Restaurant Basics</option>
-                </select></label>
-                <label>Due date <input id="dueDate" type="date"></label>
-                <button class="auth-button" type="submit">Assign course</button>
-            </form>
-            <p id="assignmentStatus" class="empty-state" aria-live="polite"></p>
-        </section>
-
-<section class="admin-panel">
-<h2>Follow-up needed</h2>
-<div class="summary"><div class="summary-card">Overdue<span id="overdueCount" class="summary-number">0</span></div><div class="summary-card">Due within 7 days<span id="dueSoonCount" class="summary-number">0</span></div><div class="summary-card">Uncompleted assignments<span id="uncompletedCount" class="summary-number">0</span></div></div>
-<div class="report-card"><table class="report-table"><thead><tr><th>Learner</th><th>Course</th><th>Due date</th><th>Follow-up</th></tr></thead><tbody id="followUpRows"></tbody></table><p id="followUpEmpty" class="empty-state" hidden>No follow-up needed.</p></div>
-</section>
-        <section class="admin-panel">
-            <h2>Course settings</h2>
-            <p class="subtitle">Edit the title, description, display order, and published status of the existing courses.</p>
-            <form id="courseForm" class="course-editor">
-                <label class="full-width">Course
-                    <select id="managedCourseSelect" required></select>
-                </label>
-                <label>Title
-                    <input id="managedCourseTitle" type="text" required maxlength="120">
-                </label>
-                <label>Display order
-                    <input id="managedCourseOrder" type="number" min="1" max="99" required>
-                </label>
-                <label class="full-width">Description
-                    <textarea id="managedCourseDescription" required maxlength="500"></textarea>
-                </label>
-                <label class="checkbox-label full-width">
-                    <input id="managedCourseActive" type="checkbox"> Published for learners
-                </label>
-                <div class="full-width"><button class="auth-button" type="submit">Save course settings</button></div>
-            </form>
-            <p id="courseStatus" class="empty-state" aria-live="polite"></p>
-        </section>
-
-
-        <section class="admin-panel">
-            <h2>Question settings</h2>
-            <p class="subtitle">Create, edit, reorder, or delete quiz questions. Changes are stored safely for administrators only.</p>
-            <div class="question-list">
-                <label>Course
-                    <select id="questionCourseSelect" required></select>
-                </label>
-                <label>Language
-                    <select id="questionLocaleSelect"><option value="en">English</option><option value="ja">日本語</option><option value="hi">हिन्दी</option></select>
-                </label>
-                <label>Question
-                    <select id="managedQuestionSelect"></select>
-                </label>
-                <button id="newQuestionButton" class="start-button" type="button">+ New question</button>
+<main class="admin-shell">
+    <header class="admin-header">
+        <div class="admin-header-topline">
+            <a class="admin-logo" href="index.html" aria-label="ServeUp home"><img src="assets/brand/serveup-logo.svg" alt="ServeUp"></a>
+            <a class="quiet-link" href="index.html">Back to training</a>
+        </div>
+        <div class="admin-hero">
+            <div>
+                <p class="eyebrow">Administrator workspace</p>
+                <h1>Training dashboard</h1>
+                <p class="admin-lead">See who needs support, assign training, and manage learning content from one place.</p>
             </div>
-            <form id="questionForm" class="question-editor">
-                <label class="full-width">Question text
-                    <textarea id="questionText" required maxlength="1000"></textarea>
-                </label>
-                <label>Answer 1
-                    <input id="answer1" type="text" required maxlength="500">
-                </label>
-                <label>Answer 2
-                    <input id="answer2" type="text" required maxlength="500">
-                </label>
-                <label>Answer 3 <span class="subtitle">(optional)</span>
-                    <input id="answer3" type="text" maxlength="500">
-                </label>
-                <label>Answer 4 <span class="subtitle">(optional)</span>
-                    <input id="answer4" type="text" maxlength="500">
-                </label>
-                <label>Correct answer
-                    <select id="correctAnswer" required></select>
-                </label>
-                <label>Display order
-                    <input id="questionOrder" type="number" min="1" max="999" required>
-                </label>
-                <label class="full-width">Explanation <span class="subtitle">(optional)</span>
-                    <textarea id="questionExplanation" maxlength="1000"></textarea>
-                </label>
-                <div class="question-actions full-width">
-                    <button class="auth-button" type="submit">Save question</button>
-                    <button id="deleteQuestionButton" class="danger-button" type="button" hidden>Delete question</button>
+            <a class="primary-link" href="v1-admin.html">Open V1 practical checks <span aria-hidden="true">→</span></a>
+        </div>
+    </header>
+
+    <div id="accessMessage" class="access-message" role="status" aria-live="polite">Checking access…</div>
+
+    <section id="reportContent" hidden>
+        <nav class="admin-tabs" role="tablist" aria-label="Administrator sections">
+            <button id="overviewTab" type="button" role="tab" aria-selected="true" aria-controls="overviewPanel" data-admin-tab="overviewPanel">Overview</button>
+            <button id="assignmentsTab" type="button" role="tab" aria-selected="false" aria-controls="assignmentsPanel" data-admin-tab="assignmentsPanel">Assignments</button>
+            <button id="contentTabButton" type="button" role="tab" aria-selected="false" aria-controls="contentPanel" data-admin-tab="contentPanel" hidden>Learning content</button>
+            <button id="teamTab" type="button" role="tab" aria-selected="false" aria-controls="teamPanel" data-admin-tab="teamPanel">Team &amp; updates</button>
+        </nav>
+
+        <section id="overviewPanel" class="admin-view" role="tabpanel" aria-labelledby="overviewTab">
+            <div class="metric-grid" aria-label="Training summary">
+                <article class="metric-card"><span>Learners</span><strong id="learnerCount">0</strong><small>Active in reports</small></article>
+                <article class="metric-card"><span>Completed courses</span><strong id="completionCount">0</strong><small>Recorded completions</small></article>
+                <article class="metric-card"><span>Average score</span><strong id="averageScore">0%</strong><small>Across completions</small></article>
+                <article class="metric-card metric-card-alert"><span>Overdue</span><strong id="overdueCount">0</strong><small>Needs attention now</small></article>
+                <article class="metric-card"><span>Due within 7 days</span><strong id="dueSoonCount">0</strong><small>Upcoming deadlines</small></article>
+                <article class="metric-card"><span>Uncompleted</span><strong id="uncompletedCount">0</strong><small>Open assignments</small></article>
+            </div>
+
+            <section class="admin-panel follow-up-panel">
+                <div class="panel-heading">
+                    <div><p class="section-kicker">Priority</p><h2>Follow-up needed</h2></div>
+                    <button class="text-button" type="button" data-open-tab="assignmentsPanel">View all assignments <span aria-hidden="true">→</span></button>
                 </div>
-            </form>
-            <p id="questionStatus" class="empty-state" aria-live="polite"></p>
+                <div class="report-card">
+                    <table class="report-table mobile-cards"><thead><tr><th>Learner</th><th>Course</th><th>Due date</th><th>Follow-up</th></tr></thead><tbody id="followUpRows"></tbody></table>
+                    <p id="followUpEmpty" class="empty-state" hidden>No follow-up needed. Your team is on track.</p>
+                </div>
+            </section>
+
+            <section class="admin-panel">
+                <div class="panel-heading progress-heading">
+                    <div><p class="section-kicker">Results</p><h2>Completed training</h2><p class="panel-copy">Search learner results and export the current view.</p></div>
+                    <button id="exportReport" class="secondary-button" type="button">Download CSV</button>
+                </div>
+                <div class="filter-bar">
+                    <label class="search-field"><span>Learner</span><input id="learnerSearch" type="search" placeholder="Search by name or email" autocomplete="off"></label>
+                    <label><span>Course</span><select id="progressCourseFilter"><option value="">All courses</option></select></label>
+                    <p id="resultCount" class="result-count" aria-live="polite">0 results</p>
+                </div>
+                <div class="report-card">
+                    <table class="report-table mobile-cards"><thead><tr><th>Learner</th><th>Course</th><th>Score</th><th>Completed</th></tr></thead><tbody id="reportRows"></tbody></table>
+                    <p id="emptyState" class="empty-state" hidden>No completed courses match these filters.</p>
+                </div>
+            </section>
         </section>
 
-<section id="groupAdmin" class="admin-panel" hidden>
-<h2>Group management</h2>
-<form id="groupForm" class="course-editor"><label>Group name<input id="groupName" required></label><label>Description<input id="groupDescription"></label><div><button class="auth-button">Create group</button></div></form>
-<label>Group<select id="groupSelect"></select></label>
-<form id="memberForm" class="course-editor"><label>Learner<select id="groupLearnerSelect"></select></label><div><button class="auth-button">Add learner</button></div></form>
-<p id="groupMembers" class="empty-state"></p>
-<form id="groupAssignmentForm" class="course-editor"><label>Course<select id="groupCourseSelect"><option value="customer-service">Customer Service</option><option value="food-safety">Food Safety</option><option value="japanese-hospitality">Japanese Hospitality</option><option value="restaurant-basics">Restaurant Basics</option></select></label><label>Due date<input id="groupDueDate" type="date"></label><div><button class="auth-button">Assign to group</button></div></form>
-<p id="groupStatus" class="empty-state"></p>
-</section>
-        <section class="report-card">
-            <table class="report-table">
-                <thead><tr><th>Learner</th><th>Assigned course</th><th>Due date</th><th>Status</th></tr></thead>
-                <tbody id="assignmentRows"></tbody>
-            </table>
-            <p id="assignmentEmptyState" class="empty-state" hidden>No assigned courses yet.</p>
+        <section id="assignmentsPanel" class="admin-view" role="tabpanel" aria-labelledby="assignmentsTab" hidden>
+            <section class="admin-panel assignment-admin">
+                <div class="panel-heading"><div><p class="section-kicker">Assign</p><h2>Assign training</h2><p class="panel-copy">Choose a learner, course, and optional due date.</p></div></div>
+                <form id="assignmentForm" class="assignment-form">
+                    <label>Learner<select id="learnerSelect" required></select></label>
+                    <label>Course<select id="courseSelect" required>
+                        <option value="customer-service">Customer Service</option>
+                        <option value="food-safety">Food Safety</option>
+                        <option value="japanese-hospitality">Japanese Hospitality</option>
+                        <option value="restaurant-basics">Restaurant Basics</option>
+                    </select></label>
+                    <label>Due date <input id="dueDate" type="date"></label>
+                    <button class="primary-button" type="submit">Assign course</button>
+                </form>
+                <p id="assignmentStatus" class="inline-status" aria-live="polite"></p>
+            </section>
+
+            <section class="admin-panel">
+                <div class="panel-heading"><div><p class="section-kicker">Schedule</p><h2>All assignments</h2></div></div>
+                <div class="report-card">
+                    <table class="report-table mobile-cards"><thead><tr><th>Learner</th><th>Assigned course</th><th>Due date</th><th>Status</th></tr></thead><tbody id="assignmentRows"></tbody></table>
+                    <p id="assignmentEmptyState" class="empty-state" hidden>No assigned courses yet.</p>
+                </div>
+            </section>
         </section>
-        <div class="summary">
-            <div class="summary-card">Completed courses<span id="completionCount" class="summary-number">0</span></div>
-            <div class="summary-card">Learners<span id="learnerCount" class="summary-number">0</span></div>
-            <div class="summary-card">Average score<span id="averageScore" class="summary-number">0%</span></div>
-        </div>
-        <section class="admin-panel"><h2>Search and export</h2><label>Learner email <input id="learnerSearch" type="search" placeholder="Filter by email"></label> <button id="exportReport" class="auth-button" type="button">Download progress CSV</button></section>
-        <div class="report-card">
-            <table class="report-table">
-                <thead><tr><th>Learner</th><th>Course</th><th>Score</th><th>Completed</th></tr></thead>
-                <tbody id="reportRows"></tbody>
-            </table>
-            <p id="emptyState" class="empty-state" hidden>No completed courses yet.</p>
-        </div>
+
+        <section id="contentPanel" class="admin-view" role="tabpanel" aria-labelledby="contentTabButton" hidden>
+            <section id="platformCourseAdmin" class="admin-panel" hidden>
+                <div class="panel-heading"><div><p class="section-kicker">Courses</p><h2>Course settings</h2><p class="panel-copy">Edit the title, description, display order, and publishing status.</p></div></div>
+                <form id="courseForm" class="editor-grid">
+                    <label class="full-width">Course<select id="managedCourseSelect" required></select></label>
+                    <label>Title<input id="managedCourseTitle" type="text" required maxlength="120"></label>
+                    <label>Display order<input id="managedCourseOrder" type="number" min="1" max="99" required></label>
+                    <label class="full-width">Description<textarea id="managedCourseDescription" required maxlength="500"></textarea></label>
+                    <label class="checkbox-label full-width"><input id="managedCourseActive" type="checkbox"> Published for learners</label>
+                    <div class="full-width"><button class="primary-button" type="submit">Save course settings</button></div>
+                </form>
+                <p id="courseStatus" class="inline-status" aria-live="polite"></p>
+            </section>
+
+            <section id="platformQuestionAdmin" class="admin-panel" hidden>
+                <div class="panel-heading"><div><p class="section-kicker">Question bank</p><h2>Question settings</h2><p class="panel-copy">Create, edit, reorder, or delete quiz questions.</p></div><button id="newQuestionButton" class="secondary-button" type="button">+ New question</button></div>
+                <div class="question-picker">
+                    <label>Course<select id="questionCourseSelect" required></select></label>
+                    <label>Language<select id="questionLocaleSelect"><option value="en">English</option><option value="ja">日本語</option><option value="hi">हिन्दी</option></select></label>
+                    <label class="question-select">Question<select id="managedQuestionSelect"></select></label>
+                </div>
+                <form id="questionForm" class="editor-grid">
+                    <label class="full-width">Question text<textarea id="questionText" required maxlength="1000"></textarea></label>
+                    <label>Answer 1<input id="answer1" type="text" required maxlength="500"></label>
+                    <label>Answer 2<input id="answer2" type="text" required maxlength="500"></label>
+                    <label>Answer 3 <span class="field-note">Optional</span><input id="answer3" type="text" maxlength="500"></label>
+                    <label>Answer 4 <span class="field-note">Optional</span><input id="answer4" type="text" maxlength="500"></label>
+                    <label>Correct answer<select id="correctAnswer" required></select></label>
+                    <label>Display order<input id="questionOrder" type="number" min="1" max="999" required></label>
+                    <label class="full-width">Explanation <span class="field-note">Optional</span><textarea id="questionExplanation" maxlength="1000"></textarea></label>
+                    <div class="question-actions full-width"><button class="primary-button" type="submit">Save question</button><button id="deleteQuestionButton" class="danger-button" type="button" hidden>Delete question</button></div>
+                </form>
+                <p id="questionStatus" class="inline-status" aria-live="polite"></p>
+            </section>
+        </section>
+
+        <section id="teamPanel" class="admin-view" role="tabpanel" aria-labelledby="teamTab" hidden>
+            <section id="groupAdmin" class="admin-panel" hidden>
+                <div class="panel-heading"><div><p class="section-kicker">Organization</p><h2>Group management</h2><p class="panel-copy">Create teams and assign a course to everyone in a group.</p></div></div>
+                <form id="groupForm" class="editor-grid compact-grid"><label>Group name<input id="groupName" required></label><label>Description<input id="groupDescription"></label><div class="form-action"><button class="primary-button">Create group</button></div></form>
+                <div class="group-workspace">
+                    <label>Group<select id="groupSelect"></select></label>
+                    <form id="memberForm" class="inline-form"><label>Learner<select id="groupLearnerSelect"></select></label><button class="secondary-button">Add learner</button></form>
+                    <p id="groupMembers" class="inline-status"></p>
+                    <form id="groupAssignmentForm" class="editor-grid compact-grid"><label>Course<select id="groupCourseSelect"><option value="customer-service">Customer Service</option><option value="food-safety">Food Safety</option><option value="japanese-hospitality">Japanese Hospitality</option><option value="restaurant-basics">Restaurant Basics</option></select></label><label>Due date<input id="groupDueDate" type="date"></label><div class="form-action"><button class="primary-button">Assign to group</button></div></form>
+                    <p id="groupStatus" class="inline-status" aria-live="polite"></p>
+                </div>
+            </section>
+
+            <section id="announcementAdmin" class="admin-panel" hidden>
+                <div class="panel-heading"><div><p class="section-kicker">Communication</p><h2>Announcement</h2><p class="panel-copy">Share a short update with learners.</p></div></div>
+                <form id="announcementForm" class="editor-grid"><label>Title<input id="announcementTitle" required></label><label class="full-width">Message<textarea id="announcementMessage" required></textarea></label><label class="checkbox-label full-width"><input id="announcementActive" type="checkbox" checked> Show to learners</label><div class="full-width"><button class="primary-button">Publish announcement</button></div></form>
+                <p id="announcementStatus" class="inline-status" aria-live="polite"></p>
+            </section>
+        </section>
     </section>
-<section id="announcementAdmin" class="admin-panel" hidden><h2>Announcement</h2><form id="announcementForm" class="course-editor"><label>Title<input id="announcementTitle" required></label><label>Message<textarea id="announcementMessage" required></textarea></label><label class="checkbox-label"><input id="announcementActive" type="checkbox" checked> Show to learners</label><button class="auth-button">Publish announcement</button></form><p id="announcementStatus"></p></section></main>
+</main>
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script src="supabase-client.js?v=894eda39"></script>
-<script src="admin.js?v=b9e4f06c"></script>
-<script src="groups.js"></script><script src="announcements.js"></script>
+<script src="supabase-client.js?v=profile-name-1"></script>
+<script src="admin.js?v=serveup-admin-ux-1"></script>
+<script src="groups.js"></script>
+<script src="announcements.js"></script>
 </body>
 </html>

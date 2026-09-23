@@ -9,10 +9,79 @@
     };
     let managedCourses = [];
     let currentReport = [];
+    let visibleReport = [];
+    let currentAssignments = [];
+    let currentLearners = [];
     let managedQuestions = [];
     let selectedQuestionId = null;
 
+    function appendCells(row, values, labels) {
+        values.forEach((value, index) => {
+            const cell = document.createElement("td");
+            if (value instanceof Node) cell.appendChild(value);
+            else cell.textContent = value;
+            cell.dataset.label = labels[index];
+            row.appendChild(cell);
+        });
+    }
+
+    function learnerRecord(email, userId) {
+        return currentLearners.find(learner => (userId && learner.user_id === userId) || learner.email === email);
+    }
+
+    function learnerDisplayName(email, userId) {
+        return learnerRecord(email, userId)?.display_name?.trim() || email;
+    }
+
+    function learnerIdentity(email, userId) {
+        const wrapper = document.createElement("span");
+        wrapper.className = "learner-identity";
+        const name = document.createElement("strong");
+        name.textContent = learnerDisplayName(email, userId);
+        wrapper.appendChild(name);
+        if (name.textContent !== email) {
+            const address = document.createElement("small");
+            address.textContent = email;
+            wrapper.appendChild(address);
+        }
+        return wrapper;
+    }
+
+    function activateAdminTab(panelId, moveFocus = false) {
+        const tabs = Array.from(document.querySelectorAll("[data-admin-tab]"));
+        tabs.forEach(tab => {
+            const selected = tab.dataset.adminTab === panelId;
+            tab.setAttribute("aria-selected", String(selected));
+            tab.tabIndex = selected ? 0 : -1;
+            const panel = document.getElementById(tab.dataset.adminTab);
+            if (panel) panel.hidden = !selected;
+            if (selected && moveFocus) tab.focus();
+        });
+    }
+
+    function initialiseTabs() {
+        const tabs = Array.from(document.querySelectorAll("[data-admin-tab]"));
+        tabs.forEach((tab, index) => {
+            tab.addEventListener("click", () => activateAdminTab(tab.dataset.adminTab));
+            tab.addEventListener("keydown", event => {
+                if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+                event.preventDefault();
+                const available = tabs.filter(item => !item.hidden);
+                const position = available.indexOf(tab);
+                const offset = event.key === 'ArrowRight' ? 1 : -1;
+                const next = available[(position + offset + available.length) % available.length];
+                activateAdminTab(next.dataset.adminTab, true);
+            });
+        });
+        document.querySelectorAll("[data-open-tab]").forEach(button => button.addEventListener("click", () => {
+            activateAdminTab(button.dataset.openTab, true);
+            document.querySelector('.admin-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }));
+        activateAdminTab("overviewPanel");
+    }
+
     async function initialise() {
+        initialiseTabs();
         const accessMessage = document.getElementById("accessMessage");
         const content = document.getElementById("reportContent");
         const user = await window.ServeUpProgress.getCurrentUser();
@@ -36,11 +105,15 @@
                 platformAdmin ? window.ServeUpProgress.getAdminCourses() : Promise.resolve([])
             ]);
             managedCourses = courses;
+            currentLearners = learners;
             accessMessage.hidden = true;
             content.hidden = false;
             currentReport = report;
+            currentAssignments = assignments;
+            populateReportCourses(report);
             renderReport(report);
-            document.getElementById("learnerSearch").addEventListener("input", event => renderReport(currentReport, event.target.value));
+            document.getElementById("learnerSearch").addEventListener("input", () => renderReport(currentReport));
+            document.getElementById("progressCourseFilter").addEventListener("change", () => renderReport(currentReport));
             document.getElementById("exportReport").addEventListener("click", exportReport);
             populateLearners(learners);
             renderAssignments(assignments);
@@ -51,6 +124,7 @@
                     const panel = document.getElementById(id);
                     if (panel) panel.hidden = false;
                 });
+                document.getElementById("contentTabButton").hidden = false;
                 populateManagedCourses();
                 populateQuestionCourses();
                 await loadQuestions();
@@ -72,13 +146,25 @@
         }
     }
 
+    function populateReportCourses(report) {
+        const select = document.getElementById("progressCourseFilter");
+        const ids = Array.from(new Set(report.map(item => item.course_id)));
+        ids.sort((left, right) => (courseNames[left] || left).localeCompare(courseNames[right] || right));
+        ids.forEach(id => {
+            const option = document.createElement("option");
+            option.value = id;
+            option.textContent = courseNames[id] || id;
+            select.appendChild(option);
+        });
+    }
+
     function populateLearners(learners) {
         const select = document.getElementById("learnerSelect");
         select.innerHTML = "";
         learners.forEach(learner => {
             const option = document.createElement("option");
             option.value = learner.user_id;
-            option.textContent = learner.email;
+            option.textContent = learner.display_name?.trim() ? learner.display_name + " · " + learner.email : learner.email;
             select.appendChild(option);
         });
     }
@@ -248,7 +334,7 @@
             if (isDueSoon) dueSoon += 1;
             if (!isOverdue && !isDueSoon) return;
             const row = document.createElement("tr");
-            [item.email, courseNames[item.course_id] || item.course_id, item.due_date || "No deadline", isOverdue ? "Overdue" : "Due soon"].forEach(value => { const cell = document.createElement("td"); cell.textContent = value; row.appendChild(cell); });
+            appendCells(row, [learnerIdentity(item.email, item.user_id), courseNames[item.course_id] || item.course_id, item.due_date || "No deadline", isOverdue ? "Overdue" : "Due soon"], ["Learner", "Course", "Due date", "Follow-up"]);
             rows.appendChild(row);
         });
         document.getElementById("overdueCount").textContent = overdue;
@@ -265,9 +351,7 @@
             const row = document.createElement("tr");
             const overdue = assignment.due_date && new Date(assignment.due_date + "T23:59:59") < new Date();
             if (overdue) row.className = "overdue-row";
-            [assignment.email, courseNames[assignment.course_id] || assignment.course_id, assignment.due_date ? new Date(assignment.due_date + "T00:00:00").toLocaleDateString() : "No deadline", overdue ? "Overdue" : "On schedule"].forEach(value => {
-                const cell = document.createElement("td"); cell.textContent = value; row.appendChild(cell);
-            });
+            appendCells(row, [learnerIdentity(assignment.email, assignment.user_id), courseNames[assignment.course_id] || assignment.course_id, assignment.due_date ? new Date(assignment.due_date + "T00:00:00").toLocaleDateString() : "No deadline", overdue ? "Overdue" : "On schedule"], ["Learner", "Assigned course", "Due date", "Status"]);
             rows.appendChild(row);
         });
     }
@@ -278,7 +362,9 @@
         status.textContent = "Saving assignment…";
         try {
             await window.ServeUpProgress.assignCourse(document.getElementById("learnerSelect").value, document.getElementById("courseSelect").value, document.getElementById("dueDate").value);
-            renderAssignments(await window.ServeUpProgress.getAdminAssignments());
+            currentAssignments = await window.ServeUpProgress.getAdminAssignments();
+            renderAssignments(currentAssignments);
+            renderFollowUp(currentAssignments, currentReport);
             status.textContent = "Course assigned.";
         } catch (error) {
             console.error("Could not assign course.", error);
@@ -287,7 +373,7 @@
     }
 
     function exportReport() {
-        const rows = [["Learner", "Course", "Score", "Completed"]].concat(currentReport.map(item => [item.email, courseNames[item.course_id] || item.course_id, item.score, item.completed_at]));
+        const rows = [["Learner", "Email", "Course", "Score", "Completed"]].concat(visibleReport.map(item => [learnerDisplayName(item.email, item.user_id), item.email, courseNames[item.course_id] || item.course_id, item.score, item.completed_at]));
         const csv = rows.map(row => row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(",")).join("\n");
         const link = document.createElement("a");
         link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
@@ -296,20 +382,27 @@
         URL.revokeObjectURL(link.href);
     }
 
-    function renderReport(report, filter = "") {
-        report = report.filter(item => item.email.toLowerCase().includes(filter.toLowerCase()));
+    function renderReport(report) {
+        const filter = document.getElementById("learnerSearch").value.trim().toLowerCase();
+        const course = document.getElementById("progressCourseFilter").value;
+        visibleReport = report
+            .filter(item => (item.email + " " + learnerDisplayName(item.email, item.user_id)).toLowerCase().includes(filter))
+            .filter(item => !course || item.course_id === course)
+            .sort((left, right) => Date.parse(right.completed_at) - Date.parse(left.completed_at));
         const rows = document.getElementById("reportRows");
+        rows.replaceChildren();
         const uniqueLearners = new Set(report.map(item => item.email));
         const average = report.length ? Math.round(report.reduce((total, item) => total + item.score, 0) / report.length) : 0;
         document.getElementById("completionCount").textContent = report.length;
         document.getElementById("learnerCount").textContent = uniqueLearners.size;
         document.getElementById("averageScore").textContent = average + "%";
-        if (!report.length) { document.getElementById("emptyState").hidden = false; return; }
-        report.forEach(item => {
+        document.getElementById("resultCount").textContent = visibleReport.length + (visibleReport.length === 1 ? " result" : " results");
+        document.getElementById("exportReport").disabled = visibleReport.length === 0;
+        document.getElementById("emptyState").hidden = visibleReport.length > 0;
+        if (!visibleReport.length) return;
+        visibleReport.forEach(item => {
             const row = document.createElement("tr");
-            [item.email, courseNames[item.course_id] || item.course_id, item.score + "%", new Date(item.completed_at).toLocaleDateString()].forEach(value => {
-                const cell = document.createElement("td"); cell.textContent = value; row.appendChild(cell);
-            });
+            appendCells(row, [learnerIdentity(item.email, item.user_id), courseNames[item.course_id] || item.course_id, item.score + "%", new Date(item.completed_at).toLocaleDateString()], ["Learner", "Course", "Score", "Completed"]);
             rows.appendChild(row);
         });
     }

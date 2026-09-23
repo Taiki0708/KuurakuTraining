@@ -57,6 +57,7 @@ create table if not exists public.v1_certificates (
 create table if not exists public.v1_profile_preferences (
   user_id uuid primary key references auth.users(id) on delete cascade,
   locale text not null check (locale in ('en','ja','hi')),
+  display_name text not null default '' check (char_length(trim(display_name)) <= 80),
   updated_at timestamptz not null default now()
 );
 

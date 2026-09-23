@@ -83,6 +83,10 @@
 
         const message = document.createElement("span");
         message.textContent = user.email;
+        message.title = user.email;
+        window.ServeUpProgress.getMyProfile().then(profile => {
+            if (profile?.display_name) message.textContent = profile.display_name;
+        }).catch(error => console.warn("Could not load display name.", error));
         const button = document.createElement("button");
         button.type = "button";
         button.className = "sign-out-button";

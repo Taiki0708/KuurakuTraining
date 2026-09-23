@@ -30,6 +30,33 @@ window.ServeUpProgress = {
         return data.user;
     },
 
+    async getMyProfile() {
+        const user = await this.getCurrentUser();
+        if (!user) return null;
+        const { data, error } = await supabaseClient
+            .from("v1_profile_preferences")
+            .select("display_name, locale")
+            .eq("user_id", user.id)
+            .maybeSingle();
+        if (error) throw error;
+        return data || { display_name: "", locale: localStorage.getItem("serveupLanguage") || "en" };
+    },
+
+    async saveMyProfile(displayName) {
+        const user = await this.getCurrentUser();
+        if (!user) throw new Error("Sign-in required.");
+        const name = String(displayName || "").trim();
+        if (!name || name.length > 80) throw new Error("Enter a name between 1 and 80 characters.");
+        const locale = localStorage.getItem("serveupLanguage") || "en";
+        const { data, error } = await supabaseClient
+            .from("v1_profile_preferences")
+            .upsert({ user_id: user.id, display_name: name, locale, updated_at: new Date().toISOString() }, { onConflict: "user_id" })
+            .select("display_name, locale")
+            .single();
+        if (error) throw error;
+        return data;
+    },
+
     async getActiveAnnouncements() { const { data, error } = await supabaseClient.from("training_announcements").select("title, message").eq("is_active", true).order("created_at", { ascending: false }).limit(1); if (error) throw error; return data || []; },
     async getTrainingAnnouncements() { const { data, error } = await supabaseClient.rpc("get_training_announcements"); if (error) throw error; return data || []; },
     async saveTrainingAnnouncement(id,title,message,isActive) { const { data, error } = await supabaseClient.rpc("save_training_announcement",{p_id:id,p_title:title,p_message:message,p_is_active:isActive}); if(error) throw error; return data; },
@@ -79,7 +106,16 @@ window.ServeUpProgress = {
     async getAdminLearners() {
         const { data, error } = await supabaseClient.rpc("get_training_learners");
         if (error) throw error;
-        return data || [];
+        const learners = data || [];
+        const { data: profiles, error: profileError } = await supabaseClient
+            .from("v1_profile_preferences")
+            .select("user_id, display_name");
+        if (profileError) {
+            console.warn("Could not load learner display names.", profileError);
+            return learners;
+        }
+        const names = new Map((profiles || []).map(profile => [profile.user_id, profile.display_name]));
+        return learners.map(learner => ({ ...learner, display_name: names.get(learner.user_id) || "" }));
     },
 
     async getAdminAssignments() {

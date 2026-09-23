@@ -8,6 +8,7 @@ const seed = fs.readFileSync(path.join(root, 'migrations/002_serveup_v1_seed.sql
 const stagingAccess = fs.readFileSync(path.join(root, 'migrations/003_serveup_staging_access.sql'), 'utf8');
 const stagingMembers = fs.readFileSync(path.join(root, 'migrations/004_serveup_staging_test_members.sql'), 'utf8');
 const scoringFix = fs.readFileSync(path.join(root, 'migrations/005_fix_attempt_scoring.sql'), 'utf8');
+const profileName = fs.readFileSync(path.join(root, 'migrations/006_profile_display_name.sql'), 'utf8');
 
 test('all user-data V1 tables enable row-level security', () => {
   for (const table of ['v1_course_settings','v1_question_keys','v1_practical_items','v1_quiz_sessions','v1_quiz_attempts','v1_practical_reviews','v1_certificates','v1_profile_preferences']) {
@@ -64,4 +65,11 @@ test('attempt scoring qualifies question IDs and keeps answer keys server-side',
   assert.match(scoringFix, /question_key\.id = selected\.question_id/i);
   assert.match(scoringFix, /security definer/i);
   assert.match(scoringFix, /revoke all on function public\.submit_v1_attempt/i);
+});
+
+test('display names are optional, length-limited, and do not replace authentication emails', () => {
+  assert.match(schema, /display_name text not null default ''/i);
+  assert.match(profileName, /add column if not exists display_name/i);
+  assert.match(profileName, /char_length\(trim\(display_name\)\) <= 80/i);
+  assert.doesNotMatch(profileName, /auth\.users[\s\S]+update/i);
 });

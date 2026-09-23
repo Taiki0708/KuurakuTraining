@@ -1,1 +1,70 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>My Training | ServeUp</title><link rel="stylesheet" href="serveup.css"><style>.container{max-width:960px;margin:45px auto;padding:0 20px}.card{border:1px solid #e5e7eb;border-radius:14px;padding:22px;margin:20px 0}.list{line-height:2}</style></head><body><main class="container"><a href="index.html" class="home-link">← Back to Home</a><h1>My Training</h1><p id="welcome">Loading…</p><section class="card"><h2>Assigned courses</h2><ul id="assignments" class="list"></ul></section><section class="card"><h2>Completed courses</h2><ul id="completed" class="list"></ul></section><section class="card"><h2>Certificates</h2><ul id="certificates" class="list"></ul></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-client.js"></script><script>(async()=>{const u=await ServeUpProgress.getCurrentUser();if(!u){location.href="auth.html";return}const names={"customer-service":"Customer Service","food-safety":"Food Safety","japanese-hospitality":"Japanese Hospitality","restaurant-basics":"Restaurant Basics"};const [a,p,c]=await Promise.all([ServeUpProgress.getMyAssignments(),ServeUpProgress.getCompletedCourses(),ServeUpProgress.getMyCertificates()]);welcome.textContent=u.email;assignments.innerHTML=a.map(x=>"<li>"+names[x.course_id]+" — "+(x.due_date?"Due "+x.due_date:"No deadline")+"</li>").join("")||"<li>No assignments.</li>";completed.innerHTML=p.map(x=>"<li>"+names[x.course_id]+" — "+x.score+"%</li>").join("")||"<li>No completed courses.</li>";certificates.innerHTML=c.map(x=>'<li><a href="certificate.html?course='+({"customer-service":"customerServiceCompleted","food-safety":"foodSafetyCompleted","japanese-hospitality":"japaneseHospitalityCompleted","restaurant-basics":"restaurantBasicsCompleted"}[x.course_id])+'">'+names[x.course_id]+"</a> — "+x.certificate_number+"</li>").join("")||"<li>No certificates yet.</li>";})()</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Training | ServeUp</title>
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="serveup.css">
+  <link rel="stylesheet" href="my-training.css">
+</head>
+<body>
+  <header class="account-topbar">
+    <a class="account-brand" href="index.html" aria-label="ServeUp home"><img src="assets/brand/serveup-logo.svg" alt="ServeUp"></a>
+    <nav aria-label="Account navigation"><a href="index.html">Courses</a><a href="v1.html">V1 training</a></nav>
+  </header>
+
+  <main class="account-shell">
+    <section class="profile-hero">
+      <div id="profileInitial" class="profile-avatar" aria-hidden="true">S</div>
+      <div class="profile-copy">
+        <p class="account-eyebrow">My account</p>
+        <h1 id="welcomeName">Loading…</h1>
+        <p id="accountEmail" class="account-email"></p>
+      </div>
+      <a class="training-link" href="v1.html">Continue training <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section class="profile-panel" aria-labelledby="profileHeading">
+      <div>
+        <p class="account-eyebrow">Profile</p>
+        <h2 id="profileHeading">Your display name</h2>
+        <p class="panel-lead">Managers will see this name in reports. Your sign-in email will not change.</p>
+      </div>
+      <form id="profileForm" class="profile-form">
+        <label for="displayName">Display name</label>
+        <div class="profile-input-row">
+          <input id="displayName" name="displayName" type="text" maxlength="80" autocomplete="name" placeholder="e.g. Taiki Yamada" required>
+          <button id="saveProfileButton" type="submit">Save name</button>
+        </div>
+        <p id="profileStatus" class="profile-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="account-summary" aria-label="Training summary">
+      <article><span>Assigned</span><strong id="assignmentCount">0</strong></article>
+      <article><span>Completed</span><strong id="completedCount">0</strong></article>
+      <article><span>Certificates</span><strong id="certificateCount">0</strong></article>
+    </section>
+
+    <div class="training-grid">
+      <section class="training-panel">
+        <div class="panel-title"><span class="panel-icon" aria-hidden="true">01</span><div><h2>Assigned courses</h2><p>Training selected by your manager.</p></div></div>
+        <ul id="assignments" class="training-list"></ul>
+      </section>
+      <section class="training-panel">
+        <div class="panel-title"><span class="panel-icon" aria-hidden="true">02</span><div><h2>Completed courses</h2><p>Your recorded course results.</p></div></div>
+        <ul id="completed" class="training-list"></ul>
+      </section>
+      <section class="training-panel training-panel-wide">
+        <div class="panel-title"><span class="panel-icon" aria-hidden="true">03</span><div><h2>Certificates</h2><p>Open, print, or save your certificates.</p></div></div>
+        <ul id="certificates" class="training-list"></ul>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js?v=profile-name-1"></script>
+  <script src="my-training.js?v=profile-name-1"></script>
+</body>
+</html>

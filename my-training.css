@@ -1,0 +1,71 @@
+:root {
+  --account-ink: #17221e;
+  --account-forest: #243f35;
+  --account-green: #375a4c;
+  --account-muted: #5d6b65;
+  --account-line: #dce5df;
+  --account-sage: #e5f0e8;
+  --account-wash: #f5f8f6;
+  --account-cream: #faf8f2;
+}
+
+body { background: var(--account-wash); color: var(--account-ink); }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid #d9a66c; outline-offset: 3px; }
+.account-topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 24px 0; }
+.account-brand { display: inline-flex; width: 180px; }
+.account-brand img { display: block; width: 100%; }
+.account-topbar nav { display: flex; gap: 20px; }
+.account-topbar nav a { color: var(--account-green); font-size: 14px; font-weight: 750; text-decoration: none; }
+.account-topbar nav a:hover { text-decoration: underline; }
+.account-shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 20px 0 72px; }
+.profile-hero { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 22px; padding: 30px; border: 1px solid var(--account-line); border-radius: 24px; background: linear-gradient(135deg, #fff, var(--account-cream)); box-shadow: 0 18px 48px rgba(25,49,41,.08); }
+.profile-avatar { display: grid; width: 66px; height: 66px; place-items: center; border-radius: 20px; background: var(--account-forest); color: #fff; font-size: 28px; font-weight: 850; }
+.account-eyebrow { margin: 0 0 6px; color: var(--account-green); font-size: 11px; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; }
+.profile-copy h1 { margin: 0; color: var(--account-forest); font-size: clamp(28px, 5vw, 42px); letter-spacing: -.035em; }
+.account-email { margin: 6px 0 0; color: var(--account-muted); }
+.training-link, .profile-form button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; border: 1px solid var(--account-forest); border-radius: 10px; padding: 11px 17px; background: var(--account-forest); color: #fff; font: inherit; font-weight: 750; text-decoration: none; cursor: pointer; }
+.training-link:hover, .profile-form button:hover { background: #193129; }
+.profile-panel { display: grid; grid-template-columns: 1fr 1.1fr; align-items: center; gap: 40px; margin-top: 24px; padding: 28px 30px; border: 1px solid var(--account-line); border-radius: 18px; background: #fff; }
+.profile-panel h2, .training-panel h2 { margin: 0; color: var(--account-forest); font-size: 22px; }
+.panel-lead, .panel-title p { margin: 7px 0 0; color: var(--account-muted); line-height: 1.55; }
+.profile-form label { display: block; margin-bottom: 7px; font-size: 13px; font-weight: 750; }
+.profile-input-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.profile-input-row input { width: 100%; min-height: 46px; border: 1px solid #cbd8d0; border-radius: 10px; padding: 10px 12px; font: inherit; }
+.profile-status { min-height: 20px; margin: 9px 0 0; color: var(--account-muted); font-size: 13px; }
+.account-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0; }
+.account-summary article { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; border: 1px solid var(--account-line); border-radius: 15px; background: #fff; }
+.account-summary span { color: var(--account-muted); font-size: 13px; font-weight: 700; }
+.account-summary strong { color: var(--account-forest); font-size: 28px; }
+.training-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.training-panel { padding: 24px; border: 1px solid var(--account-line); border-radius: 18px; background: #fff; }
+.training-panel-wide { grid-column: 1 / -1; }
+.panel-title { display: flex; align-items: flex-start; gap: 13px; padding-bottom: 18px; border-bottom: 1px solid var(--account-line); }
+.panel-icon { display: grid; flex: 0 0 34px; height: 34px; place-items: center; border-radius: 9px; background: var(--account-sage); color: var(--account-green); font-size: 11px; font-weight: 850; }
+.training-list { display: grid; gap: 10px; margin: 17px 0 0; padding: 0; list-style: none; }
+.training-list li { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 48px; padding: 11px 13px; border-radius: 10px; background: var(--account-wash); }
+.training-list li.empty-item { justify-content: flex-start; color: var(--account-muted); }
+.training-list strong { color: var(--account-forest); }
+.training-list small { color: var(--account-muted); text-align: right; }
+.training-list a { color: var(--account-green); font-weight: 750; }
+
+@media (max-width: 760px) {
+  .account-topbar, .account-shell { width: min(100% - 28px, 1120px); }
+  .account-topbar { align-items: flex-start; }
+  .account-brand { width: 155px; }
+  .account-topbar nav { gap: 12px; }
+  .profile-hero { grid-template-columns: auto 1fr; padding: 22px 18px; }
+  .profile-avatar { width: 54px; height: 54px; border-radius: 16px; font-size: 23px; }
+  .training-link { grid-column: 1 / -1; }
+  .profile-panel, .training-grid { grid-template-columns: 1fr; }
+  .profile-panel { gap: 20px; padding: 22px 18px; }
+  .training-panel-wide { grid-column: auto; }
+}
+
+@media (max-width: 480px) {
+  .account-topbar nav a:first-child { display: none; }
+  .profile-input-row, .account-summary { grid-template-columns: 1fr; }
+  .account-summary article { padding: 14px 17px; }
+  .training-list li { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .training-list small { text-align: left; }
+}
