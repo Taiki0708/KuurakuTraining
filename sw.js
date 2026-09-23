@@ -1,8 +1,8 @@
 // Bump this value whenever the app shell changes so installed devices receive a safe update prompt.
-const VERSION = 'serveup-v1-1.0.0-5';
+const VERSION = 'serveup-v1-1.0.0-6';
 const SHELL = `${VERSION}-shell`;
 const CONTENT = `${VERSION}-content`;
-const shellFiles = ['v1.html','v1-admin.html','v1-certificate.html','my-training.html','my-training.css','my-training.js?v=profile-name-1','offline.html','v1.css?v=1.0.0-5','v1.js?v=1.0.0-5','v1-admin.js?v=1.0.0-5','v1-store.js?v=1.0.0-5','quiz-core.js','environment.js?v=1.0.0-5','supabase-client.js?v=1.0.0-5','pwa.js','manifest.webmanifest','icons/serveup-192.png','icons/serveup-512.png','icons/serveup-maskable-192.png','icons/serveup-maskable-512.png'];
+const shellFiles = ['v1.html','v1-admin.html','v1-certificate.html','my-training.html','my-training.css','my-training.js?v=profile-name-1','offline.html','v1.css?v=1.0.0-5','v1.js?v=1.0.0-5','v1-admin.js?v=1.0.0-6','v1-store.js?v=1.0.0-5','admin-i18n.js?v=1','quiz-core.js','environment.js?v=1.0.0-5','supabase-client.js?v=1.0.0-5','pwa.js','manifest.webmanifest','icons/serveup-192.png','icons/serveup-512.png','icons/serveup-maskable-192.png','icons/serveup-maskable-512.png'];
 self.addEventListener('install', event => {
     event.waitUntil(caches.open(SHELL).then(cache => cache.addAll(shellFiles.map(path => new URL(path, self.registration.scope).href))));
 });

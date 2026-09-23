@@ -7,6 +7,7 @@
         "japanese-hospitality": "Japanese Hospitality",
         "restaurant-basics": "Restaurant Basics"
     };
+    const t = value => window.ServeUpAdminI18n?.t(value) || value;
     let managedCourses = [];
     let currentReport = [];
     let visibleReport = [];
@@ -20,7 +21,7 @@
             const cell = document.createElement("td");
             if (value instanceof Node) cell.appendChild(value);
             else cell.textContent = value;
-            cell.dataset.label = labels[index];
+            cell.dataset.label = t(labels[index]);
             row.appendChild(cell);
         });
     }
@@ -305,7 +306,7 @@
     async function deleteQuestion() {
         if (!selectedQuestionId) return;
         const status = document.getElementById("questionStatus");
-        if (!window.confirm("Delete this question? This cannot be undone.")) return;
+        if (!window.confirm(t("Delete this question? This cannot be undone."))) return;
         status.textContent = "Deleting question…";
         try {
             await window.ServeUpProgress.deleteTrainingQuestion(selectedQuestionId, document.getElementById("questionCourseSelect").value);
@@ -373,7 +374,7 @@
     }
 
     function exportReport() {
-        const rows = [["Learner", "Email", "Course", "Score", "Completed"]].concat(visibleReport.map(item => [learnerDisplayName(item.email, item.user_id), item.email, courseNames[item.course_id] || item.course_id, item.score, item.completed_at]));
+        const rows = [[t("Learner"), "Email", t("Course"), t("Score"), t("Completed")]].concat(visibleReport.map(item => [learnerDisplayName(item.email, item.user_id), item.email, courseNames[item.course_id] || item.course_id, item.score, item.completed_at]));
         const csv = rows.map(row => row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(",")).join("\n");
         const link = document.createElement("a");
         link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));

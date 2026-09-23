@@ -4,7 +4,8 @@
     const api = window.ServeUpProgress;
     const store = window.ServeUpV1Store;
     const state = { courses:[], learners:[], attempts:[], practical:[], certificates:[], languages:[], settings:[] };
-    const make = (tag, value) => { const node = document.createElement(tag); node.textContent = value; return node; };
+    const t = value => window.ServeUpAdminI18n?.t(value) || value;
+    const make = (tag, value) => { const node = document.createElement(tag); node.textContent = t(value); return node; };
     const locale = localStorage.getItem('serveupLanguage') || 'en';
     const name = course => course.title[locale] || course.title.en;
     const learnerName = learner => learner.display_name?.trim() || learner.email || learner.user_id;
