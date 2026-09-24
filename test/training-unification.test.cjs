@@ -30,6 +30,8 @@ test('all eight unified courses can be assigned by an administrator', () => {
 
 test('catalog migration preserves original rows while activating the unified catalog', () => {
   const migration = read('migrations/007_unify_training_catalog.sql');
+  assert.match(migration, /insert into public\.courses \(id, sort_order, is_active\)/i);
+  assert.doesNotMatch(migration, /insert into public\.courses \([^)]*title/i);
   assert.match(migration, /on conflict \(id\) do update/i);
   assert.match(migration, /is_active = false/i);
   assert.doesNotMatch(migration, /delete\s+from\s+public\.courses/i);
