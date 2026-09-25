@@ -5,8 +5,8 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const schema = fs.readFileSync(path.join(root, 'migrations/001_serveup_v1.sql'), 'utf8');
 const seed = fs.readFileSync(path.join(root, 'migrations/002_serveup_v1_seed.sql'), 'utf8');
-const stagingAccess = fs.readFileSync(path.join(root, 'migrations/003_serveup_staging_access.sql'), 'utf8');
-const stagingMembers = fs.readFileSync(path.join(root, 'migrations/004_serveup_staging_test_members.sql'), 'utf8');
+const stagingAccess = fs.readFileSync(path.join(root, 'migrations/staging/003_serveup_staging_access.sql'), 'utf8');
+const stagingMembers = fs.readFileSync(path.join(root, 'migrations/staging/004_serveup_staging_test_members.sql'), 'utf8');
 const scoringFix = fs.readFileSync(path.join(root, 'migrations/005_fix_attempt_scoring.sql'), 'utf8');
 const profileName = fs.readFileSync(path.join(root, 'migrations/006_profile_display_name.sql'), 'utf8');
 

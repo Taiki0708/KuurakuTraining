@@ -21,6 +21,8 @@ const courseIds = {
     restaurantBasicsCompleted: "restaurant-basics"
 };
 
+let organizationContextPromise = null;
+
 window.ServeUpProgress = {
     client: supabaseClient,
 
@@ -28,6 +30,39 @@ window.ServeUpProgress = {
         const { data, error } = await supabaseClient.auth.getUser();
         if (error) return null;
         return data.user;
+    },
+
+    async getOrganizationContext(options = {}) {
+        if (!organizationContextPromise || options.refresh) {
+            organizationContextPromise = supabaseClient
+                .rpc("get_my_organization_context")
+                .then(({ data, error }) => {
+                    if (error) throw error;
+                    return data || [];
+                })
+                .catch(error => {
+                    organizationContextPromise = null;
+                    throw error;
+                });
+        }
+        return organizationContextPromise;
+    },
+
+    async getCurrentOrganizationId() {
+        const organizations = await this.getOrganizationContext();
+        const selected = organizations.find(organization => organization.selected);
+        if (selected) return selected.organization_id;
+        if (!organizations.length) throw new Error("No restaurant membership is configured for this account.");
+        throw new Error("Select a restaurant before accessing training data.");
+    },
+
+    async setCurrentOrganization(organizationId) {
+        const { error } = await supabaseClient.rpc("set_current_organization", {
+            p_organization_id: organizationId
+        });
+        if (error) throw error;
+        organizationContextPromise = null;
+        return this.getOrganizationContext({ refresh: true });
     },
 
     async getMyProfile() {
@@ -67,9 +102,12 @@ window.ServeUpProgress = {
         const user = await this.getCurrentUser();
         if (!user) return [];
 
+        const organizationId = await this.getCurrentOrganizationId();
+
         const { data, error } = await supabaseClient
             .from("course_progress")
             .select("course_id, score, completed_at")
+            .eq("organization_id", organizationId)
             .order("completed_at", { ascending: false });
 
         if (error) throw error;
@@ -94,9 +132,12 @@ window.ServeUpProgress = {
         const user = await this.getCurrentUser();
         if (!user) return [];
 
+        const organizationId = await this.getCurrentOrganizationId();
+
         const { data, error } = await supabaseClient
             .from("course_assignments")
             .select("course_id, due_date")
+            .eq("organization_id", organizationId)
             .order("due_date", { ascending: true, nullsFirst: false });
 
         if (error) throw error;
@@ -231,11 +272,9 @@ window.ServeUpProgress = {
         const courseId = courseIds[storageKey];
         if (!user || !courseId) return false;
 
-        const { error } = await supabaseClient.from("training_attempts").insert({
-            user_id: user.id,
-            course_id: courseId,
-            score,
-            passed: score >= 80
+        const { error } = await supabaseClient.rpc("record_training_attempt", {
+            p_course_id: courseId,
+            p_score: score
         });
         if (error) throw error;
         return true;
@@ -247,16 +286,10 @@ window.ServeUpProgress = {
 
         if (!user || !courseId) return false;
 
-        const now = new Date().toISOString();
-        const { error } = await supabaseClient
-            .from("course_progress")
-            .upsert({
-                user_id: user.id,
-                course_id: courseId,
-                score,
-                completed_at: now,
-                updated_at: now
-            }, { onConflict: "user_id,course_id" });
+        const { error } = await supabaseClient.rpc("save_training_completion", {
+            p_course_id: courseId,
+            p_score: score
+        });
 
         if (error) throw error;
         await this.issueTrainingCertificate(courseId);
@@ -269,7 +302,7 @@ window.ServeUpProgress = {
         return (data || [])[0] || null;
     },
 
-    async getMyCertificates() { const { data, error } = await supabaseClient.from("certificates").select("course_id, certificate_number, issued_at").order("issued_at", { ascending: false }); if (error) throw error; return data || []; },
+    async getMyCertificates() { const organizationId = await this.getCurrentOrganizationId(); const { data, error } = await supabaseClient.from("certificates").select("course_id, certificate_number, issued_at").eq("organization_id", organizationId).order("issued_at", { ascending: false }); if (error) throw error; return data || []; },
 
     async getMyTrainingCertificate(courseId) {
         const { data, error } = await supabaseClient.rpc("get_my_training_certificate", { p_course_id: courseId });

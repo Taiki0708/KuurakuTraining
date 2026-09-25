@@ -1,5 +1,6 @@
 (function () {
     'use strict';
+    const ASSET_VERSION = 'task2-org-20260925';
     const standalone = matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     const help = document.getElementById('installHelp');
     const button = document.getElementById('installButton');
@@ -14,8 +15,6 @@
     });
     window.addEventListener('appinstalled', () => { if (help) help.hidden = true; });
     if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
-    // Updates remain in the waiting state until all ServeUp tabs are closed.
-    // The latest app shell is then applied naturally on the next launch without
-    // interrupting a quiz or displaying an update banner over the interface.
-    navigator.serviceWorker.register('sw.js').catch(error => console.warn('PWA setup unavailable.', error));
+    navigator.serviceWorker.register(`sw.js?v=${ASSET_VERSION}`, { updateViaCache: 'none' })
+        .catch(error => console.warn('PWA setup unavailable.', error));
 }());
